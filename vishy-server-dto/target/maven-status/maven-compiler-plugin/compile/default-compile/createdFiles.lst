@@ -1,0 +1,10 @@
+org/tbk/vishy/dto/ViewportDtoImpl.class
+org/tbk/vishy/dto/AbstractRequestDto.class
+org/tbk/vishy/dto/SummaryEventRequestDtoImpl.class
+org/tbk/vishy/dto/PercentageTimeTestDtoImpl.class
+org/tbk/vishy/dto/StatusEventRequestDtoImpl.class
+org/tbk/vishy/dto/VisibilityStateDtoImpl.class
+org/tbk/vishy/dto/VisibilityTimeReportDtoImpl$PercentageDtoImpl.class
+org/tbk/vishy/dto/InitialEventRequestDtoImpl.class
+org/tbk/vishy/dto/VisibilityTimeReportDtoImpl.class
+org/tbk/vishy/dto/VisibilityTimeTestConfigDtoImpl.class
