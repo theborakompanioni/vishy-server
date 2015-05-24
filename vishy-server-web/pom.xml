@@ -14,11 +14,6 @@
     <dependencies>
         <dependency>
             <groupId>org.tbk.vishy</groupId>
-            <artifactId>vishy-server-boot</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.tbk.vishy</groupId>
             <artifactId>vishy-server-dto</artifactId>
             <version>${project.version}</version>
         </dependency>
