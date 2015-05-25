@@ -5,7 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.Arrays;
 
@@ -19,13 +18,14 @@ public class StaticsResourcesConfiguration extends WebMvcAutoConfiguration.WebMv
 
     private static final int CACHE_PERIOD = 1000;
 
-    private static final String[] SERVLET_RESOURCE_LOCATIONS = { "/" };
+    private static final String[] SERVLET_RESOURCE_LOCATIONS = {"/"};
 
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
-        "classpath:/static/", "classpath:/public/"
+            "classpath:/static/", "classpath:/public/", "classpath:/vishy-analytics/"
     };
 
     private static final String[] RESOURCE_LOCATIONS;
+
     static {
         RESOURCE_LOCATIONS = new String[CLASSPATH_RESOURCE_LOCATIONS.length
                 + SERVLET_RESOURCE_LOCATIONS.length];

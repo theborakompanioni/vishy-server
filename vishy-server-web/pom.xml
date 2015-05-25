@@ -22,6 +22,11 @@
             <artifactId>vishy-server-utils</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.tbk.vishy</groupId>
+            <artifactId>vishy-server-analytics-script</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

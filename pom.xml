@@ -13,6 +13,7 @@
         <module>vishy-server-web</module>
         <module>vishy-server-dto</module>
         <module>vishy-server-utils</module>
+        <module>vishy-server-analytics-script</module>
     </modules>
 
     <parent>
