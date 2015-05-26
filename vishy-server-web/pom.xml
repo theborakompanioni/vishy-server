@@ -11,7 +11,15 @@
 
     <artifactId>vishy-server-web</artifactId>
 
+    <properties>
+        <start-class>org.tbk.vishy.Application</start-class>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.tbk.vishy</groupId>
             <artifactId>vishy-server-dto</artifactId>

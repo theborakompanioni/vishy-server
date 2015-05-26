@@ -401,6 +401,7 @@
             monitor.start();
             callback(monitor);
           });
+          monitors = [];
         } catch (e) {
           console.log('MonitorStartError', e);
         }
@@ -414,7 +415,7 @@
 
   setup(VisSense);
 
-}(window, window.document, window.VishyObject || 'vishy', window.VisSense, (function () {
+}(window, window.document, window.VishyObject || 'vishy', window.VisSense.noConflict(), (function () {
   'use strict';
   var noop = function () {
   };

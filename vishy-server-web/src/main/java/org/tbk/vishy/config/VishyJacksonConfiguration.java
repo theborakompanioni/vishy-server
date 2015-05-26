@@ -14,7 +14,7 @@ public class VishyJacksonConfiguration {
 
     @Bean
     public SimpleModule jacksonVishyModule() {
-        Version version = new Version(1, 0, 0, "SNAPSHOT", "org.tbk", "openmrc");
+        Version version = new Version(1, 0, 0, "SNAPSHOT", "org.tbk.vishy", "openmrc");
         SimpleModule module = new SimpleModule("VishyModule", version);
 
         SimpleAbstractTypeResolver resolver = new SimpleAbstractTypeResolver();

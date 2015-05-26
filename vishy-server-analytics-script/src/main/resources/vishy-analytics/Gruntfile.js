@@ -69,6 +69,28 @@ module.exports = function (grunt) {
         dest: '<%= dirs.build %>/<%= pkg.name %>.min.js'
       }
     },
+    compress: {
+      dist: {
+        options: {
+          mode: 'gzip'
+        },
+        files: [
+          {
+            expand: true,
+            cwd: '<%= dirs.build %>',
+            src: [ '*.js', '!*/*.min.js'],
+            dest: '<%= dirs.build %>',
+            ext: '.js.gz'
+          }, {
+            expand: true,
+            cwd: '<%= dirs.build %>',
+            src: [ '*.min.js'],
+            dest: '<%= dirs.build %>',
+            ext: '.min.js.gz'
+          }
+        ]
+      }
+    },
     jasmine: {
       js: {
         src: '<%= dirs.build %>/<%= pkg.name %>.js',
@@ -135,6 +157,7 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
 
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
@@ -145,5 +168,5 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-notify');
 
   grunt.registerTask('test', ['jasmine', 'karma', 'coveralls']);
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'test', 'notify:js']);
+  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'compress', 'test', 'notify:js']);
 };
