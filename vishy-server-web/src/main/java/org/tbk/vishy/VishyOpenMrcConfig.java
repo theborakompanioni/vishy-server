@@ -3,7 +3,6 @@ package org.tbk.vishy;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
-import io.keen.client.java.KeenClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
@@ -25,7 +24,6 @@ import org.tbk.openmrc.core.properties.provider.GenericPropertyProviderFactory;
 import org.tbk.openmrc.core.properties.provider.PropertyProviderFactory;
 import org.tbk.openmrc.simple.SimpleOpenMrcService;
 import org.tbk.spring.useragentutils.UserAgentUtils;
-import org.tbk.vishy.core.client.keenio.KeenOpenMrcClientAdapter;
 import org.tbk.vishy.core.properties.provider.*;
 import org.tbk.vishy.model.geolocation.GeoLocation;
 import org.tbk.vishy.model.geolocation.GeoLocationUtils;
@@ -43,13 +41,10 @@ import java.util.function.Supplier;
 public class VishyOpenMrcConfig extends WebMvcConfigurerAdapter {
 
     private Function<HttpServletRequest, Supplier<Optional<UserAgent>>> extractUserAgentFromHttpRequest =
-        request -> (Supplier<Optional<UserAgent>>) () -> Optional.ofNullable(UserAgentUtils.getCurrentUserAgent(request));
+            request -> (Supplier<Optional<UserAgent>>) () -> Optional.ofNullable(UserAgentUtils.getCurrentUserAgent(request));
 
     private Function<HttpServletRequest, Supplier<Optional<GeoLocation>>> extractGeoLocationFromHttpRequest =
-        request -> (Supplier<Optional<GeoLocation>>) () -> GeoLocationUtils.getCurrentGeoLocation(request);
-
-    @Autowired
-    KeenClient keenClient;
+            request -> (Supplier<Optional<GeoLocation>>) () -> GeoLocationUtils.getCurrentGeoLocation(request);
 
     @Autowired
     ObjectMapper objectMapper;
@@ -93,11 +88,6 @@ public class VishyOpenMrcConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public OpenMrcClient keenOpenMrcClientAdapter() {
-        return new KeenOpenMrcClientAdapter(keenClient);
-    }
-
-    @Bean
     public OpenMrcClient loggingOpenMrcClient() {
         return new OpenMrcClient() {
             @Override
@@ -113,73 +103,73 @@ public class VishyOpenMrcConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public OpenMrcClientList clientList(List<OpenMrcClient> clients) {
+    public OpenMrcClientList vishyOpenMrcClientList(List<OpenMrcClient> clients) {
         return new VishyOpenMrcClientList(clients);
     }
 
     @Bean
     public PropertyProviderFactory localePropertyProviderFactory() {
         return new GenericPropertyProviderFactory(
-            (OpenMrcRequestContext requestOrNull) ->
-                () -> Optional.ofNullable(requestOrNull)
-                    .flatMap(OpenMrcRequestContext::httpRequest)
-                    .map(HttpServletRequest::getLocale)
-                    .map(LocalePropertiesProvider::new)
-                    .flatMap(LocalePropertiesProvider::get));
+                (OpenMrcRequestContext requestOrNull) ->
+                        () -> Optional.ofNullable(requestOrNull)
+                                .flatMap(OpenMrcRequestContext::httpRequest)
+                                .map(HttpServletRequest::getLocale)
+                                .map(LocalePropertiesProvider::new)
+                                .flatMap(LocalePropertiesProvider::get));
     }
 
     @Bean
     public PropertyProviderFactory browserPropertyProviderFactory() {
         return new GenericPropertyProviderFactory(
-            (OpenMrcRequestContext requestOrNull) ->
-                () -> Optional.ofNullable(requestOrNull)
-                    .flatMap(OpenMrcRequestContext::httpRequest)
-                    .map(extractUserAgentFromHttpRequest)
-                    .map(BrowserPropertiesProvider::new)
-                    .flatMap(BrowserPropertiesProvider::get));
+                (OpenMrcRequestContext requestOrNull) ->
+                        () -> Optional.ofNullable(requestOrNull)
+                                .flatMap(OpenMrcRequestContext::httpRequest)
+                                .map(extractUserAgentFromHttpRequest)
+                                .map(BrowserPropertiesProvider::new)
+                                .flatMap(BrowserPropertiesProvider::get));
     }
 
     @Bean
     public PropertyProviderFactory operatingSystemPropertyProviderFactory() {
         return new GenericPropertyProviderFactory(
-            (OpenMrcRequestContext requestOrNull) ->
-                () -> Optional.ofNullable(requestOrNull)
-                    .flatMap(OpenMrcRequestContext::httpRequest)
-                    .map(extractUserAgentFromHttpRequest)
-                    .flatMap(Supplier::get)
-                    .map(UserAgent::getOperatingSystem)
-                    .map(OperatingSystemPropertiesProvider::new)
-                    .flatMap(OperatingSystemPropertiesProvider::get));
+                (OpenMrcRequestContext requestOrNull) ->
+                        () -> Optional.ofNullable(requestOrNull)
+                                .flatMap(OpenMrcRequestContext::httpRequest)
+                                .map(extractUserAgentFromHttpRequest)
+                                .flatMap(Supplier::get)
+                                .map(UserAgent::getOperatingSystem)
+                                .map(OperatingSystemPropertiesProvider::new)
+                                .flatMap(OperatingSystemPropertiesProvider::get));
     }
 
     @Bean
     public PropertyProviderFactory geoLocationPropertyProviderFactory() {
         return new GenericPropertyProviderFactory(
-            (OpenMrcRequestContext requestOrNull) ->
-                () -> Optional.ofNullable(requestOrNull)
-                    .flatMap(OpenMrcRequestContext::httpRequest)
-                    .map(extractGeoLocationFromHttpRequest)
-                    .flatMap(Supplier::get)
-                    .map(GeoLocationPropertiesProvider::new)
-                    .flatMap(GeoLocationPropertiesProvider::get));
+                (OpenMrcRequestContext requestOrNull) ->
+                        () -> Optional.ofNullable(requestOrNull)
+                                .flatMap(OpenMrcRequestContext::httpRequest)
+                                .map(extractGeoLocationFromHttpRequest)
+                                .flatMap(Supplier::get)
+                                .map(GeoLocationPropertiesProvider::new)
+                                .flatMap(GeoLocationPropertiesProvider::get));
     }
 
     @Bean
     public PropertyProviderFactory devicePropertyProviderFactory() {
         return new GenericPropertyProviderFactory(
-            (OpenMrcRequestContext requestOrNull) -> {
-                Optional<HttpServletRequest> request = Optional.ofNullable(requestOrNull)
-                    .flatMap(OpenMrcRequestContext::httpRequest);
-                Device deviceOrNull = request.map(DeviceUtils::getCurrentDevice).orElse(null);
+                (OpenMrcRequestContext requestOrNull) -> {
+                    Optional<HttpServletRequest> request = Optional.ofNullable(requestOrNull)
+                            .flatMap(OpenMrcRequestContext::httpRequest);
+                    Device deviceOrNull = request.map(DeviceUtils::getCurrentDevice).orElse(null);
 
-                return () -> request
-                    .map(extractUserAgentFromHttpRequest)
-                    .flatMap(Supplier::get)
-                    .map(UserAgent::getOperatingSystem)
-                    .map(OperatingSystem::getDeviceType)
-                    .map(deviceType -> new DevicePropertiesProvider(deviceType, deviceOrNull))
-                    .flatMap(DevicePropertiesProvider::get);
-            });
+                    return () -> request
+                            .map(extractUserAgentFromHttpRequest)
+                            .flatMap(Supplier::get)
+                            .map(UserAgent::getOperatingSystem)
+                            .map(OperatingSystem::getDeviceType)
+                            .map(deviceType -> new DevicePropertiesProvider(deviceType, deviceOrNull))
+                            .flatMap(DevicePropertiesProvider::get);
+                });
     }
 
     @Bean
@@ -191,8 +181,8 @@ public class VishyOpenMrcConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         int BROWSER_CACHE_CONTROL = 604800;
         registry
-            .addResourceHandler("/vishy/scripts/**")
-            .addResourceLocations("/vishy/scripts/")
-            .setCachePeriod(BROWSER_CACHE_CONTROL);
+                .addResourceHandler("/vishy/scripts/**")
+                .addResourceLocations("/vishy/scripts/")
+                .setCachePeriod(BROWSER_CACHE_CONTROL);
     }
 }
