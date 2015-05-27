@@ -8,8 +8,13 @@ vishy-server
 ```
 cd vishy-server-web/target
 mvn docker:build
-
-docker run -p 8080:8080 -t tbk/vishy-server-web
+```
+```
+docker run -t
+  --name openmrc-vishy
+  --env-file src/main/docker/vishy_example_environment.env
+  -p 8080:8080
+  tbk/vishy-server-web
 ```
 
 ```html
