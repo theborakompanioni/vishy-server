@@ -11,5 +11,21 @@
 
     <artifactId>vishy-server-client</artifactId>
 
+    <properties>
+        <metrics.version>3.1.0</metrics.version>
+        <metrics.influxdb.version>0.7.0</metrics.influxdb.version>
+    </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>${metrics.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.alchim31</groupId>
+            <artifactId>metrics-influxdb</artifactId>
+            <version>${metrics.influxdb.version}</version>
+        </dependency>
+    </dependencies>
 </project>
