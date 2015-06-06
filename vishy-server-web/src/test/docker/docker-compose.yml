@@ -1,19 +1,27 @@
 influxdb:
+  name: influxdb
+#  image: tutum/influxdb:staging-0.9.0-rc
   image: tutum/influxdb
   ports:
-    - "8086:8086"
     - "8083:8083"
+    - "8086:8086"
+  expose:
+    - "8090"
+    - "8099"
   environment:
-    PRE_CREATE_DB: "db;grafana"
+      PRE_CREATE_DB: "db;grafana"
+  volumes:
+    - /docker_data/influxdb:/data
+    - /var/log:/var/log
 
 grafana:
   image: savoirfairelinux/grafana
   ports:
-    - "8081:80"
+    - "80:80"
   links:
-    - influxdb
+    - influxdb:influxdb
   environment:
-    INFLUXDB_HOST: "influxdb"
+    INFLUXDB_HOST: "influxdb" # docker creates a entry in /etc/hosts
     INFLUXDB_PORT: "8086"
     INFLUXDB_NAME: "db"
     INFLUXDB_USER: "root"
@@ -24,8 +32,13 @@ vishy:
   ports:
     - "8080:8080"
   links:
-    - influxdb
+    - influxdb:influxdb
   environment:
+    INFLUXDB_HOST_VAR: "INFLUXDB_1_PORT_8086_TCP_ADDR"
+    INFLUXDB_PORT_VAR: "INFLUXDB_1_PORT_8086_TCP_PORT"
+    INFLUXDB_NAME: "db"
+    INFLUXDB_USER: "root"
+    INFLUXDB_PASS: "root"
     VISHY_CLIENT: "keenio"
     KEENIO_PROJECT_ID: "54dcbf0b46f9a74800890203"
     KEENIO_WRITE_KEY: "3d4c9372032dad964bf03a00f579c78b9c410e34111b1929cf989c9eabaad11801bce63621b689f0ef4bbf7c84b47efe3fb94b27d125fc44fbd51d9f08c605b9e876c001d2105d1ba48f2fdee113b1b16e7e6847bb2b14822181262360cf668fab24ed77230e86dda8082be083b49a1e"

@@ -23,13 +23,13 @@ public class InfluxdbMetricsConfig {
     public static class InfluxdbMetricsCondition implements Condition {
         @Override
         public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-            return !Strings.nullToEmpty(context.getEnvironment().getProperty(EnvironmentVariables.INFLUXDB_HOST)).isEmpty();
+            return !Strings.nullToEmpty(context.getEnvironment().getProperty(EnvironmentVariables.INFLUXDB_HOST_VAR)).isEmpty();
         }
     }
 
     final class EnvironmentVariables {
-        private static final String INFLUXDB_HOST = "INFLUXDB_HOST";
-        private static final String INFLUXDB_PORT = "INFLUXDB_PORT";
+        private static final String INFLUXDB_HOST_VAR = "INFLUXDB_HOST_VAR";
+        private static final String INFLUXDB_PORT_VAR = "INFLUXDB_PORT_VAR";
         private static final String INFLUXDB_NAME = "INFLUXDB_NAME";
         private static final String INFLUXDB_USER = "INFLUXDB_USER";
         private static final String INFLUXDB_PASS = "INFLUXDB_PASS";
@@ -41,8 +41,11 @@ public class InfluxdbMetricsConfig {
         String password;
 
         public EnvironmentVariables(Environment environment) {
-            this.host = environment.getProperty(EnvironmentVariables.INFLUXDB_HOST);
-            this.port = environment.getProperty(EnvironmentVariables.INFLUXDB_PORT);
+            String hostVariableName = environment.getProperty(EnvironmentVariables.INFLUXDB_HOST_VAR);
+            String portVariableName = environment.getProperty(EnvironmentVariables.INFLUXDB_PORT_VAR);
+
+            this.host = environment.getRequiredProperty(hostVariableName);
+            this.port = environment.getRequiredProperty(portVariableName);
             this.database = environment.getProperty(EnvironmentVariables.INFLUXDB_NAME);
             this.username = environment.getProperty(EnvironmentVariables.INFLUXDB_USER);
             this.password = environment.getProperty(EnvironmentVariables.INFLUXDB_PASS);
@@ -65,18 +68,6 @@ public class InfluxdbMetricsConfig {
     @Bean
     public EnvironmentVariables environmentVariables() {
         return new EnvironmentVariables(environment);
-    }
-
-    @Bean
-    public InfluxdbUdp influxdbUdp(EnvironmentVariables config) throws Exception {
-        log.info("prepare influxdb reporter: {}", config);
-
-        InfluxdbUdp influxdbUdp = new InfluxdbUdp(
-                config.host,
-                Integer.valueOf(config.port)
-        );
-
-        return influxdbUdp;
     }
 
     @Bean
