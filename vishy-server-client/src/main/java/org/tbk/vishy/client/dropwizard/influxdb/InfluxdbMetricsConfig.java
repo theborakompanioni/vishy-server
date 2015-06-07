@@ -91,10 +91,10 @@ public class InfluxdbMetricsConfig {
                 .convertRatesTo(TimeUnit.SECONDS)
                 .convertDurationsTo(TimeUnit.MILLISECONDS)
                 .filter(MetricFilter.ALL)
-                .skipIdleMetrics(false)
+                .skipIdleMetrics(true)
                 .build(influxdb);
 
-        influxdbReporter.start(10, TimeUnit.SECONDS);
+        influxdbReporter.start(60, TimeUnit.SECONDS);
 
         return influxdbReporter;
     }
