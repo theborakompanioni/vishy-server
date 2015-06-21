@@ -40,6 +40,14 @@
             <artifactId>vishy-server-analytics-script</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.tbk.openmrc</groupId>
+            <artifactId>openmrc-core</artifactId>
+            <version>${openmrc.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
