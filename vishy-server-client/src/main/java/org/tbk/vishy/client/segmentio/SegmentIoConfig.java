@@ -1,17 +1,17 @@
 package org.tbk.vishy.client.segmentio;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.segmentio.Analytics;
 import com.github.segmentio.Client;
 import com.github.segmentio.Options;
 import com.ning.http.client.AsyncHttpClientConfig;
-import io.keen.client.java.KeenClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.tbk.openmrc.core.client.OpenMrcClient;
-import org.tbk.vishy.client.keenio.KeenOpenMrcClientAdapter;
+import org.tbk.openmrc.OpenMrcRequestConsumer;
+import org.tbk.vishy.client.RequestToMapFunction;
 
 import java.util.Objects;
 
@@ -25,14 +25,12 @@ public class SegmentIoConfig {
     @Autowired
     private Environment environment;
 
-    @Bean
-    public OpenMrcClient keenOpenMrcClientAdapter(KeenClient keenClient) {
-        return new KeenOpenMrcClientAdapter(keenClient);
-    }
+    @Autowired
+    private ObjectMapper mapper;
 
     @Bean
-    public OpenMrcClient analyticsClient() {
-        return new SegmentOpenMrcClientAdapter(analytics());
+    public OpenMrcRequestConsumer analyticsClient() {
+        return new SegmentOpenMrcClientAdapter(analytics(), RequestToMapFunction.create(mapper));
     }
 
     @Bean

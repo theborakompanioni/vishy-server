@@ -1,97 +1,77 @@
 package org.tbk.vishy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.tbk.openmrc.core.OpenMrcConfig;
-import org.tbk.openmrc.core.OpenMrcService;
-import org.tbk.openmrc.core.client.OpenMrcClient;
-import org.tbk.openmrc.core.client.OpenMrcClientList;
-import org.tbk.openmrc.core.properties.evaluator.PropertyExtractionAlgorithm;
-import org.tbk.openmrc.core.properties.evaluator.PropertyExtractionAlgorithmFactory;
-import org.tbk.openmrc.core.properties.evaluator.PropertyProviderFactoryExtractionAlgorithm;
-import org.tbk.openmrc.core.properties.provider.PropertyProviderFactory;
-import org.tbk.openmrc.simple.SimpleOpenMrcService;
-import org.tbk.vishy.web.VishyOpenMrcServlet;
+import org.tbk.openmrc.LoggingRequestConsumer;
+import org.tbk.openmrc.OpenMrcRequestConsumer;
+import org.tbk.openmrc.OpenMrcRequestInterceptor;
+import org.tbk.openmrc.web.OpenMrcHttpRequestService;
+import org.tbk.openmrc.web.OpenMrcWebConfiguration;
+import org.tbk.openmrc.web.OpenMrcWebConfigurationSupport;
+import org.tbk.vishy.properties.provider.ExtensionsConfiguration;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @Configuration
 public class VishyOpenMrcConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
-    ObjectMapper objectMapper;
+    ExtensionsConfiguration extensionsConfiguration;
 
-    @Bean
-    public OpenMrcConfig openMrcConfig(OpenMrcClientList clientList,
-                                       PropertyExtractionAlgorithmFactory propertyExtractionAlgorithmFactory,
-                                       OpenMrcService openMrcService) {
-        return new OpenMrcConfig() {
-            @Override
-            public OpenMrcClientList clientList() {
-                return clientList;
-            }
+    class SimpleOpenMrcConfiguration extends OpenMrcWebConfigurationSupport {
+        public List<OpenMrcRequestConsumer> openMrcRequestConsumer() {
+            return Arrays.asList(new LoggingRequestConsumer());
+        }
 
-            @Override
-            public PropertyExtractionAlgorithmFactory propertyEvaluatorFactory() {
-                return propertyExtractionAlgorithmFactory;
-            }
-
-            @Override
-            public OpenMrcService service() {
-                return openMrcService;
-            }
-        };
+        public List<OpenMrcRequestInterceptor<HttpServletRequest>> httpRequestInterceptor() {
+            return Arrays.asList(
+                    extensionsConfiguration.browserRequestInterceptor(),
+                    extensionsConfiguration.deviceRequestInterceptor(),
+                    extensionsConfiguration.localeRequestInterceptor(),
+                    extensionsConfiguration.operatingSystemRequestInterceptor(),
+                    extensionsConfiguration.referrerRequestInterceptor(),
+                    extensionsConfiguration.userAgentRequestInterceptor()
+            );
+        }
     }
 
     @Bean
-    public PropertyExtractionAlgorithmFactory propertyEvaluatorFactory(PropertyExtractionAlgorithm propertyEvaluator) {
-        final Optional<PropertyExtractionAlgorithm> optional = Optional.ofNullable(propertyEvaluator);
-        return eventName -> optional;
+    public OpenMrcWebConfiguration openMrcWebConfiguration() {
+        return new SimpleOpenMrcConfiguration();
     }
 
     @Bean
-    public PropertyExtractionAlgorithm propertyEvaluator(List<PropertyProviderFactory> propertyProviderFactories) {
-        return new PropertyProviderFactoryExtractionAlgorithm(propertyProviderFactories);
+    public OpenMrcHttpRequestService openMrcHttpRequestService() {
+        return openMrcWebConfiguration().httpRequestService();
     }
 
     @Bean
-    public OpenMrcService openMrcService(PropertyExtractionAlgorithmFactory propertyEvaluatorFactory, OpenMrcClientList clientList) {
-        return new SimpleOpenMrcService(propertyEvaluatorFactory, clientList);
+    public ObjectMapper mapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        objectMapper.registerModule(jacksonJdk8Module());
+
+        return objectMapper;
     }
 
     @Bean
-    public OpenMrcClient loggingOpenMrcClient() {
-        return new OpenMrcClient() {
-            @Override
-            public String name() {
-                return "logging";
-            }
-
-            @Override
-            public void track(String userId, String event, Map<String, ?> properties) {
-                log.info("track {}: {} - {}", userId, event, properties);
-            }
-        };
+    public Jdk8Module jacksonJdk8Module() {
+        return new Jdk8Module();
     }
 
-    @Bean
-    public OpenMrcClientList vishyOpenMrcClientList(List<OpenMrcClient> clients) {
-        return new VishyOpenMrcClientList(clients);
-    }
-
-    @Bean
+    /*@Bean
     public ServletRegistrationBean vishyOpenMrcServlet(OpenMrcClientList clients) {
         return new ServletRegistrationBean(new VishyOpenMrcServlet(clients), "/openmrc");
-    }
+    }*/
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -1,6 +1,6 @@
 package org.tbk.vishy.client.keenio;
 
-import com.google.common.base.MoreObjects;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import io.keen.client.java.GlobalPropertiesEvaluator;
 import io.keen.client.java.JavaKeenClientBuilder;
@@ -11,7 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.tbk.openmrc.core.client.OpenMrcClient;
+import org.tbk.openmrc.OpenMrcRequestConsumer;
+import org.tbk.vishy.client.RequestToMapFunction;
 
 import java.util.Map;
 import java.util.Objects;
@@ -28,9 +29,12 @@ public class KeenIoConfig {
     @Autowired
     private Environment environment;
 
+    @Autowired
+    private ObjectMapper mapper;
+
     @Bean
-    public OpenMrcClient keenOpenMrcClientAdapter(KeenClient keenClient) {
-        return new KeenOpenMrcClientAdapter(keenClient);
+    public OpenMrcRequestConsumer keenOpenMrcClientAdapter() {
+        return new KeenOpenMrcClientAdapter(keenClient(), RequestToMapFunction.create(mapper));
     }
 
     @Bean

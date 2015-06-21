@@ -4,11 +4,9 @@ import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.MetricRegistry;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
-import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-import org.tbk.openmrc.core.client.OpenMrcClient;
+import org.tbk.openmrc.OpenMrcRequestConsumer;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +22,7 @@ public class DropwizardMetricsConfig {
     }
 
     @Bean
-    public OpenMrcClient dropwizardMetricsOpenMrcClientAdapter(MetricRegistry metricRegistry) {
+    public OpenMrcRequestConsumer dropwizardMetricsOpenMrcClientAdapter(MetricRegistry metricRegistry) {
         return new DropwizardMetricsClientAdapter(metricRegistry);
     }
 
