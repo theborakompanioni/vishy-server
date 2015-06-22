@@ -6,6 +6,7 @@ import org.tbk.openmrc.OpenMrcRequestConsumer;
 import org.tbk.vishy.client.RequestToMapFunction;
 
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Created by void on 01.05.15.
@@ -13,9 +14,9 @@ import java.util.Map;
 public class KeenOpenMrcClientAdapter implements OpenMrcRequestConsumer {
 
     private final KeenClient keenClient;
-    private final RequestToMapFunction mapper;
+    private final Function<OpenMrc.Request, Map<String, Object>> mapper;
 
-    public KeenOpenMrcClientAdapter(KeenClient keenClient, RequestToMapFunction mapper) {
+    public KeenOpenMrcClientAdapter(KeenClient keenClient, Function<OpenMrc.Request, Map<String, Object>> mapper) {
         this.keenClient = keenClient;
         this.mapper = mapper;
     }

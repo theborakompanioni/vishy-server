@@ -13,6 +13,7 @@ import org.tbk.openmrc.OpenMrcRequestInterceptor;
 import org.tbk.openmrc.web.OpenMrcHttpRequestService;
 import org.tbk.openmrc.web.OpenMrcWebConfiguration;
 import org.tbk.openmrc.web.OpenMrcWebConfigurationSupport;
+import org.tbk.vishy.client.dropwizard.DropwizardMetricsConfig;
 import org.tbk.vishy.properties.provider.ExtensionsConfiguration;
 import org.tbk.vishy.web.VishyOpenMrcCtrl;
 
@@ -26,7 +27,10 @@ public class VishyOpenMrcConfig extends WebMvcConfigurerAdapter {
 
     class SimpleOpenMrcConfiguration extends OpenMrcWebConfigurationSupport {
         public List<OpenMrcRequestConsumer> openMrcRequestConsumer() {
-            return Arrays.asList(new LoggingRequestConsumer());
+            return Arrays.asList(
+                    new LoggingRequestConsumer(),
+                    dropwizardMetricsConfig().dropwizardMetricsOpenMrcClientAdapter()
+            );
         }
 
         public List<OpenMrcRequestInterceptor<HttpServletRequest>> httpRequestInterceptor() {
@@ -46,6 +50,12 @@ public class VishyOpenMrcConfig extends WebMvcConfigurerAdapter {
     public ExtensionsConfiguration extensionsConfiguration() {
         return new ExtensionsConfiguration();
     }
+
+    @Bean
+    public DropwizardMetricsConfig dropwizardMetricsConfig() {
+        return new DropwizardMetricsConfig();
+    }
+
 
     @Bean
     public OpenMrcWebConfiguration openMrcWebConfiguration() {

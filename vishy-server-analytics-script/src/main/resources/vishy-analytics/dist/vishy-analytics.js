@@ -2,67 +2,69 @@
 !function(a,b){"use strict";b(a,a.VisSense,a.VisSense.Utils)}(this,function(a,b,c,d){"use strict";var e=function(a,d,e){var f=0,g=null,h=e.timeLimit,i=e.percentageLimit,j=e.interval;return b.VisMon.Builder(a.visobj()).strategy(new b.VisMon.Strategy.PollingStrategy({interval:j})).on("update",function(b){var e=b.state().percentage;if(i>e)g=null;else{var j=c.now();g=g||j,f=j-g}f>=h&&(b.stop(),a.stop(),d(b))}).on("stop",function(){g=null}).build()},f=function(a,f,g){var h=c.defaults(g,{percentageLimit:1,timeLimit:1e3,interval:100,strategy:d}),i=Math.max(h.percentageLimit-.001,0),j=null,k=b.VisMon.Builder(new b(a.element(),{hidden:i,referenceWindow:a.referenceWindow()})).set("strategy",h.strategy).on("visible",function(a){null===j&&(j=e(a,f,h)),j.start()}).on("hidden",function(){null!==j&&j.stop()}).on("stop",function(){null!==j&&j.stop()}).build();return k.start(),function(){k.stop(),j=null}};b.fn.onPercentageTimeTestPassed=function(a,b){f(this,a,b)},b.fn.on50_1TestPassed=function(a,b){var d=c.extend(c.defaults(b,{interval:100}),{percentageLimit:.5,timeLimit:1e3});f(this,a,d)},b.VisMon.Strategy.PercentageTimeTestEventStrategy=function(a,b){var d=function(b,d){var e=c.noop,g=b.on("visible",c.once(function(b){e=f(b.visobj(),function(c){var e={monitorState:c.state(),testConfig:d};b.update(),b.publish(a,[b,e])},d),g()}));return function(){g(),e()}},e=c.noop;return{init:function(a){e=d(a,b)},stop:function(){e()}}}});;/*! { "name": "vissense-metrics", "version": "0.1.0", "copyright": "(c) 2015 tbk" } */
 !function(a){"use strict";!function(a){Date.now||(Date.now=function(){return(new Date).getTime()}),a.performance||(a.performance=a.performance||{},a.performance.now=a.performance.now||a.performance.mozNow||a.performance.msNow||a.performance.oNow||a.performance.webkitNow||Date.now)}(a);var b=function(){function a(b){return this instanceof a?((+b!==b||0>b)&&(b=0),void(this._$={i:b})):new a(b)}var b=Math.pow(2,32),c=function(a){return+a!==a?1:+a};return a.MAX_VALUE=b,a.prototype.inc=function(a){return this.set(this.get()+c(a)),this.get()},a.prototype.dec=function(a){return this.inc(-1*c(a))},a.prototype.clear=function(){var a=this._$.i;return this._$.i=0,a},a.prototype.get=function(){return this._$.i},a.prototype.set=function(a){return this._$.i=c(a),this._$.i<0?this._$.i=0:this._$.i>b&&(this._$.i-=b),this.get()},a}(),c=function(){function b(a){return this instanceof b?(this._config=a||{},this._config.performance=this._config.performance===!0,void(this._$={ts:0,te:0,r:!1})):new b(a)}var c=function(b){return b?a.performance.now():Date.now()},d=function(a,b){return+a===a?+a:b};return b.prototype._orNow=function(a){return d(a,c(this._config.performance))},b.prototype.startIf=function(a,b){return a&&(this._$.r=!0,this._$.ts=this._orNow(b),this._$.te=null),this},b.prototype.start=function(a){return this.startIf(!this._$.r,a)},b.prototype.restart=function(a){return this.startIf(!0,a)},b.prototype.stop=function(a){return this.stopIf(!0,a)},b.prototype.stopIf=function(a,b){return this._$.r&&a&&(this._$.te=this._orNow(b),this._$.r=!1),this},b.prototype.interim=function(a){return this._$.r?this._orNow(a)-this._$.ts:0},b.prototype.get=function(a){return this._$.te?this._$.te-this._$.ts:this.time(a)},b.prototype.running=function(){return this._$.r},b.prototype.getAndRestartIf=function(a,b){var c=this.get(b);return a&&this.restart(b),c},b.prototype.forceStart=b.prototype.restart,b.prototype.time=b.prototype.interim,b}();a.CountOnMe={counter:b,stopwatch:c}}(window),function(a,b,c,d){"use strict";function e(a,b){a>0&&b(a)}function f(){this.metrics={},this.addMetric=function(a,b){this.metrics[a]=b},this.getMetric=function(a){return this.metrics[a]}}function g(a){function b(a){var b=a.state(),c=b.percentage;h.getMetric("percentage").set(c),c<h.getMetric("percentage.min").get()&&h.getMetric("percentage.min").set(c),c>h.getMetric("percentage.max").get()&&h.getMetric("percentage.max").set(c)}function c(a){var b=a.state();e(l.get(),function(a){h.getMetric("time.duration").set(a)}),e(k.running()?k.stop().get():-1,function(a){h.getMetric("time.hidden").inc(a)}),e(i.running()?i.stop().get():-1,function(a){h.getMetric("time.visible").inc(a),h.getMetric("time.relativeVisible").inc(a*b.percentage)}),e(j.running()?j.stop().get():-1,function(a){h.getMetric("time.fullyvisible").inc(a)}),i.startIf(b.visible),j.startIf(b.fullyvisible),k.startIf(b.hidden),l.startIf(!l.running())}var g=!1,h=new f,i=d.stopwatch(),j=d.stopwatch(),k=d.stopwatch(),l=d.stopwatch();h.addMetric("time.visible",new d.counter),h.addMetric("time.fullyvisible",new d.counter),h.addMetric("time.hidden",new d.counter),h.addMetric("time.relativeVisible",new d.counter),h.addMetric("time.duration",new d.counter),h.addMetric("percentage",new d.counter),h.addMetric("percentage.max",new d.counter(0)),h.addMetric("percentage.min",new d.counter(1));var m=this;this.update=function(){c(a),b(a)},this.getMetric=function(a){return h.getMetric(a)},this.running=function(){return g};var n=null;this.start=function(){return g||(n=a.on("update",function(){m.update()}),this.update(),g=!0),this},this.stop=function(){return g&&(this.update(),n(),n=null,g=!1),this}}var h=b.VisMon.Strategy;h.MetricsStrategy=function(){},h.MetricsStrategy.prototype=Object.create(h.prototype),h.MetricsStrategy.prototype.init=function(a){var b=new g(a);a.metrics=function(){return b}},h.MetricsStrategy.prototype.start=function(a){return a.metrics().start(),!0},h.MetricsStrategy.prototype.stop=function(a){return a.metrics().stop(),!0}}.call(this,window,window.VisSense,window.VisSense.Utils,window.CountOnMe);;/*! { "name": "vissense-user-activity", "version": "0.3.0", "copyright": "(c) 2015 tbk" } */!function(a,b){"use strict";b(a,a.VisSense)}(this,function(a,b,c){"use strict";function d(b,c){j(b,function(b){b.call(c||a)})}function e(b){if(!(this instanceof e))return new e(b);this._config=i(b,{inactiveAfter:6e4,throttle:100,events:["resize","scroll","mousemove","mousewheel","keydown","mousedown","touchstart","touchmove"],active:l,inactive:l,update:l,referenceWindow:a}),this._listeners=[],this._cancelUpdate=l,this._state={changed:!0,active:!1,lastActivityTime:m(),started:!1},this._visibilityApi=f.createVisibilityApi(this._config.referenceWindow);var c=this;this._updateState=function(){var a=c._state.active,b=c.getTimeSinceLastActivity();c._visibilityApi.isHidden()||b>=c._config.inactiveAfter?c._state.active=!1:(c._state.active=!0,c._cancelUpdate(),c._cancelUpdate=h(function(){c._updateState()},c._config.inactiveAfter)),c._state.changed=a!==c._state.active,d(c._listeners,c)},this._onUserActivity=function(){c._state.lastActivityTime=m(),c._updateState()},this.onUpdate(this._config.update),this.onActive(this._config.active),this.onInactive(this._config.inactive)}var f=b.Utils,g=f.throttle,h=f.defer,i=f.defaults,j=f.forEach,k=f.isFunction,l=f.noop,m=f.now,n=b.VisMon.Strategy,o=function(a,b){var c=a.indexOf(b);return c>-1?(a.splice(c,1),!0):!1};e.prototype.start=function(){return this._state.started?this:(this._removeEventListeners=function(a,b,c){var d=c.referenceWindow,e=g(b,c.throttle),f=a.onVisibilityChange(e),h=c.events;return j(h,function(a){d.addEventListener(a,e,!1)}),function(){j(h,function(a){d.removeEventListener(a,e,!1)}),f()}}(this._visibilityApi,this._onUserActivity,this._config),this._state.started=!0,this._onUserActivity(),this)},e.prototype.stop=function(){return this._state.started?(this._removeEventListeners(),this._cancelUpdate(),this._state.started=!1,this):this},e.prototype.onUpdate=function(a){if(!k(a))return l;var b=a.bind(c,this);this._listeners.push(b);var d=this;return function(){return o(d._listeners,b)}},e.prototype.onChange=function(a){return this.onUpdate(function(b){b._state.changed&&a(b)})},e.prototype.onActive=function(a){return this.onChange(function(b){b._state.active&&a(b)})},e.prototype.onInactive=function(a){return this.onChange(function(b){b._state.active||a(b)})},e.prototype.isActive=function(){return!this._state.started||this._state.active},e.prototype.getTimeSinceLastActivity=function(){return m()-this._state.lastActivityTime},b.UserActivity=e,n.UserActivityStrategy=function(a){this._userActivity=new e(a);var b=this;this._visibilityHook=function(){return b._userActivity.isActive()}},n.UserActivityStrategy.prototype=Object.create(n.prototype),n.UserActivityStrategy.prototype.init=function(a){this._removeVisibilityHook=function(b){var c=a.visobj()._config.visibilityHooks;return c.push(b._visibilityHook),function(){o(c,b._visibilityHook)}}(this),this._removeOnChangeListener=this._userActivity.onChange(function(){a.update()})},n.UserActivityStrategy.prototype.start=function(){this._userActivity.start()},n.UserActivityStrategy.prototype.stop=function(){this._removeVisibilityHook(),this._removeOnChangeListener(),this._userActivity.stop()}});;/*global VisSense */
 (function (VisSense, Utils) {
-    'use strict';
+  'use strict';
 
-    // FIXME: temporary -> Everything in here should be considered to be moved to an own plugin
+  // FIXME: temporary -> Everything in here should be considered to be moved to an own plugin
 
-    var simpleHelpers = function () {};
+  var simpleHelpers = function () {
+  };
 
-    simpleHelpers.createTimeReport = function (metrics) {
-        var report = {};
-        report.timeHidden = metrics.getMetric('time.hidden').get();
-        report.timeVisible = metrics.getMetric('time.visible').get();
-        report.timeFullyVisible = metrics.getMetric('time.fullyvisible').get();
-        report.timeRelativeVisible = metrics.getMetric('time.relativeVisible').get();
-        report.duration = metrics.getMetric('time.duration').get();
+  simpleHelpers.createTimeReport = function (metrics) {
+    var report = {};
+    report.timeHidden = metrics.getMetric('time.hidden').get();
+    report.timeVisible = metrics.getMetric('time.visible').get();
+    report.timeFullyVisible = metrics.getMetric('time.fullyvisible').get();
+    report.timeRelativeVisible = metrics.getMetric('time.relativeVisible').get();
+    report.duration = metrics.getMetric('time.duration').get();
+    report.timeStarted = new Date().getTime() - report.duration;
 
-        report.percentage = {
-            current: metrics.getMetric('percentage').get(),
-            max: metrics.getMetric('percentage.max').get(),
-            min: metrics.getMetric('percentage.min').get()
-        };
-
-        return report;
+    report.percentage = {
+      current: metrics.getMetric('percentage').get(),
+      maximum: metrics.getMetric('percentage.max').get(),
+      minimum: metrics.getMetric('percentage.min').get()
     };
 
-    simpleHelpers.newInitialStateEventStrategy = function (eventName) {
-        return {
-            init: function (monitor) {
-                console.debug('[InitialRequestEventStrategy] init');
-                var stopSendingInitialRequestEvents = monitor.on('update', function (monitor) {
-                    var state = monitor.state();
-                    monitor.publish(eventName, [monitor, state]);
-                    stopSendingInitialRequestEvents();
-                });
-            }
-        };
+    return report;
+  };
+
+  simpleHelpers.newInitialStateEventStrategy = function (eventName) {
+    return {
+      init: function (monitor) {
+        console.debug('[InitialRequestEventStrategy] init');
+        var stopSendingInitialRequestEvents = monitor.on('update', function (monitor) {
+          var state = monitor.state();
+          monitor.publish(eventName, [monitor, state]);
+          stopSendingInitialRequestEvents();
+        });
+      }
     };
+  };
 
-    simpleHelpers.createSummaryEventStrategy = function (eventName) {
-        return {
-            init: function(monitor) {
-                if (!Utils.isFunction(monitor.metrics) || !Utils.isFunction(VisSense.VisMon.Strategy.MetricsStrategy)) {
-                    throw new Error('Cannot load MetricsStrategy. Is it included?');
-                }
-            },
-            start: function () {
-                console.debug('[TimeReportEventStrategy] start');
-            },
-            stop: function (monitor) {
-                monitor.metrics().update();
+  simpleHelpers.createSummaryEventStrategy = function (eventName) {
+    return {
+      init: function (monitor) {
+        if (!Utils.isFunction(monitor.metrics) || !Utils.isFunction(VisSense.VisMon.Strategy.MetricsStrategy)) {
+          throw new Error('Cannot load MetricsStrategy. Is it included?');
+        }
+      },
+      start: function () {
+        console.debug('[TimeReportEventStrategy] start');
+      },
+      stop: function (monitor) {
+        monitor.metrics().update();
 
-                var timeReport = simpleHelpers.createTimeReport(monitor.metrics());
+        var timeReport = simpleHelpers.createTimeReport(monitor.metrics());
 
-                monitor.publish(eventName, [monitor, timeReport]);
+        monitor.publish(eventName, [monitor, timeReport]);
 
-                console.debug('[TimeReportEventStrategy] stop');
-            }
-        };
+        console.debug('[TimeReportEventStrategy] stop');
+      }
     };
+  };
 
-    VisSense.Client = VisSense.Client || {};
-    VisSense.Client.Helpers = VisSense.Client.Helpers || {};
-    VisSense.Client.Helpers.Simple = simpleHelpers;
+  VisSense.Client = VisSense.Client || {};
+  VisSense.Client.Helpers = VisSense.Client.Helpers || {};
+  VisSense.Client.Helpers.Simple = simpleHelpers;
 
 })(VisSense, VisSense.Utils);
 
@@ -176,11 +178,16 @@
               }))
               .strategy(VisSense.Client.Helpers.Simple.createSummaryEventStrategy(internalSummaryEventName))
               .on(internalInitEventName, function (monitor, state) {
+                var stateWithoutPrevious = Utils.extend({}, state);
+                stateWithoutPrevious.previous = null;
+
                 var initEventData = {
-                  type: 'initial',
+                  type: 'INITIAL',
                   monitorId: monitorId,
-                  initial: true,
-                  state: state
+                  initial: {
+                    timeStarted: new Date().getTime(),
+                    state: stateWithoutPrevious
+                  }
                 };
 
                 sendEventWithClient(client, 'visibility-initial-request', initEventData);
@@ -195,9 +202,11 @@
                 });
 
                 var status501TestPassedEventData = {
-                  type: 'status',
+                  type: 'STATUS',
                   monitorId: monitorId,
-                  test: dataWithTimeReport
+                  status: {
+                    test: dataWithTimeReport
+                  }
                 };
 
                 sendEventWithClient(client, 'visibility-percentage-time-test', status501TestPassedEventData);
@@ -205,9 +214,11 @@
               })
               .on(internalSummaryEventName, function (monitor, timeReport) {
                 var summaryEventData = {
-                  type: 'summary',
+                  type: 'SUMMARY',
                   monitorId: monitorId,
-                  report: timeReport
+                  summary: {
+                    report: timeReport
+                  }
                 };
 
                 sendEventWithClient(client, 'visibility-time-report', summaryEventData);

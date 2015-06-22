@@ -22,8 +22,8 @@ public class DropwizardMetricsConfig {
     }
 
     @Bean
-    public OpenMrcRequestConsumer dropwizardMetricsOpenMrcClientAdapter(MetricRegistry metricRegistry) {
-        return new DropwizardMetricsClientAdapter(metricRegistry);
+    public OpenMrcRequestConsumer dropwizardMetricsOpenMrcClientAdapter() {
+        return new DropwizardMetricsClientAdapter(metricRegistry());
     }
 
     @Bean
@@ -34,8 +34,8 @@ public class DropwizardMetricsConfig {
     }
 
     @Bean
-    public ConsoleReporter consoleReporter(MetricRegistry metricRegistry) {
-        ConsoleReporter reporter = ConsoleReporter.forRegistry(metricRegistry)
+    public ConsoleReporter consoleReporter() {
+        ConsoleReporter reporter = ConsoleReporter.forRegistry(metricRegistry())
                 .convertRatesTo(TimeUnit.SECONDS)
                 .convertDurationsTo(TimeUnit.MILLISECONDS)
                 .build();
