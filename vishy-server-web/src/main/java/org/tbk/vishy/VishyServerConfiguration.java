@@ -2,8 +2,14 @@ package org.tbk.vishy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -14,28 +20,46 @@ import org.tbk.openmrc.web.OpenMrcHttpRequestService;
 import org.tbk.openmrc.web.OpenMrcWebConfiguration;
 import org.tbk.openmrc.web.OpenMrcWebConfigurationSupport;
 import org.tbk.vishy.client.dropwizard.DropwizardMetricsConfig;
+import org.tbk.vishy.client.keenio.KeenIoConfig;
 import org.tbk.vishy.properties.provider.ExtensionsConfiguration;
 import org.tbk.vishy.web.VishyOpenMrcCtrl;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
+@ComponentScan(basePackageClasses = {
+        VishyOpenMrcConfiguration.class,
+        DropwizardMetricsConfig.class,
+        KeenIoConfig.class
+})
+@AutoConfigureAfter({VishyOpenMrcConfiguration.class})
 @Configuration
-public class VishyOpenMrcConfig extends WebMvcConfigurerAdapter {
+public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
+
+    @Autowired(required = false)
+    private List<OpenMrcRequestConsumer> openMrcRequestConsumers = Collections.emptyList();
 
     class SimpleOpenMrcConfiguration extends OpenMrcWebConfigurationSupport {
+
         public List<OpenMrcRequestConsumer> openMrcRequestConsumer() {
-            return Arrays.asList(
-                    new LoggingRequestConsumer(),
-                    dropwizardMetricsConfig().dropwizardMetricsOpenMrcClientAdapter()
-            );
+            List<OpenMrcRequestConsumer> requestConsumers = Lists.newArrayList(openMrcRequestConsumers);
+
+            if (requestConsumers.isEmpty()) {
+                log.warn("No request consumer found. Registering standard logging consumer.");
+                requestConsumers.add(new LoggingRequestConsumer());
+            }
+
+            log.info("registering {} request consumer(s): {}", requestConsumers.size(), requestConsumers);
+
+            return requestConsumers;
         }
 
         public List<OpenMrcRequestInterceptor<HttpServletRequest>> httpRequestInterceptor() {
             ExtensionsConfiguration extensionsConfiguration = extensionsConfiguration();
-            return Arrays.asList(
+            List<OpenMrcRequestInterceptor<HttpServletRequest>> requestInterceptors = Arrays.asList(
                     extensionsConfiguration.browserRequestInterceptor(),
                     extensionsConfiguration.deviceRequestInterceptor(),
                     extensionsConfiguration.localeRequestInterceptor(),
@@ -43,6 +67,10 @@ public class VishyOpenMrcConfig extends WebMvcConfigurerAdapter {
                     extensionsConfiguration.referrerRequestInterceptor(),
                     extensionsConfiguration.userAgentRequestInterceptor()
             );
+
+            log.info("registering {} request interceptor(s): {}", requestInterceptors.size(), requestInterceptors);
+
+            return requestInterceptors;
         }
     }
 
@@ -52,24 +80,13 @@ public class VishyOpenMrcConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public DropwizardMetricsConfig dropwizardMetricsConfig() {
-        return new DropwizardMetricsConfig();
-    }
-
-
-    @Bean
     public OpenMrcWebConfiguration openMrcWebConfiguration() {
         return new SimpleOpenMrcConfiguration();
     }
 
     @Bean
-    public VishyOpenMrcCtrl vishyOpenMrcCtrl() {
-        return new VishyOpenMrcCtrl(openMrcHttpRequestService());
-    }
-
-    @Bean
-    public OpenMrcHttpRequestService openMrcHttpRequestService() {
-        return openMrcWebConfiguration().httpRequestService();
+    public VishyOpenMrcCtrl vishyOpenMrcCtrl(OpenMrcHttpRequestService openMrcHttpRequestService) {
+        return new VishyOpenMrcCtrl(openMrcHttpRequestService);
     }
 
     @Bean
