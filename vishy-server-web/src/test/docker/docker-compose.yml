@@ -1,7 +1,7 @@
 influxdb:
   name: influxdb
 #  image: tutum/influxdb:staging-0.9.0-rc
-  image: tutum/influxdb
+  image: tutum/influxdb:latest
   ports:
     - "8083:8083"
     - "8086:8086"

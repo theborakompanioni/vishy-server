@@ -115,6 +115,12 @@ public class IntegrationTest {
     }
 
     @Test
+    public void itShouldAcceptValidStatusRequestsWithFloatValues() throws Exception {
+        String requestJson2 = "{\"type\":\"STATUS\",\"monitorId\":\"9f554854-86a6-43b1-a11b-8a987e50f870\",\"status\":{\"test\":{\"monitorState\":{\"code\":1,\"state\":\"visible\",\"percentage\":0.8,\"fullyvisible\":false,\"visible\":true,\"hidden\":false},\"testConfig\":{\"percentageLimit\":0.5,\"timeLimit\":1000,\"interval\":100},\"timeReport\":{\"timeHidden\":0,\"timeVisible\":1268,\"timeFullyVisible\":0,\"timeRelativeVisible\":1030,\"duration\":1268,\"timeStarted\":1435010244664,\"percentage\":{\"current\":0.6,\"maximum\":0.99,\"minimum\":0.77}}}},\"sessionId\":\"5b9a546a-ee0e-44ba-adf1-4d1757422529\",\"viewport\":{\"width\":960,\"height\":198},\"vishy\":{\"id\":\"42\",\"projectId\":\"myElement\"}}";
+        send(requestJson2).andExpect(status().isAccepted());
+    }
+
+    @Test
     public void itShouldAcceptValidSummaryRequests() throws Exception {
         String requestJson = "{\"type\":\"SUMMARY\",\"monitorId\":\"856712dd-5901-4498-9fbc-3dd0a7fd81c8\",\"summary\":{\"report\":{\"timeHidden\":0,\"timeVisible\":60212,\"timeFullyVisible\":60212,\"timeRelativeVisible\":60212,\"duration\":60213,\"timeStarted\":1435008028728,\"percentage\":{\"current\":1,\"maximum\":1,\"minimum\":1}}},\"sessionId\":\"db87f89e-7fd4-410f-b380-0dbca9fd7a98\",\"viewport\":{\"width\":960,\"height\":515},\"vishy\":{\"id\":\"42\",\"projectId\":\"myElement\"}}";
         send(requestJson).andExpect(status().isAccepted());

@@ -12,7 +12,7 @@
     report.timeHidden = metrics.getMetric('time.hidden').get();
     report.timeVisible = metrics.getMetric('time.visible').get();
     report.timeFullyVisible = metrics.getMetric('time.fullyvisible').get();
-    report.timeRelativeVisible = metrics.getMetric('time.relativeVisible').get();
+    report.timeRelativeVisible = Math.round(metrics.getMetric('time.relativeVisible').get());
     report.duration = metrics.getMetric('time.duration').get();
     report.timeStarted = new Date().getTime() - report.duration;
 
@@ -194,6 +194,12 @@
               })
               .on(internalStatus501TestPassedEventName, function (monitor, data) {
                 var timeReport = VisSense.Client.Helpers.Simple.createTimeReport(monitor.metrics());
+
+                if (data.monitorState) {
+                  var stateWithoutPrevious = Utils.extend({}, data.monitorState);
+                  stateWithoutPrevious.previous = null;
+                  data.monitorState = stateWithoutPrevious;
+                }
 
                 var dataWithTimeReport = Utils.extend(data, {
                   timeReport: timeReport
