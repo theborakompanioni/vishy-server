@@ -6,7 +6,7 @@ vishy-server
 
 ### docker
 ```
-cd vishy-server-web/target
+cd vishy-server-web/
 mvn docker:build
 ```
 ```
