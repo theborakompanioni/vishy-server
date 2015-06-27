@@ -10,10 +10,10 @@ cd vishy-server-web/
 mvn docker:build
 ```
 ```
-docker run -t
-  --name openmrc-vishy
-  --env-file src/main/docker/vishy_example_environment.env
-  -p 8080:8080
+docker run -t \
+  --name openmrc-vishy \
+  --env-file src/main/docker/vishy_example_environment.env \
+  -p 8080:8080 \
   tbk/vishy-server-web
 ```
 

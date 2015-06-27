@@ -1,6 +1,7 @@
 package org.tbk.vishy.client.keenio;
 
 import io.keen.client.java.KeenClient;
+import lombok.extern.slf4j.Slf4j;
 import org.tbk.openmrc.OpenMrc;
 import org.tbk.openmrc.OpenMrcRequestConsumer;
 import org.tbk.vishy.client.RequestToMapFunction;
@@ -11,6 +12,7 @@ import java.util.function.Function;
 /**
  * Created by void on 01.05.15.
  */
+@Slf4j
 public class KeenOpenMrcClientAdapter implements OpenMrcRequestConsumer {
 
     private final KeenClient keenClient;
@@ -24,6 +26,8 @@ public class KeenOpenMrcClientAdapter implements OpenMrcRequestConsumer {
     @Override
     public void accept(OpenMrc.Request request) {
         Map<String, Object> event = mapper.apply(request);
+
+        log.info("received event for keenio {}", request.getType());
 
         keenClient.addEventAsync(request.getType().name(), event);
     }

@@ -41,7 +41,7 @@ public class DropwizardMetricsClientAdapter implements OpenMrcRequestConsumer {
     public void accept(OpenMrc.Request request) {
         this.vishyMetrics.incomingRequests.mark();
 
-        log.info("received event for influxdb {}", request.getType());
+        log.info("received event for metrics {}", request.getType());
 
         if (request.getType() == OpenMrc.RequestType.SUMMARY) {
             onSummaryRequest(request);
