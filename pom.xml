@@ -157,15 +157,6 @@
         </repository>
 
         <repository>
-            <id>tbk-openmrc-core-mvn-repo</id>
-            <url>https://raw.github.com/theborakompanioni/openmrc-core/mvn-repo/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-
-        <repository>
             <id>tbk-openmrc-mvn-repo</id>
             <url>https://raw.github.com/theborakompanioni/openmrc/mvn-repo/</url>
             <snapshots>
