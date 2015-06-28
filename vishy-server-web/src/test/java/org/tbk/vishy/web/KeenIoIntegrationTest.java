@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Repeat;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -78,6 +79,7 @@ public class KeenIoIntegrationTest {
     }
 
     @Test
+    @Repeat(5)
     public void itShouldAcceptValidSummaryRequests() throws Exception {
         String requestJson = "{\"type\":\"SUMMARY\",\"monitorId\":\"856712dd-5901-4498-9fbc-3dd0a7fd81c8\",\"summary\":{\"report\":{\"timeHidden\":0,\"timeVisible\":60212,\"timeFullyVisible\":60212,\"timeRelativeVisible\":60212,\"duration\":60213,\"timeStarted\":1435008028728,\"percentage\":{\"current\":1,\"maximum\":1,\"minimum\":1}}},\"sessionId\":\"db87f89e-7fd4-410f-b380-0dbca9fd7a98\",\"viewport\":{\"width\":960,\"height\":515},\"vishy\":{\"id\":\"42\",\"projectId\":\"myElement\"}}";
         send(requestJson).andExpect(status().isAccepted());

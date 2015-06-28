@@ -9,6 +9,8 @@ import org.tbk.openmrc.OpenMrcRequestConsumer;
 import org.tbk.vishy.client.OpenMrcRequestToMapFunction;
 
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static java.util.Map.Entry;
@@ -20,18 +22,20 @@ import static java.util.Map.Entry;
 public class KeenOpenMrcClientAdapter implements OpenMrcRequestConsumer {
 
     private final KeenClient keenClient;
-    private final OpenMrcRequestToMapFunction mapper;
+    private final OpenMrcRequestToMapFunction toMapFunction;
 
-    public KeenOpenMrcClientAdapter(KeenClient keenClient, OpenMrcRequestToMapFunction mapper) {
+    public KeenOpenMrcClientAdapter(KeenClient keenClient, OpenMrcRequestToMapFunction toMapFunction) {
         this.keenClient = keenClient;
-        this.mapper = mapper;
+        this.toMapFunction = toMapFunction;
     }
 
     @Override
     public void accept(OpenMrc.Request request) {
-        Map<String, Object> event = mapper.apply(request);
+        Map<String, Object> event = Optional.ofNullable(request)
+                .map(toMapFunction)
+                .orElseThrow(IllegalArgumentException::new);
 
-        Map<String, Object> cleanedEvent = replaceDotsInKeysWithUnderscore(event);
+        Map<String, Object> cleanedEvent = replaceDotsInKeysWithColon(event);
 
         log.info("received event for keenio {}", request.getType());
 
@@ -48,17 +52,17 @@ public class KeenOpenMrcClientAdapter implements OpenMrcRequestConsumer {
         });
     }
 
-    private Map<String, Object> replaceDotsInKeysWithUnderscore(Map<String, Object> event) {
-        return replaceDotsInKeysWith(event, "_");
-    }
-
     // keen does not like certain events
     // e.g. with "dots" in the key
-    private Map<String, Object> replaceDotsInKeysWith(Map<String, Object> event, String replacement) {
-        Map<String, Object> replacedKeysMap = Maps.newHashMapWithExpectedSize(event.size());
+    private <V> Map<String, V> replaceDotsInKeysWithColon(Map<String, V> event) {
+        return newTransformedMap(event, Collectors.toMap(e -> e.getKey().replace(".", ":"), Entry::getValue));
+    }
 
-        replacedKeysMap.putAll(event.entrySet().stream()
-                .collect(Collectors.toMap(e -> e.getKey().replace(".", replacement), Entry::getValue)));
+    private <K, V> Map<K, V> newTransformedMap(Map<K, V> target, Collector<Entry<K, V>, ?, Map<K, V>> collector) {
+        Map<K, V> replacedKeysMap = Maps.newHashMapWithExpectedSize(target.size());
+
+        replacedKeysMap.putAll(target.entrySet().stream()
+                .collect(collector));
 
         return replacedKeysMap;
     }
