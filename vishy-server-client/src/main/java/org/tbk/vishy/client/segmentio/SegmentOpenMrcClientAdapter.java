@@ -5,23 +5,23 @@ import com.github.segmentio.models.EventProperties;
 import com.github.segmentio.models.Traits;
 import org.tbk.openmrc.OpenMrc;
 import org.tbk.openmrc.OpenMrcRequestConsumer;
-import org.tbk.vishy.client.RequestToMapFunction;
+import org.tbk.vishy.client.OpenMrcRequestToMapFunction;
 
 import java.util.Map;
 
 public class SegmentOpenMrcClientAdapter implements OpenMrcRequestConsumer {
 
     private final Client analytics;
-    private final RequestToMapFunction mapper;
+    private final OpenMrcRequestToMapFunction mapper;
 
-    public SegmentOpenMrcClientAdapter(Client analytics, RequestToMapFunction mapper) {
+    public SegmentOpenMrcClientAdapter(Client analytics, OpenMrcRequestToMapFunction mapper) {
         this.analytics = analytics;
         this.mapper = mapper;
     }
 
     @Override
     public void accept(OpenMrc.Request request) {
-        String userId = request.getMonitorId();
+        String userId = request.getSessionId();
         Map<String, Object> properties = mapper.apply(request);
 
         if (isIdentifyEvent(request)) {

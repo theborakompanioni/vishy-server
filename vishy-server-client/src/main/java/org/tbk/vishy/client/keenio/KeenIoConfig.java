@@ -1,12 +1,12 @@
 package org.tbk.vishy.client.keenio;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import io.keen.client.java.GlobalPropertiesEvaluator;
 import io.keen.client.java.JavaKeenClientBuilder;
 import io.keen.client.java.KeenClient;
 import io.keen.client.java.KeenProject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
@@ -29,12 +29,9 @@ public class KeenIoConfig {
     @Autowired
     private Environment environment;
 
-    @Autowired
-    private ObjectMapper mapper;
-
     @Bean
     public OpenMrcRequestConsumer keenOpenMrcClientAdapter() {
-        return new KeenOpenMrcClientAdapter(keenClient(), RequestToMapFunction.create(mapper));
+        return new KeenOpenMrcClientAdapter(keenClient(), new RequestToMapFunction());
     }
 
     @Bean

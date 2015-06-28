@@ -1,34 +1,38 @@
 package org.tbk.vishy.client;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Throwables;
+import com.googlecode.protobuf.format.JsonFormat;
 import org.tbk.openmrc.OpenMrc;
 
+import java.io.IOException;
 import java.util.Map;
-import java.util.function.Function;
 
 /**
  * Created by void on 21.06.15.
  */
-public class RequestToMapFunction implements Function<OpenMrc.Request, Map<String, Object>> {
+public class RequestToMapFunction implements OpenMrcRequestToMapFunction {
 
     private static final ObjectMapper DEFAULT_MAPPER = new ObjectMapper();
 
-    public static RequestToMapFunction create() {
-        return new RequestToMapFunction(DEFAULT_MAPPER);
-    }
-
-    public static RequestToMapFunction create(ObjectMapper mapper) {
-        return new RequestToMapFunction(mapper);
-    }
-
     private final ObjectMapper mapper;
 
-    private RequestToMapFunction(ObjectMapper mapper) {
+    public RequestToMapFunction() {
+        this(DEFAULT_MAPPER);
+    }
+    public RequestToMapFunction(ObjectMapper mapper) {
         this.mapper = mapper;
     }
 
     @Override
     public Map<String, Object> apply(OpenMrc.Request request) {
-        return mapper.valueToTree(request);
+        String json = JsonFormat.printToString(request);
+        try {
+            return mapper.readValue(json, new TypeReference<Map<String, Object>>() {
+            });
+        } catch (IOException e) {
+            throw Throwables.propagate(e);
+        }
     }
 }

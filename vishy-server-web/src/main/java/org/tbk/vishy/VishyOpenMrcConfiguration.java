@@ -3,10 +3,14 @@ package org.tbk.vishy;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.tbk.openmrc.OpenMrcRequestConsumer;
 import org.tbk.openmrc.OpenMrcRequestInterceptor;
+import org.tbk.openmrc.mapper.OpenMrcHttpRequestMapper;
+import org.tbk.openmrc.mapper.StandardOpenMrcJsonMapper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -24,6 +28,20 @@ public class VishyOpenMrcConfiguration extends SpringOpenMrcConfigurationSupport
 
     @Autowired(required = false)
     private List<OpenMrcRequestInterceptor<HttpServletRequest>> requestInterceptors = Collections.emptyList();
+
+    @Bean
+    @ConditionalOnMissingClass(StandardOpenMrcJsonMapper.class)
+    public StandardOpenMrcJsonMapper openMrcJsonMapper() {
+        StandardOpenMrcJsonMapper standardOpenMrcJsonMapper = new StandardOpenMrcJsonMapper(extensionRegistry(), metricsRegistry());
+        return standardOpenMrcJsonMapper;
+    }
+
+    @Override
+    @Bean
+    @Primary
+    public OpenMrcHttpRequestMapper httpRequestMapper() {
+        return super.httpRequestMapper();
+    }
 
     @Override
     @Bean

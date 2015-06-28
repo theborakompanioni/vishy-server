@@ -1,5 +1,7 @@
 package org.tbk.vishy.properties.provider.browser;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.Version;
 import org.tbk.openmrc.OpenMrcExtensions;
@@ -17,19 +19,22 @@ import java.util.function.Supplier;
  */
 public class BrowserRequestInterceptor extends ExtensionHttpRequestInterceptorSupport<OpenMrcExtensions.Browser> {
 
+    private static final Version UNKNOWN_VERSION = new Version("?", "?", "?");
     private static final OpenMrcExtensions.Browser UNKNOWN = OpenMrcExtensions.Browser.newBuilder()
             .setName("?")
+            .setType("?")
+            .setVersion(UNKNOWN_VERSION.getVersion())
+            .setMajorVersion(UNKNOWN_VERSION.getMajorVersion())
             .setManufacturer("?")
-            .setVersion("?")
             .build();
 
     private static final BiFunction<Browser, Version, OpenMrcExtensions.Browser> TO_PROTO = (browser, version) ->
             OpenMrcExtensions.Browser.newBuilder()
-                    .setName(browser.getGroup().getName())
-                    .setType(browser.getGroup().getBrowserType().getName())
-                    .setVersion(version.getVersion())
-                    .setMajorVersion(version.getVersion())
-                    .setManufacturer(browser.getGroup().getManufacturer().getName())
+                    .setName(Strings.nullToEmpty(browser.getGroup().getName()))
+                    .setType(Strings.nullToEmpty(browser.getGroup().getBrowserType().getName()))
+                    .setVersion(Strings.nullToEmpty(version.getVersion()))
+                    .setMajorVersion(Strings.nullToEmpty(version.getVersion()))
+                    .setManufacturer(Strings.nullToEmpty(browser.getGroup().getManufacturer().getName()))
                     .build();
 
     public BrowserRequestInterceptor() {
@@ -45,7 +50,7 @@ public class BrowserRequestInterceptor extends ExtensionHttpRequestInterceptorSu
         return Optional.ofNullable(httpServletRequest)
                 .map(ExtractUserAgent.fromHttpRequest)
                 .flatMap(Supplier::get)
-                .map(ua -> TO_PROTO.apply(ua.getBrowser(), ua.getBrowserVersion()));
+                .map(ua -> TO_PROTO.apply(ua.getBrowser(), MoreObjects.firstNonNull(ua.getBrowserVersion(), UNKNOWN_VERSION)));
     }
 
 }

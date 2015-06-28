@@ -38,50 +38,9 @@ import java.util.List;
 @AutoConfigureAfter({VishyOpenMrcConfiguration.class})
 @Configuration
 public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
-
-    @Autowired(required = false)
-    private List<OpenMrcRequestConsumer> openMrcRequestConsumers = Collections.emptyList();
-
-    class SimpleOpenMrcConfiguration extends OpenMrcWebConfigurationSupport {
-
-        public List<OpenMrcRequestConsumer> openMrcRequestConsumer() {
-            List<OpenMrcRequestConsumer> requestConsumers = Lists.newArrayList(openMrcRequestConsumers);
-
-            if (requestConsumers.isEmpty()) {
-                log.warn("No request consumer found. Registering standard logging consumer.");
-                requestConsumers.add(new LoggingRequestConsumer());
-            }
-
-            log.info("registering {} request consumer(s): {}", requestConsumers.size(), requestConsumers);
-
-            return requestConsumers;
-        }
-
-        public List<OpenMrcRequestInterceptor<HttpServletRequest>> httpRequestInterceptor() {
-            ExtensionsConfiguration extensionsConfiguration = extensionsConfiguration();
-            List<OpenMrcRequestInterceptor<HttpServletRequest>> requestInterceptors = Arrays.asList(
-                    extensionsConfiguration.browserRequestInterceptor(),
-                    extensionsConfiguration.deviceRequestInterceptor(),
-                    extensionsConfiguration.localeRequestInterceptor(),
-                    extensionsConfiguration.operatingSystemRequestInterceptor(),
-                    extensionsConfiguration.referrerRequestInterceptor(),
-                    extensionsConfiguration.userAgentRequestInterceptor()
-            );
-
-            log.info("registering {} request interceptor(s): {}", requestInterceptors.size(), requestInterceptors);
-
-            return requestInterceptors;
-        }
-    }
-
     @Bean
     public ExtensionsConfiguration extensionsConfiguration() {
         return new ExtensionsConfiguration();
-    }
-
-    @Bean
-    public OpenMrcWebConfiguration openMrcWebConfiguration() {
-        return new SimpleOpenMrcConfiguration();
     }
 
     @Bean

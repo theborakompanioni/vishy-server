@@ -1,7 +1,10 @@
 package org.tbk.vishy.web;
 
 import com.google.common.net.HttpHeaders;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.WebIntegrationTest;
@@ -25,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {VishyServerConfiguration.class})
 @WebAppConfiguration
 @WebIntegrationTest
-@Ignore
 public class KeenIoIntegrationTest {
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),

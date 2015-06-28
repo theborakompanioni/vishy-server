@@ -1,6 +1,5 @@
 package org.tbk.vishy.client.segmentio;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.segmentio.Analytics;
 import com.github.segmentio.Client;
 import com.github.segmentio.Options;
@@ -11,6 +10,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.tbk.openmrc.OpenMrcRequestConsumer;
+import org.tbk.openmrc.mapper.StandardOpenMrcJsonMapper;
 import org.tbk.vishy.client.RequestToMapFunction;
 
 import java.util.Objects;
@@ -25,12 +25,9 @@ public class SegmentIoConfig {
     @Autowired
     private Environment environment;
 
-    @Autowired
-    private ObjectMapper mapper;
-
     @Bean
-    public OpenMrcRequestConsumer analyticsClient() {
-        return new SegmentOpenMrcClientAdapter(analytics(), RequestToMapFunction.create(mapper));
+    public OpenMrcRequestConsumer analyticsClient(StandardOpenMrcJsonMapper standardOpenMrcJsonMapper) {
+        return new SegmentOpenMrcClientAdapter(analytics(), new RequestToMapFunction());
     }
 
     @Bean
