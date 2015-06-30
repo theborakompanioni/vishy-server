@@ -1,4 +1,4 @@
-package org.tbk.vishy.web;
+package org.tbk.vishy.web.keen;
 
 import com.google.common.net.HttpHeaders;
 import org.junit.AfterClass;
@@ -17,7 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.tbk.vishy.VishyServerConfiguration;
+import org.tbk.vishy.web.keen.config.KeenIntegrationTestConfiguration;
+import org.tbk.vishy.web.keen.config.VishyServerKeenIntegrationTestConfiguration;
 
 import java.nio.charset.Charset;
 
@@ -26,9 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {VishyServerConfiguration.class})
 @WebAppConfiguration
 @WebIntegrationTest
+@ContextConfiguration(classes = {VishyServerKeenIntegrationTestConfiguration.class, KeenIntegrationTestConfiguration.class})
 public class KeenIoIntegrationTest {
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
@@ -49,10 +50,10 @@ public class KeenIoIntegrationTest {
 
     @AfterClass
     public static void removeEnvironmentVariables() {
-        System.setProperty("VISHY_CLIENT", "");
-        System.setProperty("KEENIO_PROJECT_ID", "");
-        System.setProperty("KEENIO_WRITE_KEY", "");
-        System.setProperty("KEENIO_READ_KEY", "");
+        System.clearProperty("VISHY_CLIENT");
+        System.clearProperty("KEENIO_PROJECT_ID");
+        System.clearProperty("KEENIO_WRITE_KEY");
+        System.clearProperty("KEENIO_READ_KEY");
     }
 
     @Before

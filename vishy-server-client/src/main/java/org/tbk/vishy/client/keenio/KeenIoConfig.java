@@ -1,12 +1,12 @@
 package org.tbk.vishy.client.keenio;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import io.keen.client.java.GlobalPropertiesEvaluator;
 import io.keen.client.java.JavaKeenClientBuilder;
 import io.keen.client.java.KeenClient;
 import io.keen.client.java.KeenProject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
@@ -70,9 +70,9 @@ public class KeenIoConfig {
         return new KeenProject(projectId, writeKey, readKey);
     }
 
-    private Map<String, Object> globalProperties() {
-        Map<String, Object> map = Maps.newHashMap();
-        map.put("_vishy_server_id", "kepler273");
-        return map;
+    public Map<String, Object> globalProperties() {
+        return ImmutableMap.<String, Object>builder()
+                .put("_vishy_server_id", "kepler273")
+                .build();
     }
 }

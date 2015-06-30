@@ -30,11 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Slf4j
-@ComponentScan(basePackageClasses = {
-        VishyOpenMrcConfiguration.class,
-        DropwizardMetricsConfig.class,
-        KeenIoConfig.class
-})
+@ComponentScan("org.tbk.vishy")
 @AutoConfigureAfter({VishyOpenMrcConfiguration.class})
 @Configuration
 public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
