@@ -33,11 +33,11 @@ public class FreeGeoIpLocationResolver implements GeoLocationResolver {
                 try {
                     Optional<GeoLocation> optionalLocation = fetchLocation(ip);
 
-                    log.warn("Resolved ip {} to location {}", ip, optionalLocation.orElse(null));
-
+                    log.debug("Resolved ip {} to location {}", ip, optionalLocation.orElse(null));
+                    
                     return optionalLocation;
                 } catch (UnirestException e) {
-                    log.warn("Could not resolve location from ip " + ip, e);
+                    log.warn("Could not resolve location from ip {}: {}", ip, e.getMessage());
                     return Optional.empty();
                 }
             }));
