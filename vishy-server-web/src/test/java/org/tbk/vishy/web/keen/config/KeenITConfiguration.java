@@ -14,10 +14,11 @@ import java.util.function.Function;
 
 @Configuration
 @Conditional(KeenIoCondition.class)
-public class KeenIntegrationTestConfiguration extends KeenIoConfig {
+public class KeenITConfiguration extends KeenIoConfig {
     @Bean
     public OpenMrcRequestConsumer keenOpenMrcClientAdapter() {
-        Function<OpenMrc.Request, String> toEventNameFunction = request -> "test_" + request.getType().name();
+        String testEventPrefix = "test_";
+        Function<OpenMrc.Request, String> toEventNameFunction = request -> testEventPrefix + request.getType().name();
         return new KeenOpenMrcClientAdapter(keenClient(), new RequestToMapFunction(), toEventNameFunction);
     }
 }

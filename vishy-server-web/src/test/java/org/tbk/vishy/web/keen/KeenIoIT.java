@@ -17,8 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.tbk.vishy.web.keen.config.KeenIntegrationTestConfiguration;
-import org.tbk.vishy.web.keen.config.VishyServerKeenIntegrationTestConfiguration;
+import org.tbk.vishy.web.keen.config.KeenITConfiguration;
+import org.tbk.vishy.web.keen.config.VishyServerKeenITConfiguration;
 
 import java.nio.charset.Charset;
 
@@ -29,8 +29,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @WebIntegrationTest
-@ContextConfiguration(classes = {VishyServerKeenIntegrationTestConfiguration.class, KeenIntegrationTestConfiguration.class})
-public class KeenIoIntegrationTest {
+@ContextConfiguration(classes = {VishyServerKeenITConfiguration.class, KeenITConfiguration.class})
+public class KeenIoIT {
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
             Charset.forName("utf8"));
