@@ -253,16 +253,11 @@
     }
 
     var vishyConfig = Utils.defaults(config, {
-      id: null,
-      projectId: null,
       protocol: 'http',
       host: 'api.vishy.io',
       port: 80
     });
 
-    if (!vishyConfig.id) {
-      throw new Error('Please provide a vishy.id!');
-    }
     if (!http || !http.post) {
       throw new Error('Please provide a compatible http client!');
     }
@@ -271,23 +266,24 @@
 
     return {
       monitors: function(config) {
-        var moreMonitorsConfig = Utils.defaults(config, {
-          projectId: vishyConfig.projectId
-        });
-
-        if (!moreMonitorsConfig.projectId) {
+        if (!config.projectId) {
           throw new Error('Please provide a vishy.projectId!');
         }
+        if (!config.elementId) {
+          throw new Error('Please provide a vishy.projectId!');
+        }
+
+        var vishyObject = {
+          elementId: config.elementId,
+          projectId: config.projectId
+        };
 
         var client = {
           addEvent: function (eventCollection, data, consumer) {
             var url = baseEndpoint + '/openmrc/consume';
 
             var _data = Utils.extend(data, {
-              vishy: {
-                id: vishyConfig.id,
-                projectId: moreMonitorsConfig.projectId
-              }
+              vishy: vishyObject
             });
 
             http.post(url, _data, {}).then(function (data) {
@@ -334,7 +330,8 @@
     });
     var monitor = VisSense.Client.Vishy(config, jsonHttp)
       .monitors({
-        projectId: elementId
+        projectId: config.projectId,
+        elementId: elementId
       }).custom(visobj, {
         interval: 1000,
         throttle: 100,
@@ -376,7 +373,6 @@
   var createMonitor = function (VisSense, elementId, config) {
     var Utils = VisSense.Utils;
     var vishyConfig = Utils.extend(config, {
-      id: '42',
       readKey: '%%vishy.readKey%%',
       writeKey: '%%vishy.writeKey%%',
       protocol: 'http',

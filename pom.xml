@@ -15,6 +15,7 @@
         <module>vishy-server-analytics-script</module>
         <module>vishy-server-property-provider</module>
         <module>vishy-server-client</module>
+        <module>vishy-server-extensions</module>
     </modules>
 
     <parent>

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class VishyJacksonConfiguration {
+public class JacksonConfiguration {
 
     @Bean
     public Jdk8Module jacksonJdk8Module() {

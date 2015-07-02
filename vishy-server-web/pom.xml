@@ -27,6 +27,11 @@
         </dependency>
         <dependency>
             <groupId>org.tbk.vishy</groupId>
+            <artifactId>vishy-server-extensions</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.tbk.vishy</groupId>
             <artifactId>vishy-server-client</artifactId>
             <version>${project.version}</version>
         </dependency>

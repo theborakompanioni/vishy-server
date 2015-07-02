@@ -1,4 +1,4 @@
-package org.tbk.vishy.properties.provider;
+package org.tbk.vishy;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ import org.tbk.vishy.properties.provider.operatingsystem.OperatingSystemRequestI
  * Created by void on 21.06.15.
  */
 @Configuration
-public class ExtensionsConfiguration {
+public class RequestInterceptorConfiguration {
     
     @Bean
     public LocaleRequestInterceptor localeRequestInterceptor() {

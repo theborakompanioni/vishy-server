@@ -1,6 +1,7 @@
 package org.tbk.vishy;
 
 import com.google.common.collect.Lists;
+import com.google.protobuf.ExtensionRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.tbk.openmrc.OpenMrcRequestConsumer;
 import org.tbk.openmrc.OpenMrcRequestInterceptor;
+import org.tbk.openmrc.VishyOpenMrcExtensions;
 import org.tbk.openmrc.mapper.OpenMrcHttpRequestMapper;
 import org.tbk.openmrc.mapper.StandardOpenMrcJsonMapper;
 
@@ -55,6 +57,16 @@ public class VishyOpenMrcConfiguration extends SpringOpenMrcConfigurationSupport
 
         log.info("registering {} request consumer(s): {}", consumers.size(), consumers);
         return consumers;
+    }
+
+    @Override
+    @Bean
+    public ExtensionRegistry extensionRegistry() {
+        ExtensionRegistry extensionRegistry = super.extensionRegistry();
+
+        extensionRegistry.add(VishyOpenMrcExtensions.Vishy.vishy);
+
+        return extensionRegistry;
     }
 
     @Override
