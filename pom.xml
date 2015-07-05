@@ -33,7 +33,7 @@
         <junit.version>4.11</junit.version>
         <mockito.version>1.10.19</mockito.version>
         <junitparams.version>1.0.4</junitparams.version>
-        <openmrc.version>0.0.1</openmrc.version>
+        <openmrc.version>0.1.0-SNAPSHOT</openmrc.version>
     </properties>
 
     <dependencies>
@@ -59,11 +59,6 @@
             <groupId>org.tbk.openmrc</groupId>
             <artifactId>openmrc-web</artifactId>
             <version>${openmrc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.segmentio</groupId>
-            <artifactId>analytics</artifactId>
-            <version>0.1.7</version>
         </dependency>
         <dependency>
             <groupId>org.tbk</groupId>
