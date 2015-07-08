@@ -61,9 +61,9 @@
             <version>${openmrc.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.tbk</groupId>
+            <groupId>com.github.theborakompanioni</groupId>
             <artifactId>spring-useragentutils</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.1</version>
         </dependency>
         <dependency>
             <groupId>eu.bitwalker</groupId>
@@ -174,15 +174,6 @@
     </build>
 
     <repositories>
-        <repository>
-            <id>tbk-spring-useragentutils-mvn-repo</id>
-            <url>https://raw.github.com/theborakompanioni/tbk-spring-useragentutils/mvn-repo/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-
         <repository>
             <id>tbk-openmrc-mvn-repo</id>
             <url>https://raw.github.com/theborakompanioni/openmrc/mvn-repo/</url>
