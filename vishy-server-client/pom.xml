@@ -15,6 +15,7 @@
         <metrics.version>3.1.0</metrics.version>
         <metrics.influxdb.version>0.7.0</metrics.influxdb.version>
         <segmentio.version>0.1.7</segmentio.version>
+        <predictionio.version>0.8.3</predictionio.version>
     </properties>
 
     <dependencies>
@@ -32,6 +33,11 @@
             <groupId>com.github.segmentio</groupId>
             <artifactId>analytics</artifactId>
             <version>${segmentio.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prediction</groupId>
+            <artifactId>client</artifactId>
+            <version>${predictionio.version}</version>
         </dependency>
     </dependencies>
 </project>
