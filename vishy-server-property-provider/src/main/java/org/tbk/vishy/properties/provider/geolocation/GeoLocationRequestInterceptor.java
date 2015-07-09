@@ -1,7 +1,7 @@
 package org.tbk.vishy.properties.provider.geolocation;
 
-import org.tbk.openmrc.OpenMrcExtensions;
-import org.tbk.openmrc.impl.ExtensionHttpRequestInterceptorSupport;
+import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
+import com.github.theborakompanioni.openmrc.impl.ExtensionHttpRequestInterceptorSupport;
 import org.tbk.vishy.properties.provider.geolocation.resolver.GeoLocationResolver;
 import org.tbk.vishy.utils.ip.RemoteAddressExtractor;
 

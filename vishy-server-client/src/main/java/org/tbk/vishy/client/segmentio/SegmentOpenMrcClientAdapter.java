@@ -3,8 +3,8 @@ package org.tbk.vishy.client.segmentio;
 import com.github.segmentio.Client;
 import com.github.segmentio.models.EventProperties;
 import com.github.segmentio.models.Traits;
-import org.tbk.openmrc.OpenMrc;
-import org.tbk.openmrc.OpenMrcRequestConsumer;
+import com.github.theborakompanioni.openmrc.OpenMrc;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import org.tbk.vishy.client.OpenMrcRequestToMapFunction;
 
 import java.util.Map;

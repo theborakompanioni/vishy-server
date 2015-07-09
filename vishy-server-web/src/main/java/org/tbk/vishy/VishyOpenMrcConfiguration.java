@@ -8,11 +8,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClas
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.tbk.openmrc.OpenMrcRequestConsumer;
-import org.tbk.openmrc.OpenMrcRequestInterceptor;
-import org.tbk.openmrc.VishyOpenMrcExtensions;
-import org.tbk.openmrc.mapper.OpenMrcHttpRequestMapper;
-import org.tbk.openmrc.mapper.StandardOpenMrcJsonMapper;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
+import com.github.theborakompanioni.openmrc.VishyOpenMrcExtensions;
+import com.github.theborakompanioni.openmrc.mapper.OpenMrcHttpRequestMapper;
+import com.github.theborakompanioni.openmrc.mapper.StandardOpenMrcJsonMapper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
 import com.googlecode.protobuf.format.JsonFormat;
-import org.tbk.openmrc.OpenMrc;
+import com.github.theborakompanioni.openmrc.OpenMrc;
 
 import java.io.IOException;
 import java.util.Map;

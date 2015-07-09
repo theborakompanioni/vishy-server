@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.tbk.openmrc.OpenMrcRequestConsumer;
-import org.tbk.openmrc.mapper.StandardOpenMrcJsonMapper;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
+import com.github.theborakompanioni.openmrc.mapper.StandardOpenMrcJsonMapper;
 import org.tbk.vishy.client.RequestToMapFunction;
 
 import java.util.Objects;

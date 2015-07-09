@@ -4,11 +4,11 @@ import com.codahale.metrics.MetricRegistry;
 import com.google.protobuf.ExtensionRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.tbk.openmrc.OpenMrcRequestConsumer;
-import org.tbk.openmrc.OpenMrcRequestInterceptor;
-import org.tbk.openmrc.mapper.OpenMrcHttpRequestMapper;
-import org.tbk.openmrc.web.OpenMrcHttpRequestService;
-import org.tbk.openmrc.web.OpenMrcWebConfigurationSupport;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
+import com.github.theborakompanioni.openmrc.mapper.OpenMrcHttpRequestMapper;
+import com.github.theborakompanioni.openmrc.web.OpenMrcHttpRequestService;
+import com.github.theborakompanioni.openmrc.web.OpenMrcWebConfigurationSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

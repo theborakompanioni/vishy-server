@@ -5,8 +5,8 @@ import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.DeviceUtils;
-import org.tbk.openmrc.OpenMrcExtensions;
-import org.tbk.openmrc.impl.ExtensionHttpRequestInterceptorSupport;
+import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
+import com.github.theborakompanioni.openmrc.impl.ExtensionHttpRequestInterceptorSupport;
 import org.tbk.vishy.utils.ExtractUserAgent;
 
 import javax.servlet.http.HttpServletRequest;

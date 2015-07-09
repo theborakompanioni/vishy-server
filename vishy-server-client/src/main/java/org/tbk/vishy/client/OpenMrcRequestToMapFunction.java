@@ -1,6 +1,6 @@
 package org.tbk.vishy.client;
 
-import org.tbk.openmrc.OpenMrc;
+import com.github.theborakompanioni.openmrc.OpenMrc;
 
 import java.util.Map;
 import java.util.function.Function;

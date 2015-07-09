@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.tbk.openmrc.web.OpenMrcHttpRequestService;
+import com.github.theborakompanioni.openmrc.web.OpenMrcHttpRequestService;
 import org.tbk.vishy.web.VishyOpenMrcCtrl;
 
 @Slf4j

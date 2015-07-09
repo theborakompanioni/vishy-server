@@ -5,8 +5,8 @@ import io.keen.client.java.KeenCallback;
 import io.keen.client.java.KeenClient;
 import io.keen.client.java.KeenProject;
 import lombok.extern.slf4j.Slf4j;
-import org.tbk.openmrc.OpenMrc;
-import org.tbk.openmrc.OpenMrcRequestConsumer;
+import com.github.theborakompanioni.openmrc.OpenMrc;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import org.tbk.vishy.client.OpenMrcRequestToMapFunction;
 
 import java.util.Map;

@@ -1,7 +1,7 @@
 package org.tbk.vishy.web;
 
 
-import org.tbk.openmrc.web.OpenMrcHttpRequestService;
+import com.github.theborakompanioni.openmrc.web.OpenMrcHttpRequestService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
