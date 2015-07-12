@@ -35,7 +35,7 @@ docker run -t \
   vishy('init', 'UA-48540954-6', 'auto');
 
   vishy('create', 'myElement', {
-    id: '42',
+    projectId: '42',
     readKey: '%%vishy.readKey%%',
     writeKey: '%%vishy.writeKey%%',
     protocol: 'http',
