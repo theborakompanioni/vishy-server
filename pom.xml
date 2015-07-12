@@ -34,6 +34,15 @@
         <mockito.version>1.10.19</mockito.version>
         <junitparams.version>1.0.4</junitparams.version>
         <openmrc.version>0.2.0-SNAPSHOT</openmrc.version>
+        <guava.version>18.0</guava.version>
+        <jackson.jdk8.version>2.5.3</jackson.jdk8.version>
+        <keen.client.version>2.1.1</keen.client.version>
+        <lombok.version>1.14.8</lombok.version>
+        <unirest.version>1.4.5</unirest.version>
+        <apache.httpclient.version>4.3.6</apache.httpclient.version>
+        <apache.httpasynccient.version>4.0.2</apache.httpasynccient.version>
+        <apache.httpmime.version>4.3.6</apache.httpmime.version>
+        <org.json.version>20140107</org.json.version>
     </properties>
 
     <profiles>
@@ -89,7 +98,7 @@
         <dependency>
             <groupId>io.keen</groupId>
             <artifactId>keen-client-api-java</artifactId>
-            <version>2.1.1</version>
+            <version>${keen.client.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.mobile</groupId>
@@ -99,44 +108,44 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.14.8</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.mashape.unirest</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>1.4.5</version>
+            <version>${unirest.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.3.6</version>
+            <version>${apache.httpclient.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpasyncclient</artifactId>
-            <version>4.0.2</version>
+            <version>${apache.httpasynccient.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
-            <version>4.3.6</version>
+            <version>${apache.httpmime.version}</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20140107</version>
+            <version>${org.json.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>18.0</version>
+            <version>${guava.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jdk8</artifactId>
-            <version>2.5.3</version>
+            <version>${jackson.jdk8.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
