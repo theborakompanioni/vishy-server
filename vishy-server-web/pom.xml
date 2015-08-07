@@ -48,6 +48,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.tbk.vishy</groupId>
+            <artifactId>vishy-web-ui</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.netflix.hystrix</groupId>
             <artifactId>hystrix-core</artifactId>
             <version>${hystrix.version}</version>

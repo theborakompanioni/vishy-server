@@ -1,0 +1,220 @@
+<!doctype html>
+<html class="no-js" ng-app="tbk.vishy-ui">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+  <!--link href='http://fonts.googleapis.com/css?family=Berkshire+Swash' rel='stylesheet' type='text/css'-->
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+  <!-- build:css styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/nvd3/src/nv.d3.css"/>
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css"/>
+  <link rel="stylesheet" href="bower_components/github-fork-ribbon-css/gh-fork-ribbon.ie.css"/>
+  <link rel="stylesheet" href="bower_components/highlightjs/styles/default.css"/>
+
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+  <link rel="stylesheet" href="bower_components/google-code-prettify/src/prettify.css"/>
+  <link rel="stylesheet" href="bower_components/google-code-prettify/styles/sunburst.css"/>
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:css({.tmp,app}) styles/main.css -->
+  <link rel="stylesheet" href="bower_components/github-fork-ribbon-css/gh-fork-ribbon.css">
+
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+
+  <!-- build:js scripts/modernizr.js -->
+  <script src="bower_components/modernizr/modernizr.js"></script>
+  <!-- endbuild -->
+
+  <script async
+          src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?autoload=true&amp;skin=sunburst&amp;lang=js"></script>
+
+  <title>vishy</title>
+</head>
+<body class="application">
+<!--[if lt IE 10]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+  your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<div data-tbk-header></div>
+
+<main class="container-fluid">
+  <div ui-view></div>
+</main>
+
+<div data-ng-include="'partials/navs/bottom.html'"></div>
+
+<!-- Google Analytics -->
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+  ga('create', 'UA-48540954-6', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function () {
+    var u = '//localhost:1080/piwik/';
+    _paq.push(['setTrackerUrl', u + 'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+    g.type = 'text/javascript';
+    g.async = true;
+    g.defer = true;
+    g.src = u + 'piwik.js';
+    s.parentNode.insertBefore(g, s);
+  })();
+</script>
+<noscript><p><img src="//localhost:1080/piwik/piwik.php?idsite=1" style="border:0;" alt=""/></p></noscript>
+<!-- End Piwik -->
+
+<!-- Segment.io
+<script type="text/javascript">
+  !function () {
+    var analytics = window.analytics = window.analytics || [];
+    if (!analytics.initialize)
+      if (analytics.invoked)
+        window.console && console.error && console.error("Segment snippet included twice.");
+      else {
+        analytics.invoked = !0;
+        analytics.methods = ["trackSubmit", "trackClick", "trackLink", "trackForm", "pageview", "identify", "group", "track", "ready", "alias", "page", "once", "off", "on"];
+        analytics.factory = function (t) {
+          return function () {
+            var e = Array.prototype.slice.call(arguments);
+            e.unshift(t);
+            analytics.push(e);
+            return analytics
+          }
+        };
+        for (var t = 0; t < analytics.methods.length; t++) {
+          var e = analytics.methods[t];
+          analytics[e] = analytics.factory(e)
+        }
+        analytics.load = function (t) {
+          var e = document.createElement("script");
+          e.type = "text/javascript";
+          e.async = !0;
+          e.src = ("https:" === document.location.protocol ? "https://" : "http://") + "cdn.segment.com/analytics.js/v1/" + t + "/analytics.min.js";
+          var n = document.getElementsByTagName("script")[0];
+          n.parentNode.insertBefore(e, n)
+        };
+        analytics.SNIPPET_VERSION = "3.0.1";
+        analytics.load('vkeLyauEBLwCnSj9Tf60u2KAsJ1xk8ra');
+        analytics.page()
+      }
+  }();
+</script>-->
+<!-- End Segment.io -->
+
+<!--script src="bower_components/vissense-timer/dist/vissense.timer.js"></script>
+<script src="bower_components/vissense-metrics/dist/vissense.metrics.js"></script-->
+
+<!-- build:js scripts/vendor.js -->
+<!-- bower:js -->
+
+<script src="bower_components/google-code-prettify/src/prettify.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/lodash/dist/lodash.compat.js"></script>
+<script src="bower_components/restangular/dist/restangular.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/d3/d3.js"></script>
+<script src="bower_components/nvd3/nv.d3.js"></script>
+<script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js({app,.tmp}) scripts/main.js -->
+<script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/transition.js"></script>
+<script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/affix.js"></script>
+<script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/collapse.js"></script>
+
+<script src="bower_components/tbk-angular-background-animations/dist/tbk-angular-background-animations.js"></script>
+<script src="bower_components/tbk-angular-draggable/main.js"></script>
+<script src="bower_components/tbk-angular-github-version/main.js"></script>
+<script src="bower_components/tbk-angular-readable-time/dist/tbk-angular-readable-time.js"></script>
+<script src="bower_components/angular-vissense/dist/angular-vissense.js"></script>
+
+<script src="bower_components/vissense/dist/vissense.js"></script>
+<script src="bower_components/vissense-metrics/dist/vissense.metrics.js"></script>
+<script src="bower_components/vissense-percentage-time-test/dist/vissense-percentage-time-test.js"></script>
+<script src="bower_components/vissense-user-activity/dist/vissense-user-activity.js"></script>
+
+<script src="bower_components/keen-js/dist/keen.min.js"></script>
+
+<script src="lib/vissense-simple-client-monitor/index.js"></script>
+<script src="lib/vissense-simple-client-monitor/tmp-helpers.js"></script>
+
+<script src="lib/vissense-simple-vishy-client-monitor/index.js"></script>
+<script src="lib/vissense-simple-keenio-client-monitor/index.js"></script>
+<script src="lib/vissense-simple-piwik-client-monitor/index.js"></script>
+<script src="lib/vissense-simple-google-client-monitor/index.js"></script>
+<script src="lib/vissense-simple-segmentio-client-monitor/index.js"></script>
+
+<script src="bower_components/angular-keenio/dist/angular-keenio.js"></script>
+
+<script src="lib/angular-vishy/index.js"></script>
+
+<script src="scripts/app.js"></script>
+<script src="scripts/states.js"></script>
+<script src="scripts/directives.js"></script>
+<script src="scripts/filters.js"></script>
+<script src="scripts/controllers.js"></script>
+
+<script src="modules/dashboard/index.js"></script>
+
+<script src="modules/dashboard/language/directives.js"></script>
+<script src="modules/dashboard/geolocation/directives.js"></script>
+<script src="modules/dashboard/operatingsystem/directives.js"></script>
+<script src="modules/dashboard/device/directives.js"></script>
+
+<script src="modules/dashboard/states.js"></script>
+<script src="modules/dashboard/filters.js"></script>
+<script src="modules/dashboard/directives.js"></script>
+<script src="modules/dashboard/controllers.js"></script>
+<script src="modules/dashboard/angular-keenio-demo-directives.js"></script>
+
+
+<script src="modules/showcase/index.js"></script>
+<script src="modules/showcase/states.js"></script>
+<script src="modules/showcase/directives.js"></script>
+<script src="modules/showcase/controllers.js"></script>
+
+<script src="modules/report/index.js"></script>
+<script src="modules/report/states.js"></script>
+<script src="modules/report/directives.js"></script>
+<script src="modules/report/controllers.js"></script>
+
+<script src="modules/project/index.js"></script>
+<script src="modules/project/states.js"></script>
+<script src="modules/project/directives.js"></script>
+<script src="modules/project/controllers.js"></script>
+<!-- inject:partials -->
+<!-- endinject -->
+<!-- endbuild -->
+
+</body>
+</html>

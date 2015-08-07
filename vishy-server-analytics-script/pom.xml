@@ -33,24 +33,28 @@
                         <configuration>
                             <target>
                                 <macrodef name="grunt">
-                                    <attribute name="dir" />
+                                    <attribute name="dir"/>
                                     <sequential>
-                                        <echo>====================================================================================</echo>
+                                        <echo>
+                                            ====================================================================================
+                                        </echo>
                                         <echo>======== grunt: @{dir}</echo>
-                                        <echo>====================================================================================</echo>
+                                        <echo>
+                                            ====================================================================================
+                                        </echo>
                                         <exec os="Windows 7" executable="cmd" dir="@{dir}" failonerror="true">
-                                            <arg value="/c" />
-                                            <arg value="npm" />
-                                            <arg value="install" />
+                                            <arg value="/c"/>
+                                            <arg value="npm"/>
+                                            <arg value="install"/>
                                         </exec>
                                         <exec os="Windows 7" executable="cmd" dir="@{dir}"
                                               failonerror="true">
-                                            <arg value="/c" />
-                                            <arg value="%APPDATA%/npm/grunt" />
+                                            <arg value="/c"/>
+                                            <arg value="%APPDATA%/npm/grunt"/>
                                         </exec>
                                         <exec os="Linux" executable="npm" dir="@{dir}"
                                               failonerror="true">
-                                            <arg value="install" />
+                                            <arg value="install"/>
                                         </exec>
                                         <exec os="Linux" executable="/usr/bin/grunt" dir="@{dir}"
                                               failonerror="true">
@@ -58,7 +62,7 @@
                                     </sequential>
                                 </macrodef>
 
-                                <grunt dir="${project.basedir}/src/main/resources/vishy-analytics" />
+                                <grunt dir="${project.basedir}/src/main/resources/vishy-analytics"/>
                             </target>
                         </configuration>
                         <goals>

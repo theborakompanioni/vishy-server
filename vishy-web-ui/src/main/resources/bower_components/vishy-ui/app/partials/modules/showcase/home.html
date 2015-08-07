@@ -1,0 +1,156 @@
+<style>
+  #myElement {
+    border: 2px solid #333;
+    border-radius: 25px;
+    position: relative;
+    background-color: #e5e5e5;
+    cursor: pointer;
+    padding: 40px;
+    width: 300px;
+    margin: 0 auto;
+    z-index: 9999;
+  }
+
+  #vishy-showcase .vissense-metrics-container {
+    font-size: 10px;
+    margin: 0px;
+    position: fixed;
+    right: 42px;
+    bottom: 13px;
+    width: 500px;
+    height: 130px;
+    z-index: 99999;
+    background-color: rgba(242, 242, 242, 0.9);
+  }
+
+  #vishy-showcase .vissense-metrics-container .vissense-flexbox .box {
+    font-size: 12px;
+    padding: 6px;
+    width: 120px;
+    text-align: center;
+  }
+
+  .visible-xs .vissense-metrics-container,
+  .visible-sm .vissense-metrics-container {
+    margin-top: 30px;
+    z-index: 1;
+    min-width: 600px;
+
+    position: relative !important;
+    left: initial !important;
+    bottom: initial !important;
+    width: initial !important;
+    height: initial !important;
+  }
+</style>
+
+<div id="vishy-showcase" class="container">
+  <h3><strong>Vis</strong>hy Showcase</h3>
+
+  <p class="lead">
+    When the button is pressed all visibility events of an element will be monitored and recorded.
+    Element are considered visible if more than
+    {{model.hidden * 100 | number:1}}% of their surface area is in the
+    viewable portion of a users browser. Elements are considered
+    hidden when a user is idle for {{model.inactiveAfter / 1000 | number:0}} seconds.
+    Recording will stop after {{model.autoStop}} seconds.
+
+  </p>
+
+  <p>
+    Navigate to the
+    <a data-ui-sref="showcase.multi-element-showcase">
+      multiple element showcase
+    </a>
+    to see more than one element monitored concurrently.
+  </p>
+
+  <div style="text-align: center; margin: 20px 0 30px 0;">
+    <button class="btn btn-primary btn-lg"
+            data-ng-click="start(['myElement']);"
+            data-ng-hide="model.running">
+      Start recording
+    </button>
+
+    <button class="btn btn-danger btn-lg"
+            data-ng-click="stop();"
+            data-ng-show="model.running">
+      Stop recording (auto-stop in {{model.autoStopCountdown}}s)
+    </button>
+  </div>
+
+  <div id="myElement" data-tbk-draggable>
+    <div vishy-showcase-default-draggable-element="myElement"></div>
+  </div>
+
+  <div data-ng-if="model.running">
+    <div class="visible-xs visible-sm"
+         data-vissense-metrics-infocard="myElement"
+         data-inactive-after="{{model.inactiveAfter}}"
+         data-hidden="{{model.hidden}}"></div>
+    <div class="visible-md visible-lg"
+         data-vissense-metrics-infocard="myElement"
+         data-inactive-after="{{model.inactiveAfter}}"
+         data-hidden="{{model.hidden}}"></div>
+  </div>
+
+
+  <div style="margin-top: 30px;">
+    <table class="table table-bordered table-striped">
+      <colgroup>
+        <col span="1">
+        <col span="1">
+        <col span="1">
+        <col span="1">
+        <col span="1">
+      </colgroup>
+      <thead>
+      <tr>
+        <th>percentage</th>
+        <th>50/1 Test</th>
+        <th>60/1 Test</th>
+        <th>66/3 Test *</th>
+        <th>100/10 Test **</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr data-ng-if="!model.running">
+        <td><span data-vissense-percentage="myElement"></span></td>
+        <td colspan="100">
+          <div class="alert alert-info">
+            Visibility Percentage Time Tests will immediately start when recording.
+          </div>
+        </td>
+      </tr>
+      <tr data-ng-if="model.running">
+        <td><span data-vissense-percentage="myElement"></span></td>
+        <td><span data-vissense-fifty-one-test="myElement"></span></td>
+        <td><span data-vissense-sixty-one-test="myElement"></span></td>
+        <td><span data-vissense-percentage-time-test="myElement"
+                  data-percentage-limit="0.66"
+                  data-time-limit="3000"
+                  data-interval="100"></span></td>
+        <td><span data-vissense-percentage-time-test="myElement"
+                  data-percentage-limit="1"
+                  data-time-limit="10000"
+                  data-interval="100"></span></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <p class="">
+      <small>* 66/3 Test: At least 66% visible for 3 seconds.</small>
+      <br/>
+      <small>** 100/10 Test: Fully visible for 10 seconds.</small>
+      <br/>
+    </p>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12" data-ng-repeat="request in model.requests">
+      <h4>{{request.name}}</h4>
+      <pre style="font-size: 11px;">{{ request.data | json }}</pre>
+    </div>
+  </div>
+
+</div>
