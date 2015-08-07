@@ -1,5 +1,11 @@
 package org.tbk.vishy;
 
+import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
+import com.github.theborakompanioni.openmrc.VishyOpenMrcExtensions;
+import com.github.theborakompanioni.openmrc.mapper.OpenMrcHttpRequestMapper;
+import com.github.theborakompanioni.openmrc.mapper.StandardOpenMrcJsonMapper;
+import com.github.theborakompanioni.openmrc.web.OpenMrcHttpRequestService;
 import com.google.common.collect.Lists;
 import com.google.protobuf.ExtensionRegistry;
 import lombok.extern.slf4j.Slf4j;
@@ -8,11 +14,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClas
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
-import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
-import com.github.theborakompanioni.openmrc.VishyOpenMrcExtensions;
-import com.github.theborakompanioni.openmrc.mapper.OpenMrcHttpRequestMapper;
-import com.github.theborakompanioni.openmrc.mapper.StandardOpenMrcJsonMapper;
+import org.tbk.vishy.hystrix.HystrixVishyOpenMrcHttpRequestService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -36,6 +38,12 @@ public class VishyOpenMrcConfiguration extends SpringOpenMrcConfigurationSupport
     public StandardOpenMrcJsonMapper openMrcJsonMapper() {
         StandardOpenMrcJsonMapper standardOpenMrcJsonMapper = new StandardOpenMrcJsonMapper(extensionRegistry(), metricsRegistry());
         return standardOpenMrcJsonMapper;
+    }
+
+    @Override
+    @Bean
+    public OpenMrcHttpRequestService httpRequestService() {
+        return new HystrixVishyOpenMrcHttpRequestService(httpRequestMapper(), openMrcRequestConsumer());
     }
 
     @Override
