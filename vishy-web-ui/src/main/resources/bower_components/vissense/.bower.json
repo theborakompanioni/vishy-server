@@ -52,6 +52,6 @@
     "commit": "f1a9d3044e2287ac877469fd7aa9168066e45193"
   },
   "_source": "git://github.com/vissense/vissense.git",
-  "_target": "0.8.0",
+  "_target": "~0.8.0",
   "_originalSource": "vissense"
 }

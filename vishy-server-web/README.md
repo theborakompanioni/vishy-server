@@ -4,6 +4,9 @@ vishy-server-web
 ## build and run
 `mvn clean package && java -jar target/vishy-server-web-<version>.jar`
 
+### spring-boot
+`mvn -pl vishy-server-web spring-boot:run`
+
 ### docker
 ```
 cd vishy-server-web/

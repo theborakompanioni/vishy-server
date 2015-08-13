@@ -1,6 +1,6 @@
 {
   "name": "vishy-ui",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "dependencies": {
     "modernizr": "2.6.2",
     "angular": "1.2.18",
@@ -36,13 +36,13 @@
     "angular": "1.2.18"
   },
   "homepage": "https://github.com/theborakompanioni/vishy-ui",
-  "_release": "0.3.0",
+  "_release": "0.4.0",
   "_resolution": {
     "type": "version",
-    "tag": "0.3.0",
-    "commit": "e63c25632e78886e18ce46c4f1fa2f0a4060c24b"
+    "tag": "0.4.0",
+    "commit": "879254a6bed653d0d2c9aebc29856735171d6549"
   },
   "_source": "git://github.com/theborakompanioni/vishy-ui.git",
-  "_target": "~0.3.0",
+  "_target": "~0.4.0",
   "_originalSource": "theborakompanioni/vishy-ui"
 }

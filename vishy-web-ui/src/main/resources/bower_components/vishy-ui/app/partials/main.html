@@ -139,7 +139,7 @@
       a.async = 1;
       a.src = g;
       m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//localhost:8080/static/vishy-analytics/dist/vishy-analytics.min.js', 'vishy');
+    })(window, document, 'script', '//openmrc.herokuapp.com/static/vishy-analytics/dist/vishy-analytics.min.js', 'vishy');
 
     vishy('init', 'UA-48540954-6', 'auto');
 
@@ -147,9 +147,9 @@
       projectId: '42',
       readKey: '%%vishy.readKey%%',
       writeKey: '%%vishy.writeKey%%',
-      protocol: 'http',
-      host: 'localhost',
-      port: 8080,
+      protocol: 'https',
+      host: 'openmrc.herokuapp.com',
+      port: 80,
       requestType: 'xhr'
     });
 
