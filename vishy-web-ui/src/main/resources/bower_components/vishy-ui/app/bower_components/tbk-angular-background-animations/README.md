@@ -1,2 +1,0 @@
-# tbk-angular-background-animations
-
