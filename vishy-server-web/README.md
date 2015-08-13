@@ -17,6 +17,11 @@ docker run -t \
   tbk/vishy-server-web
 ```
 
+### heroku
+`cd vishy-server-web`
+`mvn clean heroku:deploy`
+
+
 ```html
 <script async>
 

@@ -372,7 +372,7 @@
 
   var createMonitor = function (VisSense, elementId, config) {
     var Utils = VisSense.Utils;
-    var vishyConfig = Utils.extend(config, {
+    var vishyConfig = Utils.defaults(config, {
       readKey: '%%vishy.readKey%%',
       writeKey: '%%vishy.writeKey%%',
       protocol: 'http',
