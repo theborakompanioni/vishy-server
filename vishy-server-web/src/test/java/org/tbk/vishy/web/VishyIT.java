@@ -47,14 +47,14 @@ public class VishyIT {
 
     @Test
     public void testHelloGet() throws Exception {
-        mockMvc.perform(get("/openmrc/hello")
+        mockMvc.perform(get("/hello")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testHelloPost() throws Exception {
-        mockMvc.perform(post("/openmrc/hello")
+        mockMvc.perform(post("/hello")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
