@@ -27,9 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@WebIntegrationTest
 @ContextConfiguration(classes = {VishyServerConfiguration.class})
+@WebAppConfiguration
+@WebIntegrationTest("server.port:0")
 public class VishyIT {
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
