@@ -3,11 +3,12 @@ package org.tbk.vishy.hystrix;
 import com.github.theborakompanioni.openmrc.OpenMrc;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.netflix.hystrix.HystrixCommand;
-import com.netflix.hystrix.HystrixCommandGroupKey;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by void on 07.08.15.
  */
+@Slf4j
 public class ProcessOpenMrcRequestCommand extends HystrixCommand<OpenMrc.Request> {
 
     private final OpenMrcRequestConsumer consumer;
@@ -22,6 +23,12 @@ public class ProcessOpenMrcRequestCommand extends HystrixCommand<OpenMrc.Request
     @Override
     protected OpenMrc.Request run() {
         consumer.accept(request);
+        return request;
+    }
+
+    @Override
+    protected OpenMrc.Request getFallback() {
+        log.warn("Returning unprocessed request: {}", request);
         return request;
     }
 }

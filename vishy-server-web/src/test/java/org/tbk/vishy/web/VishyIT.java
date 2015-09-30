@@ -1,22 +1,22 @@
 package org.tbk.vishy.web;
 
+import com.github.theborakompanioni.openmrc.mother.InitialRequests;
+import com.github.theborakompanioni.openmrc.mother.StatusRequests;
+import com.github.theborakompanioni.openmrc.mother.SummaryRequests;
 import com.google.common.net.HttpHeaders;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.annotation.Repeat;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import com.github.theborakompanioni.openmrc.mother.InitialRequests;
-import com.github.theborakompanioni.openmrc.mother.StatusRequests;
-import com.github.theborakompanioni.openmrc.mother.SummaryRequests;
 import org.tbk.vishy.VishyServerConfiguration;
 
 import java.nio.charset.Charset;
@@ -27,8 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {VishyServerConfiguration.class})
-@WebAppConfiguration
+@SpringApplicationConfiguration(classes = {VishyServerConfiguration.class})
 @WebIntegrationTest("server.port:0")
 public class VishyIT {
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
@@ -123,12 +122,14 @@ public class VishyIT {
     }
 
     @Test
+    @Repeat(5)
     public void itShouldAcceptValidSummaryRequests() throws Exception {
         String requestJson = "{\"type\":\"SUMMARY\",\"monitorId\":\"856712dd-5901-4498-9fbc-3dd0a7fd81c8\",\"summary\":{\"report\":{\"timeHidden\":0,\"timeVisible\":60212,\"timeFullyVisible\":60212,\"timeRelativeVisible\":60212,\"duration\":60213,\"timeStarted\":1435008028728,\"percentage\":{\"current\":1,\"maximum\":1,\"minimum\":1}}},\"sessionId\":\"db87f89e-7fd4-410f-b380-0dbca9fd7a98\",\"viewport\":{\"width\":960,\"height\":515},\"vishy\":{\"id\":\"42\",\"projectId\":\"myElement\"}}";
         send(requestJson).andExpect(status().isAccepted());
     }
 
     @Test
+    @Repeat(5)
     public void itShouldDeclineRequestsWithoutValidStatus() throws Exception {
         String requestJson = "{\"type\":\"STATUS--invalid--\",\"monitorId\":\"8\",\"status\":{\"test\":{\"monitorState\":{\"code\":2,\"state\":\"fullyvisible\",\"percentage\":1,\"previous\":{\"code\":2,\"state\":\"fullyvisible\",\"percentage\":1,\"fullyvisible\":true,\"visible\":true,\"hidden\":false},\"fullyvisible\":true,\"visible\":true,\"hidden\":false},\"testConfig\":{\"percentageLimit\":0.5,\"timeLimit\":1000,\"interval\":100},\"timeReport\":{\"timeHidden\":0,\"timeVisible\":1068,\"timeFullyVisible\":1068,\"timeRelativeVisible\":1068,\"duration\":1068,\"timeStarted\":1435006723958,\"percentage\":{\"current\":1,\"maximum\":1,\"minimum\":1}}}},\"sessionId\":\"557a4811-7e29-4bb2-8f43-66fb3929591b\",\"viewport\":{\"width\":1920,\"height\":372},\"vishy\":{\"id\":\"42\",\"projectId\":\"myElement\"}}";
         send(requestJson).andExpect(status().isBadRequest());
