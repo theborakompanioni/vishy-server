@@ -13,8 +13,6 @@
 
     <properties>
         <start-class>org.tbk.vishy.Application</start-class>
-        <hystrix.version>1.4.14</hystrix.version>
-        <rxjava_version_requested_by_hystrix-core_1_4_14>1.0.13</rxjava_version_requested_by_hystrix-core_1_4_14>
     </properties>
 
     <dependencies>
@@ -55,13 +53,10 @@
         <dependency>
             <groupId>com.netflix.hystrix</groupId>
             <artifactId>hystrix-core</artifactId>
-            <version>${hystrix.version}</version>
         </dependency>
         <dependency>
             <groupId>io.reactivex</groupId>
             <artifactId>rxjava</artifactId>
-            <version>${rxjava_version_requested_by_hystrix-core_1_4_14}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.theborakompanioni</groupId>
