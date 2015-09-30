@@ -9,13 +9,12 @@ import com.netflix.hystrix.HystrixCommandGroupKey;
  * Created by void on 07.08.15.
  */
 public class ProcessOpenMrcRequestCommand extends HystrixCommand<OpenMrc.Request> {
-    private final static HystrixCommandGroupKey DEFAULT_KEY = HystrixCommandGroupKey.Factory.asKey("ProcessOpenMrcRequest");
 
     private final OpenMrcRequestConsumer consumer;
     private final OpenMrc.Request request;
 
-    public ProcessOpenMrcRequestCommand(OpenMrcRequestConsumer consumer, OpenMrc.Request request) {
-        super(DEFAULT_KEY);
+    public ProcessOpenMrcRequestCommand(Setter setter, OpenMrcRequestConsumer consumer, OpenMrc.Request request) {
+        super(setter);
         this.consumer = consumer;
         this.request = request;
     }
