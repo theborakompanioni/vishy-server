@@ -2,28 +2,38 @@ package org.tbk.vishy;
 
 import com.google.common.base.Joiner;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.Environment;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
 @SpringBootApplication
 public class Application {
 
-    public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(Application.class, args);
+    @Autowired
+    Environment environment;
 
-        printBeanDefinitionNames(ctx);
-        printEnvironmentVariables(ctx);
+    @Autowired
+    ApplicationContext ctx;
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
     }
 
+    @PostConstruct
+    public void init() {
+        if (environment.acceptsProfiles("development")) {
+            printBeanDefinitionNames(ctx);
+            printEnvironmentVariables(ctx);
+        }
+    }
 
     private static void printBeanDefinitionNames(ApplicationContext ctx) {
         Joiner comaJoiner = Joiner.on(", ");
