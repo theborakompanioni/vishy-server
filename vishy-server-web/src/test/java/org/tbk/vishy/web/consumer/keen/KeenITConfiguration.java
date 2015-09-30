@@ -21,6 +21,7 @@ import static org.mockito.Mockito.spy;
 @ConditionalOnProperty("vishy.keenio.enabled")
 class KeenITConfiguration extends KeenIoConfig {
 
+    @Override
     @Bean
     @Primary
     public OpenMrcRequestConsumer keenOpenMrcClientAdapter() {

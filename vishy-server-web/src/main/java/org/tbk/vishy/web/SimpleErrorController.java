@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SimpleErrorController implements ErrorController {
-    private static final String PATH = "/error";
+    private static final String ERROR_PATH = "/error";
 
-    @RequestMapping(value = PATH, method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = ERROR_PATH, method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<String> hello() {
         return ResponseEntity.ok("{\n" +
                 "  \"error\": true,\n" +
@@ -20,6 +20,6 @@ public class SimpleErrorController implements ErrorController {
 
     @Override
     public String getErrorPath() {
-        return PATH;
+        return ERROR_PATH;
     }
 }

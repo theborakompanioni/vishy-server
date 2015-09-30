@@ -10,6 +10,19 @@ logging.file: application.log
 logging.config: classpath:logback.xml
 logging.level.org.springframework: INFO
 
+vishy.metrics:
+  enabled: true
+
+vishy.influxdb:
+  enabled: false
+  host-variable: INFLUXDB_1_PORT_8086_TCP_ADDR
+  port-variable: INFLUXDB_1_PORT_8086_TCP_PORT
+  database: db
+  username: root
+  password: root
+  skipIdleMetrics: true
+  intervalInSeconds: 60
+
 vishy.segmentio:
   enabled: true
   writeKey: vkeLyauEBLwCnSj9Tf60u2KAsJ1xk8ra

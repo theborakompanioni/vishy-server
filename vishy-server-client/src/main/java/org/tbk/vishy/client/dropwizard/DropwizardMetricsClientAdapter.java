@@ -3,9 +3,9 @@ package org.tbk.vishy.client.dropwizard;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
-import lombok.extern.slf4j.Slf4j;
 import com.github.theborakompanioni.openmrc.OpenMrc;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by void on 01.05.15.
@@ -21,20 +21,20 @@ public class DropwizardMetricsClientAdapter implements OpenMrcRequestConsumer {
         private final Histogram timeHidden;
         private final Histogram timeTotal;
 
-        public VishyMetrics(MetricRegistry metricsRegistry) {
-            this.incomingRequests = metricsRegistry.meter(MetricRegistry.name(METRIC_PREFIX, "requests.incoming"));
+        public VishyMetrics(String prefix, MetricRegistry metricsRegistry) {
+            this.incomingRequests = metricsRegistry.meter(MetricRegistry.name(prefix, "requests.incoming"));
 
-            this.timeVisible = metricsRegistry.histogram(MetricRegistry.name(METRIC_PREFIX, "time.visible"));
-            this.timeFullyVisible = metricsRegistry.histogram(MetricRegistry.name(METRIC_PREFIX, "time.fullyvisible"));
-            this.timeHidden = metricsRegistry.histogram(MetricRegistry.name(METRIC_PREFIX, "time.hidden"));
-            this.timeTotal = metricsRegistry.histogram(MetricRegistry.name(METRIC_PREFIX, "time.total"));
+            this.timeVisible = metricsRegistry.histogram(MetricRegistry.name(prefix, "time.visible"));
+            this.timeFullyVisible = metricsRegistry.histogram(MetricRegistry.name(prefix, "time.fullyvisible"));
+            this.timeHidden = metricsRegistry.histogram(MetricRegistry.name(prefix, "time.hidden"));
+            this.timeTotal = metricsRegistry.histogram(MetricRegistry.name(prefix, "time.total"));
         }
     }
 
     private final VishyMetrics vishyMetrics;
 
     public DropwizardMetricsClientAdapter(MetricRegistry metricsRegistry) {
-        this.vishyMetrics = new VishyMetrics(metricsRegistry);
+        this.vishyMetrics = new VishyMetrics(METRIC_PREFIX, metricsRegistry);
     }
 
     @Override

@@ -6,10 +6,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.tbk.vishy.client.RequestToMapFunction;
 import org.tbk.vishy.client.segmentio.SegmentIoConfig;
 import org.tbk.vishy.client.segmentio.SegmentIoProperties;
-import org.tbk.vishy.client.segmentio.SegmentOpenMrcClientAdapter;
 
 import static org.mockito.Mockito.spy;
 
@@ -18,13 +16,10 @@ import static org.mockito.Mockito.spy;
 @ConditionalOnProperty("vishy.segmentio.enabled")
 class SegmentITConfiguration extends SegmentIoConfig {
 
+    @Override
     @Bean
     @Primary
     public OpenMrcRequestConsumer analyticsClient() {
-        final SegmentOpenMrcClientAdapter client = new SegmentOpenMrcClientAdapter(analytics(), new RequestToMapFunction());
-
-        final SegmentOpenMrcClientAdapter clientSpy = spy(client);
-
-        return clientSpy;
+        return spy(super.analyticsClient());
     }
 }

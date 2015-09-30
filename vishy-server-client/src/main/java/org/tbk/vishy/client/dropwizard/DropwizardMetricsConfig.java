@@ -2,24 +2,24 @@ package org.tbk.vishy.client.dropwizard;
 
 import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.MetricRegistry;
-import com.google.common.base.Strings;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.*;
-import org.springframework.core.type.AnnotatedTypeMetadata;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Configuration
-@Conditional(DropwizardMetricsConfig.DropwizardMetricsCondition.class)
+@EnableConfigurationProperties(DropwizardMetricsProperties.class)
+@ConditionalOnProperty(value = "vishy.metrics.enabled", matchIfMissing = true)
 public class DropwizardMetricsConfig {
-    public static class DropwizardMetricsCondition implements Condition {
-        @Override
-        public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-            return !Strings.nullToEmpty(context.getEnvironment().getProperty("VISHY_ENABLE_METRICS")).equalsIgnoreCase("false");
-        }
-    }
+
+    @Autowired
+    private DropwizardMetricsProperties properties;
 
     @Bean
     public OpenMrcRequestConsumer dropwizardMetricsOpenMrcClientAdapter() {
@@ -28,19 +28,18 @@ public class DropwizardMetricsConfig {
 
     @Bean
     public MetricRegistry metricRegistry() {
-        MetricRegistry metricRegistry = new MetricRegistry();
-
-        return metricRegistry;
+        return new MetricRegistry();
     }
 
     @Bean
+    @ConditionalOnProperty("vishy.metrics.console")
     public ConsoleReporter consoleReporter() {
         ConsoleReporter reporter = ConsoleReporter.forRegistry(metricRegistry())
                 .convertRatesTo(TimeUnit.SECONDS)
                 .convertDurationsTo(TimeUnit.MILLISECONDS)
                 .build();
 
-        reporter.start(60, TimeUnit.SECONDS);
+        reporter.start(properties.getIntervalInSeconds(), TimeUnit.SECONDS);
 
         return reporter;
     }
