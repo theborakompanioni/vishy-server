@@ -11,12 +11,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 
-import javax.annotation.PostConstruct;
 import java.util.concurrent.TimeUnit;
-
-import static java.util.Objects.requireNonNull;
 
 @Slf4j
 @Configuration
@@ -25,31 +21,17 @@ import static java.util.Objects.requireNonNull;
 @EnableConfigurationProperties(InfluxdbProperties.class)
 public class InfluxdbMetricsConfig {
 
-    @Autowired
-    private Environment environment;
 
     @Autowired
     private InfluxdbProperties properties;
 
-    private String host;
-    private String port;
-
-    @PostConstruct
-    public void init() {
-        String hostVariableName = requireNonNull(properties.getHostVariable());
-        String portVariableName = requireNonNull(properties.getPortVariable());
-
-        this.host = environment.getRequiredProperty(hostVariableName);
-        this.port = environment.getRequiredProperty(portVariableName);
-    }
-
     @Bean
     public InfluxdbHttp influxdbHttp() throws Exception {
-        log.info("prepare influxdb reporter: {}:{}", host, port);
+        log.info("prepare influxdb reporter: {}:{}", properties.getHost(), properties.getPort());
 
         InfluxdbHttp influxdbHttp = new InfluxdbHttp(
-                host,
-                Integer.valueOf(port),
+                properties.getHost(),
+                Integer.valueOf(properties.getPort()),
                 properties.getDatabase(),
                 properties.getUsername(),
                 properties.getPassword()

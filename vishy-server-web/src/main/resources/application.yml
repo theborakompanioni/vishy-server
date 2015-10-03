@@ -4,6 +4,8 @@ spring.main.show-banner: true
 app.name: vishy-server
 app.description: a simple openmrc server
 
+management.context-path: /actuator
+
 # LOGGING
 logging.path: ./var/log
 logging.file: application.log
@@ -15,17 +17,17 @@ vishy.metrics:
 
 vishy.influxdb:
   enabled: false
-  host-variable: INFLUXDB_1_PORT_8086_TCP_ADDR
-  port-variable: INFLUXDB_1_PORT_8086_TCP_PORT
+  host: ${INFLUXDB_1_PORT_8086_TCP_ADDR}
+  port: ${INFLUXDB_1_PORT_8086_TCP_PORT}
   database: db
   username: root
   password: root
-  skipIdleMetrics: true
-  intervalInSeconds: 60
+  skip-idle-metrics: true
+  interval-in-seconds: 60
 
 vishy.segmentio:
   enabled: true
-  writeKey: vkeLyauEBLwCnSj9Tf60u2KAsJ1xk8ra
+  write-key: vkeLyauEBLwCnSj9Tf60u2KAsJ1xk8ra
 
 vishy.keenio:
   enabled: true

@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class InfluxdbProperties {
 
     private boolean enabled;
-    private String hostVariable;
-    private String portVariable;
+    private String host;
+    private String port;
     private String database;
     private String username;
     private String password;
@@ -46,22 +46,6 @@ public class InfluxdbProperties {
         this.password = password;
     }
 
-    public String getHostVariable() {
-        return hostVariable;
-    }
-
-    public void setHostVariable(String hostVariable) {
-        this.hostVariable = hostVariable;
-    }
-
-    public String getPortVariable() {
-        return portVariable;
-    }
-
-    public void setPortVariable(String portVariable) {
-        this.portVariable = portVariable;
-    }
-
     public boolean isSkipIdleMetrics() {
         return skipIdleMetrics;
     }
@@ -76,5 +60,21 @@ public class InfluxdbProperties {
 
     public void setIntervalInSeconds(long intervalInSeconds) {
         this.intervalInSeconds = intervalInSeconds;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
     }
 }
