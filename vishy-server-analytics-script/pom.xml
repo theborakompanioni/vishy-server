@@ -42,27 +42,35 @@
                                         <echo>
                                             ====================================================================================
                                         </echo>
-                                        <exec os="Windows 7" executable="cmd" dir="@{dir}" failonerror="true">
+                                        <exec osfamily="windows" executable="cmd" dir="@{dir}" failonerror="true">
                                             <arg value="/c"/>
                                             <arg value="npm"/>
                                             <arg value="install"/>
                                         </exec>
-                                        <exec os="Windows 7" executable="cmd" dir="@{dir}"
-                                              failonerror="true">
+                                        <exec osfamily="windows" executable="cmd" dir="@{dir}" failonerror="true"
+                                              resultproperty="cmdresult" output="grunt.status">
                                             <arg value="/c"/>
                                             <arg value="%APPDATA%/npm/grunt"/>
                                         </exec>
-                                        <exec os="Linux" executable="npm" dir="@{dir}"
-                                              failonerror="true">
-                                            <arg value="install"/>
+
+                                        <exec osfamily="unix" executable="bash" dir="@{dir}" failonerror="true">
+                                            <arg line="-c 'npm install'"/>
                                         </exec>
-                                        <exec os="Linux" executable="grunt" dir="@{dir}"
-                                              failonerror="true">
+                                        <exec osfamily="unix" executable="bash" dir="@{dir}" failonerror="true"
+                                              resultproperty="cmdresult" output="grunt.status">
+                                            <arg line="-c 'grunt'"/>
                                         </exec>
                                     </sequential>
                                 </macrodef>
 
                                 <grunt dir="${project.basedir}/src/main/resources/vishy-analytics"/>
+                                <loadfile property="grunt.status" srcFile="grunt.status"/>
+                                <echo>${grunt.status}</echo>
+                                <delete file="grunt.status" quiet="true"/>
+                                <condition property="cmdsuccess">
+                                    <equals arg1="${cmdresult}" arg2="0"/>
+                                </condition>
+                                <fail unless="cmdsuccess"/>
                             </target>
                         </configuration>
                         <goals>
