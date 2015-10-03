@@ -56,7 +56,7 @@
                                               failonerror="true">
                                             <arg value="install"/>
                                         </exec>
-                                        <exec os="Linux" executable="/usr/bin/grunt" dir="@{dir}"
+                                        <exec os="Linux" executable="grunt" dir="@{dir}"
                                               failonerror="true">
                                         </exec>
                                     </sequential>
