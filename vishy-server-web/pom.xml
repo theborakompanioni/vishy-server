@@ -101,16 +101,6 @@
                     </resources>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>com.heroku.sdk</groupId>
-                <artifactId>heroku-maven-plugin</artifactId>
-                <version>0.4.4</version>
-                <configuration>
-                    <jdkVersion>1.8</jdkVersion>
-                    <appName>openmrc</appName>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
