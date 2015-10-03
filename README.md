@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/theborakompanioni/vishy-server.svg?branch=master)](https://travis-ci.org/theborakompanioni/vishy-server)
+
 vishy-server
 ===
 
