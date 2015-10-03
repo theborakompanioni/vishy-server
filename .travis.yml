@@ -5,10 +5,9 @@ jdk:
 cache:
   directories:
     - $HOME/.m2
+before_install:
+  - ./install-protobuf.sh
 install:
-  - wget https://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz
-  - tar -xzvf protobuf-2.4.1.tar.gz
-  - cd protobuf-2.4.1 && ./configure --prefix=/usr && make && sudo make install
   - mvn install -DskipTests=true -Dgpg.skip=true -Dmaven.javadoc.skip=true -B -V
 before_script:
   - echo $HOME
