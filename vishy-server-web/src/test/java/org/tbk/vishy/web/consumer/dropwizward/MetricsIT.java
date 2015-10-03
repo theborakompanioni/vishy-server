@@ -1,9 +1,12 @@
 package org.tbk.vishy.web.consumer.dropwizward;
 
+import com.github.theborakompanioni.openmrc.OpenMrc;
+import com.github.theborakompanioni.openmrc.mother.json.InitialRequestJsonMother;
 import com.google.common.net.HttpHeaders;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
@@ -41,9 +44,6 @@ public class MetricsIT {
     private WebApplicationContext wac;
 
     @Autowired
-    private KeenIoProperties properties;
-
-    @Autowired
     private DropwizardMetricsClientAdapter clientAdapter;
 
     private MockMvc mockMvc;
@@ -54,23 +54,21 @@ public class MetricsIT {
     }
 
     @Test
-    public void itShouldHaveKeenProperties() throws Exception {
-        assertThat("Keen project id not specified.", properties.getProjectId(), not(isEmptyOrNullString()));
-        assertThat("Keen write key not specified.", properties.getWriteKey(), not(isEmptyOrNullString()));
-        assertThat("Keen read key not specified.", properties.getReadKey(), not(isEmptyOrNullString()));
-    }
-
-    @Test
     public void itShouldHaveAnKeenOpenMrcClientAdapter() throws Exception {
         assertThat(clientAdapter, is(notNullValue()));
     }
 
     @Test
     public void itShouldAcceptValidInitialRequests() throws Exception {
-        String requestJson = "{\"type\":\"INITIAL\",\"monitorId\":\"abce50bd-28f7-4eae-8cd2-964377bcb770\",\"initial\":{\"timeStarted\":1435007078201,\"state\":{\"code\":2,\"state\":\"fullyvisible\",\"percentage\":1,\"fullyvisible\":true,\"visible\":true,\"hidden\":false}},\"sessionId\":\"7a4d9892-e091-4b58-bca6-c2dae1fc88e9\",\"viewport\":{\"width\":1920,\"height\":372},\"vishy\":{\"id\":\"42\",\"projectId\":\"myElement\"}}";
+        String requestJson = new InitialRequestJsonMother().standardInitialRequest();
         send(requestJson).andExpect(status().isAccepted());
 
-        verify(clientAdapter, times(1)).accept(any());
+        ArgumentCaptor<OpenMrc.Request> captor = ArgumentCaptor.forClass(OpenMrc.Request.class);
+        verify(clientAdapter, times(1)).accept(captor.capture());
+
+        final OpenMrc.Request request = captor.getValue();
+        assertThat(request, is(notNullValue()));
+        assertThat(request.getType(), is(OpenMrc.RequestType.INITIAL));
     }
 
     private ResultActions send(String json) throws Exception {

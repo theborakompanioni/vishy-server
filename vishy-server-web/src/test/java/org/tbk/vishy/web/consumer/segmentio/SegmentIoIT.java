@@ -1,9 +1,12 @@
 package org.tbk.vishy.web.consumer.segmentio;
 
+import com.github.theborakompanioni.openmrc.OpenMrc;
+import com.github.theborakompanioni.openmrc.mother.json.InitialRequestJsonMother;
 import com.google.common.net.HttpHeaders;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
@@ -21,7 +24,6 @@ import java.nio.charset.Charset;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -65,10 +67,15 @@ public class SegmentIoIT {
 
     @Test
     public void itShouldAcceptValidInitialRequests() throws Exception {
-        String requestJson = "{\"type\":\"INITIAL\",\"monitorId\":\"abce50bd-28f7-4eae-8cd2-964377bcb770\",\"initial\":{\"timeStarted\":1435007078201,\"state\":{\"code\":2,\"state\":\"fullyvisible\",\"percentage\":1,\"fullyvisible\":true,\"visible\":true,\"hidden\":false}},\"sessionId\":\"7a4d9892-e091-4b58-bca6-c2dae1fc88e9\",\"viewport\":{\"width\":1920,\"height\":372},\"vishy\":{\"id\":\"42\",\"projectId\":\"myElement\"}}";
+        String requestJson = new InitialRequestJsonMother().standardInitialRequest();
         send(requestJson).andExpect(status().isAccepted());
 
-        verify(clientAdapter, times(1)).accept(any());
+        ArgumentCaptor<OpenMrc.Request> captor = ArgumentCaptor.forClass(OpenMrc.Request.class);
+        verify(clientAdapter, times(1)).accept(captor.capture());
+
+        final OpenMrc.Request request = captor.getValue();
+        assertThat(request, is(notNullValue()));
+        assertThat(request.getType(), is(OpenMrc.RequestType.INITIAL));
     }
 
     private ResultActions send(String json) throws Exception {
