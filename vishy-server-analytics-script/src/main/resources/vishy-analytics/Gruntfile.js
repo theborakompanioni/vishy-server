@@ -177,6 +177,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-notify');
 
-  grunt.registerTask('test', ['jasmine', 'karma', 'coveralls']);
+  grunt.registerTask('test', ['jasmine', 'karma'/*, 'coveralls'*/]);
   grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'compress', 'test', 'notify:js']);
 };
