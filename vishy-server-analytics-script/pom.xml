@@ -28,6 +28,35 @@
                 <version>1.7</version>
                 <executions>
                     <execution>
+                        <id>run npm install</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <target>
+                                <macrodef name="npm">
+                                    <attribute name="dir"/>
+                                    <sequential>
+                                        <echo>======================================================</echo>
+                                        <echo>======== npm: @{dir}</echo>
+                                        <echo>======================================================</echo>
+                                        <exec osfamily="windows" executable="cmd" dir="@{dir}" failonerror="true">
+                                            <arg value="/c"/>
+                                            <arg value="npm"/>
+                                            <arg value="install"/>
+                                        </exec>
+                                        <exec osfamily="unix" executable="bash" dir="@{dir}" failonerror="true">
+                                            <arg line="-c 'npm install'"/>
+                                        </exec>
+                                    </sequential>
+                                </macrodef>
+
+                                <npm dir="${project.basedir}/src/main/resources/vishy-analytics"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>run grunt</id>
                         <phase>generate-sources</phase>
                         <configuration>
@@ -35,26 +64,13 @@
                                 <macrodef name="grunt">
                                     <attribute name="dir"/>
                                     <sequential>
-                                        <echo>
-                                            ====================================================================================
-                                        </echo>
+                                        <echo>======================================================</echo>
                                         <echo>======== grunt: @{dir}</echo>
-                                        <echo>
-                                            ====================================================================================
-                                        </echo>
-                                        <exec osfamily="windows" executable="cmd" dir="@{dir}" failonerror="true">
-                                            <arg value="/c"/>
-                                            <arg value="npm"/>
-                                            <arg value="install"/>
-                                        </exec>
+                                        <echo>======================================================</echo>
                                         <exec osfamily="windows" executable="cmd" dir="@{dir}" failonerror="true"
                                               resultproperty="cmdresult" output="grunt.status">
                                             <arg value="/c"/>
                                             <arg value="%APPDATA%/npm/grunt"/>
-                                        </exec>
-
-                                        <exec osfamily="unix" executable="bash" dir="@{dir}" failonerror="true">
-                                            <arg line="-c 'npm install'"/>
                                         </exec>
                                         <exec osfamily="unix" executable="bash" dir="@{dir}" failonerror="true"
                                               resultproperty="cmdresult" output="grunt.status">
