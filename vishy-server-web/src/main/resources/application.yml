@@ -5,6 +5,7 @@ app.name: vishy-server
 app.description: a simple openmrc server
 
 server.use-forward-headers: true
+server.compression.enabled: true
 
 management.context-path: /actuator
 
