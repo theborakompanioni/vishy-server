@@ -4,6 +4,8 @@ spring.main.show-banner: true
 app.name: vishy-server
 app.description: a simple openmrc server
 
+server.use-forward-headers: true
+
 management.context-path: /actuator
 
 # LOGGING
