@@ -1,6 +1,5 @@
 {
   "name": "vishy-ui",
-  "version": "0.4.2",
   "main": "dist/",
   "ignore": [
     "app/",
@@ -48,13 +47,13 @@
     "angular": "1.2.18"
   },
   "homepage": "https://github.com/theborakompanioni/vishy-ui",
-  "_release": "0.4.2",
+  "_release": "17460bb448",
   "_resolution": {
-    "type": "version",
-    "tag": "0.4.2",
-    "commit": "f7f55101824a25491c2315754cbd3a8ed1b4d69e"
+    "type": "branch",
+    "branch": "master",
+    "commit": "17460bb448670f1925371393d14fda93e9d80070"
   },
   "_source": "git://github.com/theborakompanioni/vishy-ui.git",
-  "_target": "~0.4.2",
+  "_target": "master",
   "_originalSource": "theborakompanioni/vishy-ui"
 }

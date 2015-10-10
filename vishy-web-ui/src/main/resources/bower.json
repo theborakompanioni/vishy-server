@@ -10,7 +10,7 @@
     "bower.json"
   ],
   "dependencies": {
-    "vishy-ui": "theborakompanioni/vishy-ui#~0.4.2"
+    "vishy-ui": "theborakompanioni/vishy-ui#master"
   },
   "resolutions": {
     "vissense": "0.8.0",
