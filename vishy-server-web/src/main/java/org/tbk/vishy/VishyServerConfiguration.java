@@ -48,10 +48,12 @@ public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        int BROWSER_CACHE_CONTROL = 604800;
+        super.addResourceHandlers(registry);
+
+        /*int BROWSER_CACHE_CONTROL = 604800;
         registry
                 .addResourceHandler("/vishy/scripts/**")
                 .addResourceLocations("/vishy/scripts/")
-                .setCachePeriod(BROWSER_CACHE_CONTROL);
+                .setCachePeriod(BROWSER_CACHE_CONTROL);*/
     }
 }

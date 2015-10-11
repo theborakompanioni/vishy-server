@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    @RequestMapping("/")
-    public ResponseEntity<String> index() {
-        return hello();
-    }
-
     @RequestMapping(value = "/hello", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<String> hello() {
         return ResponseEntity.ok("{\n" +
