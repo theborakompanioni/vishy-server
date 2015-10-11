@@ -17,6 +17,7 @@
         <module>vishy-server-client</module>
         <module>vishy-server-extensions</module>
         <module>vishy-web-ui</module>
+        <module>vishy-server-elasticsearch</module>
     </modules>
 
     <parent>
@@ -174,6 +175,13 @@
             <groupId>pl.pragmatists</groupId>
             <artifactId>JUnitParams</artifactId>
             <version>${junitparams.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.theborakompanioni</groupId>
+            <artifactId>openmrc-core</artifactId>
+            <version>${openmrc.version}</version>
+            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
     </dependencies>
