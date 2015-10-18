@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>vishy-server</artifactId>
+        <groupId>org.tbk.vishy</groupId>
+        <version>1.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <shiro.version>1.2.4</shiro.version>
+        <pac4j-oauth.version>1.8.0</pac4j-oauth.version>
+    </properties>
+
+    <artifactId>vishy-server-auth</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-aspectj</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.pac4j</groupId>
+            <artifactId>pac4j-oauth</artifactId>
+            <version>${pac4j-oauth.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.buji</groupId>
+            <artifactId>buji-pac4j-core</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+
+        <!-- temporarily copied in here -> does not work with pac4j 1.8.0! (only 1.7.0 - but with bugs)
+        <dependency>
+            <groupId>io.buji</groupId>
+            <artifactId>buji-pac4j-servlet</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

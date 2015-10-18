@@ -19,6 +19,7 @@
         <module>vishy-web-ui</module>
         <module>vishy-server-elasticsearch</module>
         <module>vishy-server-swagger</module>
+        <module>vishy-server-auth</module>
     </modules>
 
     <parent>
