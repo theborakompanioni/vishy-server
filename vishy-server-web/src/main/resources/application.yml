@@ -54,12 +54,16 @@ vishy.keenio:
 
 # ELASTICSEARCH
 spring.data.elasticsearch:
-  cluster-name: elasticsearch-cluster
-  cluster-nodes: # The address(es) of the server node (comma-separated; if not specified starts a client node)
+  cluster-name: elasticsearch
+  cluster-nodes: 127.0.0.1:9300 # The address(es) of the server node (comma-separated; if not specified starts a client node)
   repositories.enabled: true
   properties:
+    node.name: vishy1
     index.refresh_interval: 60s
-    path.data: data/
+    path:
+      data: /tmp/elastic/data-test
+      logs: /tmp/elastic/logs-test
+      plugins: /tmp/elastic/plugins-test
     threadpool:
       index:
         type: fixed

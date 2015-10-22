@@ -6,7 +6,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.NestedField;
 
 import java.util.Collections;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class RequestDocument {
     @CreatedDate
     private Long createdAt;
 
-    @Field
+    @NestedField(dotSuffix = "request", type = FieldType.Nested)
     private Map<String, Object> request = Collections.emptyMap();
 
     public String getId() {

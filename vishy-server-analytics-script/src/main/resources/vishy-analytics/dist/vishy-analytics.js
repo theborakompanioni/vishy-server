@@ -283,7 +283,7 @@
             var url = baseEndpoint + '/openmrc/consume';
 
             var _data = Utils.extend(data, {
-              vishy: vishyObject
+              'com.github.theborakompanioni.openmrc.Vishy.': vishyObject
             });
 
             http.post(url, _data, {}).then(function (data) {

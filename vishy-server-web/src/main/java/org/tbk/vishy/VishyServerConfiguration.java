@@ -27,20 +27,6 @@ public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
         return new VishyOpenMrcCtrl(openMrcHttpRequestService);
     }
 
-    @Bean
-    public ObjectMapper mapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        objectMapper.registerModule(jacksonJdk8Module());
-
-        return objectMapper;
-    }
-
-    @Bean
-    public Jdk8Module jacksonJdk8Module() {
-        return new Jdk8Module();
-    }
-
     /*@Bean
     public ServletRegistrationBean vishyOpenMrcServlet(OpenMrcClientList clients) {
         return new ServletRegistrationBean(new VishyOpenMrcServlet(clients), "/openmrc");

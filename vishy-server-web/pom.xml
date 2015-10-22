@@ -18,11 +18,6 @@
     <dependencies>
         <dependency>
             <groupId>org.tbk.vishy</groupId>
-            <artifactId>vishy-server-auth</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.tbk.vishy</groupId>
             <artifactId>vishy-server-utils</artifactId>
             <version>${project.version}</version>
         </dependency>
