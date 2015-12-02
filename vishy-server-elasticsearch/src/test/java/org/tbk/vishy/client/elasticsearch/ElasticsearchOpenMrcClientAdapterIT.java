@@ -42,6 +42,8 @@ public class ElasticsearchOpenMrcClientAdapterIT {
 
     @Test
     public void itShouldSaveAValidRequest() {
+        assertThat(Iterables.size(repository.findAll()), is(0));
+
         OpenMrc.Request request = InitialRequests.protobuf().standardGenericRequest().build();
 
         adapter.accept(request);

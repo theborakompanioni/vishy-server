@@ -22,8 +22,8 @@ vishy.oauth:
   callback-url: http://localhost:8080/oauth_callback
   github:
     enabled: true
-    key: 77473e85de8560c6383f
-    secret: cf780030cc2e2e68d8c6a2562e4f408a745da6ef
+    key: insertYourKey
+    secret: insertYourSecret
 
 vishy.elasticsearch:
   enabled: true

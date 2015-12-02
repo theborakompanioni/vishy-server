@@ -1,13 +1,13 @@
 # elasticsearch is embedded at the moment
-#elasticsearch:
-#  image: elasticsearch:1.4
-#  ports:
-#    - "9200:9200"
-#    - "9300:9300"
-#  volumes:
-#    - /docker_data/vishy/elasticsearch/data:/usr/share/elasticsearch/data
-#    - /var/log:/var/log
-#  restart: always
+elasticsearch:
+  image: elasticsearch:1.4
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+  volumes:
+    - /docker_data/vishy/elasticsearch/data:/usr/share/elasticsearch/data
+    - /var/log:/var/log
+  restart: always
 
 influxdb:
   name: influxdb
