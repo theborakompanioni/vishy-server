@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 
-/**
- * Created by void on 26.05.15.
- */
+import java.util.Arrays;
+
+import static java.util.stream.Collectors.joining;
+
 @Configuration
 public class TomcatConfiguration {
-    
     @Bean
     public EmbeddedServletContainerCustomizer servletContainerCustomizer() {
         return servletContainer -> ((TomcatEmbeddedServletContainerFactory) servletContainer).addConnectorCustomizers(
@@ -20,11 +20,10 @@ public class TomcatConfiguration {
                     AbstractHttp11Protocol httpProtocol = (AbstractHttp11Protocol) connector.getProtocolHandler();
                     httpProtocol.setCompression("on");
                     httpProtocol.setCompressionMinSize(256);
-                    String mimeTypes = httpProtocol.getCompressableMimeTypes();
+                    String mimeTypes = Arrays.stream(httpProtocol.getCompressableMimeTypes()).collect(joining(","));
                     String mimeTypesWithJson = mimeTypes + "," + MediaType.APPLICATION_JSON_VALUE;
-                    httpProtocol.setCompressableMimeTypes(mimeTypesWithJson);
+                    httpProtocol.setCompressableMimeType(mimeTypesWithJson);
                 }
         );
     }
-
 }

@@ -1,5 +1,4 @@
 spring.profiles.active: development
-spring.main.show-banner: true
 
 app.name: vishy-server
 app.description: a simple openmrc server
@@ -74,7 +73,7 @@ spring.data.elasticsearch:
         size: 8
         queue_size: 1000
       refresh:
-        type: fixed
+        type: scaling
         size: 2
         queue_size: 1000
 

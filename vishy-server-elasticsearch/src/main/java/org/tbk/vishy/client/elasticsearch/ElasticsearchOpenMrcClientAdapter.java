@@ -7,9 +7,6 @@ import org.tbk.vishy.client.RequestToMapFunction;
 import org.tbk.vishy.client.elasticsearch.repository.RequestDocument;
 import org.tbk.vishy.client.elasticsearch.repository.RequestElasticRepository;
 
-/**
- * Created by void on 01.05.15.
- */
 @Slf4j
 public class ElasticsearchOpenMrcClientAdapter implements OpenMrcRequestConsumer {
 

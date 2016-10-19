@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import com.google.protobuf.ExtensionRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +35,7 @@ public class VishyOpenMrcConfiguration extends SpringOpenMrcConfigurationSupport
     private List<OpenMrcRequestInterceptor<HttpServletRequest>> requestInterceptors = Collections.emptyList();
 
     @Bean
-    @ConditionalOnMissingClass(StandardOpenMrcJsonMapper.class)
+    @ConditionalOnMissingBean(StandardOpenMrcJsonMapper.class)
     public StandardOpenMrcJsonMapper openMrcJsonMapper() {
         StandardOpenMrcJsonMapper standardOpenMrcJsonMapper = new StandardOpenMrcJsonMapper(extensionRegistry(), metricsRegistry());
         return standardOpenMrcJsonMapper;

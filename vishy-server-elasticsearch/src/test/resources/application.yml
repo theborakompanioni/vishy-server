@@ -1,5 +1,4 @@
 spring.profiles.active: production
-spring.main.show-banner: true
 
 app.name: vishy-server-elasticsearch-test
 app.description: a simple openmrc elasticsearch modoule test server
@@ -8,7 +7,7 @@ app.description: a simple openmrc elasticsearch modoule test server
 logging.path: ./var/log
 logging.file: application.log
 logging.config: classpath:logback.xml
-logging.level.org.springframework: DEBUG
+logging.level.org.springframework: INFO
 
 vishy.elasticsearch:
   enabled: true
@@ -31,6 +30,6 @@ spring.data.elasticsearch:
         size: 1
         queue_size: 1000
       refresh:
-        type: fixed
+        type: scaling
         size: 1
         queue_size: 1000

@@ -14,9 +14,10 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
-/**
- * Created by void on 20.06.15.
- */
+import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Strings.nullToEmpty;
+import static java.util.Objects.requireNonNull;
+
 public class BrowserRequestInterceptor extends ExtensionHttpRequestInterceptorSupport<OpenMrcExtensions.Browser> {
 
     private static final Version UNKNOWN_VERSION = new Version("?", "?", "?");
@@ -30,11 +31,11 @@ public class BrowserRequestInterceptor extends ExtensionHttpRequestInterceptorSu
 
     private static final BiFunction<Browser, Version, OpenMrcExtensions.Browser> TO_PROTO = (browser, version) ->
             OpenMrcExtensions.Browser.newBuilder()
-                    .setName(Strings.nullToEmpty(browser.getGroup().getName()))
-                    .setType(Strings.nullToEmpty(browser.getGroup().getBrowserType().getName()))
-                    .setVersion(Strings.nullToEmpty(version.getVersion()))
-                    .setMajorVersion(Strings.nullToEmpty(version.getVersion()))
-                    .setManufacturer(Strings.nullToEmpty(browser.getGroup().getManufacturer().getName()))
+                    .setName(nullToEmpty(browser.getGroup().getName()))
+                    .setType(nullToEmpty(browser.getGroup().getBrowserType().getName()))
+                    .setVersion(nullToEmpty(version.getVersion()))
+                    .setMajorVersion(nullToEmpty(version.getVersion()))
+                    .setManufacturer(nullToEmpty(browser.getGroup().getManufacturer().getName()))
                     .build();
 
     public BrowserRequestInterceptor() {
@@ -42,7 +43,7 @@ public class BrowserRequestInterceptor extends ExtensionHttpRequestInterceptorSu
     }
 
     public BrowserRequestInterceptor(Optional<OpenMrcExtensions.Browser> defaultValue) {
-        super(OpenMrcExtensions.Browser.browser, Objects.requireNonNull(defaultValue));
+        super(OpenMrcExtensions.Browser.browser, requireNonNull(defaultValue));
     }
 
     @Override
@@ -50,7 +51,7 @@ public class BrowserRequestInterceptor extends ExtensionHttpRequestInterceptorSu
         return Optional.ofNullable(httpServletRequest)
                 .map(ExtractUserAgent.fromHttpRequest)
                 .flatMap(Supplier::get)
-                .map(ua -> TO_PROTO.apply(ua.getBrowser(), MoreObjects.firstNonNull(ua.getBrowserVersion(), UNKNOWN_VERSION)));
+                .map(ua -> TO_PROTO.apply(ua.getBrowser(), firstNonNull(ua.getBrowserVersion(), UNKNOWN_VERSION)));
     }
 
 }

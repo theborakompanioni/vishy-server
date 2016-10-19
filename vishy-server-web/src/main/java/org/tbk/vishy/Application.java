@@ -14,7 +14,6 @@ public class Application {
     public static void main(String[] args) {
         new SpringApplicationBuilder()
                 .sources(Application.class)
-                .showBanner(true)
                 .listeners(applicationPidFileWriter(), embeddedServerPortFileWriter())
                 .web(true)
                 .run(args);
