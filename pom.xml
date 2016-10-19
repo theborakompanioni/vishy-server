@@ -32,7 +32,7 @@
         <docker.image.prefix>tbk</docker.image.prefix>
 
         <spring-mobile.version>1.1.1.RELEASE</spring-mobile.version>
-        <spring.useragentutils.version>1.1.3-SNAPSHOT</spring.useragentutils.version>
+        <spring.useragentutils.version>1.1.3</spring.useragentutils.version>
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
         <junitparams.version>1.0.4</junitparams.version>
