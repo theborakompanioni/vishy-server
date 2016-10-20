@@ -26,6 +26,7 @@ install:
   - mvn install -DskipTests=true -Dgpg.skip=true -Dmaven.javadoc.skip=true -B -V
 before_script:
   - echo $HOME
+  - echo $JAVA_HOME
   - docker --version
 
 # travis detects and builds maven projects automatically
@@ -34,10 +35,10 @@ before_script:
 after_success:
   - export REPO=$DOCKER_USERNAME/vishy
   - export COMMIT=${TRAVIS_COMMIT::6}
-  - export TAG=`if [ “$TRAVIS_BRANCH” == “master” ]; then echo “latest”; else echo $TRAVIS_BRANCH ; fi`
+  - export TAG=`if [ "TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - echo $REPO:$TAG:$COMMIT
   - docker build -f Dockerfile -t $REPO:$COMMIT .
   - docker tag $REPO:$COMMIT $REPO:$TAG
   - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
-  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push $REPO
