@@ -18,9 +18,21 @@
         <metrics.influxdb.version>0.7.0</metrics.influxdb.version>
         <segmentio.version>0.1.7</segmentio.version>
         <predictionio.version>0.8.3</predictionio.version>
+        <spring-kafka.version>1.1.1.RELEASE</spring-kafka.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>${spring-kafka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+            <version>${spring-kafka.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>
