@@ -9,5 +9,5 @@
     <logger name="org.apache.zookeeper.server" level="WARN"/>
     <logger name="org.apache.zookeeper.ZooKeeper" level="WARN"/>
     <logger name="org.apache.zookeeper.ClientCnxn" level="WARN"/>
-    
+
 </configuration>

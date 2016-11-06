@@ -77,7 +77,7 @@ public class KafkaOpenMrcClientAdapterTest {
         final ConsumerRecord<String, String> singleRecord = KafkaTestUtils.getSingleRecord(consumer, initialRequest.getType().name());
 
         assertThat(singleRecord, is(notNullValue()));
-        
+
         final OpenMrc.Request.Builder builder = OpenMrc.Request.newBuilder();
         JsonFormat.merge(singleRecord.value(), builder);
         final OpenMrc.Request fromKafka = builder.build();

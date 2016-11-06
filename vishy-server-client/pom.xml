@@ -15,10 +15,10 @@
         <keen.client.version>2.1.1</keen.client.version>
 
         <metrics.version>3.1.0</metrics.version>
-        <metrics.influxdb.version>0.7.0</metrics.influxdb.version>
         <segmentio.version>0.1.7</segmentio.version>
-        <predictionio.version>0.8.3</predictionio.version>
         <spring-kafka.version>1.1.1.RELEASE</spring-kafka.version>
+        <metrics-influxdb.version>0.9.3</metrics-influxdb.version>
+        <influxdb-java.version>2.4</influxdb-java.version>
     </properties>
 
     <dependencies>
@@ -44,19 +44,19 @@
             <version>${keen.client.version}</version>
         </dependency>
         <dependency>
-            <groupId>net.alchim31</groupId>
+            <groupId>com.github.davidb</groupId>
             <artifactId>metrics-influxdb</artifactId>
-            <version>${metrics.influxdb.version}</version>
+            <version>${metrics-influxdb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.influxdb</groupId>
+            <artifactId>influxdb-java</artifactId>
+            <version>${influxdb-java.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.segmentio</groupId>
             <artifactId>analytics</artifactId>
             <version>${segmentio.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.prediction</groupId>
-            <artifactId>client</artifactId>
-            <version>${predictionio.version}</version>
         </dependency>
     </dependencies>
 </project>
