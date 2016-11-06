@@ -17,7 +17,6 @@
         <module>vishy-server-client</module>
         <module>vishy-server-extensions</module>
         <module>vishy-web-ui</module>
-        <module>vishy-server-elasticsearch</module>
         <module>vishy-server-swagger</module>
     </modules>
 
