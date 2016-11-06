@@ -2,9 +2,8 @@ package org.tbk.vishy.client;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Throwables;
-import com.googlecode.protobuf.format.JsonFormat;
 import com.github.theborakompanioni.openmrc.OpenMrc;
+import com.googlecode.protobuf.format.JsonFormat;
 
 import java.io.IOException;
 import java.util.Map;
@@ -21,6 +20,7 @@ public class RequestToMapFunction implements OpenMrcRequestToMapFunction {
     public RequestToMapFunction() {
         this(DEFAULT_MAPPER);
     }
+
     public RequestToMapFunction(ObjectMapper mapper) {
         this.mapper = mapper;
     }
@@ -32,7 +32,7 @@ public class RequestToMapFunction implements OpenMrcRequestToMapFunction {
             return mapper.readValue(json, new TypeReference<Map<String, Object>>() {
             });
         } catch (IOException e) {
-            throw Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 }

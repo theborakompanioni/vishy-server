@@ -1,8 +1,8 @@
 package org.tbk.vishy;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.actuate.system.ApplicationPidFileWriter;
-import org.springframework.boot.actuate.system.EmbeddedServerPortFileWriter;
+import org.springframework.boot.system.ApplicationPidFileWriter;
+import org.springframework.boot.system.EmbeddedServerPortFileWriter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationListener;

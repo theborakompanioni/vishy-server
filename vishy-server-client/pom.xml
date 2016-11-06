@@ -13,6 +13,7 @@
 
     <properties>
         <keen.client.version>2.1.1</keen.client.version>
+
         <metrics.version>3.1.0</metrics.version>
         <metrics.influxdb.version>0.7.0</metrics.influxdb.version>
         <segmentio.version>0.1.7</segmentio.version>
