@@ -12,6 +12,7 @@
     <artifactId>vishy-server-client</artifactId>
 
     <properties>
+        <keen.client.version>2.1.1</keen.client.version>
         <metrics.version>3.1.0</metrics.version>
         <metrics.influxdb.version>0.7.0</metrics.influxdb.version>
         <segmentio.version>0.1.7</segmentio.version>
@@ -23,6 +24,11 @@
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>
             <version>${metrics.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.keen</groupId>
+            <artifactId>keen-client-api-java</artifactId>
+            <version>${keen.client.version}</version>
         </dependency>
         <dependency>
             <groupId>net.alchim31</groupId>
