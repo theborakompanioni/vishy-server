@@ -47,13 +47,13 @@
     "angular": "1.2.18"
   },
   "homepage": "https://github.com/theborakompanioni/vishy-ui",
-  "_release": "17460bb448",
+  "_release": "5df38cad52",
   "_resolution": {
     "type": "branch",
-    "branch": "master",
-    "commit": "17460bb448670f1925371393d14fda93e9d80070"
+    "branch": "dev/localhost",
+    "commit": "5df38cad5290297d299bf7ca2726fd05d92db5d9"
   },
   "_source": "git://github.com/theborakompanioni/vishy-ui.git",
-  "_target": "master",
+  "_target": "dev/localhost",
   "_originalSource": "theborakompanioni/vishy-ui"
 }
