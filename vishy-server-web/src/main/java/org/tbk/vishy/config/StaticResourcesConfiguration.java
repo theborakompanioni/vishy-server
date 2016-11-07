@@ -2,13 +2,7 @@ package org.tbk.vishy.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.ListableBeanFactory;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
-import org.springframework.boot.autoconfigure.web.ResourceProperties;
-import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.WebMvcProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -19,9 +13,6 @@ import org.springframework.web.servlet.resource.VersionResourceResolver;
 
 import java.util.Arrays;
 
-/**
- * Created by void on 24.05.15.
- */
 @Configuration
 public class StaticResourcesConfiguration extends WebMvcConfigurerAdapter {
 
@@ -51,7 +42,6 @@ public class StaticResourcesConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
         boolean devMode = environment.acceptsProfiles("dev");
         boolean useResourceCache = !devMode;
         Integer cachePeriod = devMode ? 0 : CACHE_PERIOD;

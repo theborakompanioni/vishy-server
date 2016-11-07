@@ -1,12 +1,12 @@
 package org.tbk.vishy.client.keenio;
 
+import com.github.theborakompanioni.openmrc.OpenMrc;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.google.common.collect.Maps;
 import io.keen.client.java.KeenCallback;
 import io.keen.client.java.KeenClient;
 import io.keen.client.java.KeenProject;
 import lombok.extern.slf4j.Slf4j;
-import com.github.theborakompanioni.openmrc.OpenMrc;
-import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import org.tbk.vishy.client.OpenMrcRequestToMapFunction;
 
 import java.util.Map;
@@ -16,10 +16,8 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static java.util.Map.Entry;
+import static java.util.Objects.requireNonNull;
 
-/**
- * Created by void on 01.05.15.
- */
 @Slf4j
 public class KeenOpenMrcClientAdapter implements OpenMrcRequestConsumer {
     private static Function<OpenMrc.Request, String> DEFAULT_EVENT_NAME_FUNC = request -> request.getType().name();
@@ -46,9 +44,9 @@ public class KeenOpenMrcClientAdapter implements OpenMrcRequestConsumer {
     }
 
     public KeenOpenMrcClientAdapter(KeenClient keenClient, OpenMrcRequestToMapFunction toMapFunction, Function<OpenMrc.Request, String> toEventNameFunction) {
-        this.keenClient = keenClient;
-        this.toMapFunction = toMapFunction;
-        this.toEventNameFunction = toEventNameFunction;
+        this.keenClient = requireNonNull(keenClient);
+        this.toMapFunction = requireNonNull(toMapFunction);
+        this.toEventNameFunction = requireNonNull(toEventNameFunction);
     }
 
     @Override

@@ -21,9 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by void on 28.06.15.
- */
 @Slf4j
 @Configuration
 public class VishyOpenMrcConfiguration extends SpringOpenMrcConfigurationSupport {
@@ -37,8 +34,7 @@ public class VishyOpenMrcConfiguration extends SpringOpenMrcConfigurationSupport
     @Bean
     @ConditionalOnMissingBean(StandardOpenMrcJsonMapper.class)
     public StandardOpenMrcJsonMapper openMrcJsonMapper() {
-        StandardOpenMrcJsonMapper standardOpenMrcJsonMapper = new StandardOpenMrcJsonMapper(extensionRegistry(), metricsRegistry());
-        return standardOpenMrcJsonMapper;
+        return new StandardOpenMrcJsonMapper(extensionRegistry(), metricsRegistry());
     }
 
     @Override

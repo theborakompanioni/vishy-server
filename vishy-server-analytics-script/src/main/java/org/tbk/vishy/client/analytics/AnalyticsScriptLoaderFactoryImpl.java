@@ -2,20 +2,18 @@ package org.tbk.vishy.client.analytics;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 import java.io.StringWriter;
 
-/**
- * Created by void on 01.11.15.
- */
+import static java.util.Objects.requireNonNull;
+
 public class AnalyticsScriptLoaderFactoryImpl implements AnalyticsScriptLoaderFactory {
     final Template template;
 
     public AnalyticsScriptLoaderFactoryImpl(Template template) {
-        this. template = template;
+        this.template = requireNonNull(template);
     }
 
     @Override

@@ -13,9 +13,6 @@ import com.github.theborakompanioni.openmrc.web.OpenMrcWebConfigurationSupport;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/**
- * Created by void on 28.06.15.
- */
 @Slf4j
 public abstract class SpringOpenMrcConfigurationSupport extends OpenMrcWebConfigurationSupport {
 

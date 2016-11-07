@@ -7,13 +7,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
+import static java.util.Objects.requireNonNull;
+
 @Slf4j
 public class KafkaOpenMrcClientAdapter implements OpenMrcRequestConsumer {
 
     private final Producer<String, String> client;
 
     public KafkaOpenMrcClientAdapter(Producer<String, String> client) {
-        this.client = client;
+        this.client = requireNonNull(client);
     }
 
     @Override

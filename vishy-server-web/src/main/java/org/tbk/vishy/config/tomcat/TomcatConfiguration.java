@@ -15,15 +15,14 @@ import static java.util.stream.Collectors.joining;
 public class TomcatConfiguration {
     @Bean
     public EmbeddedServletContainerCustomizer servletContainerCustomizer() {
-        return servletContainer -> ((TomcatEmbeddedServletContainerFactory) servletContainer).addConnectorCustomizers(
-                connector -> {
+        return servletContainer -> ((TomcatEmbeddedServletContainerFactory) servletContainer)
+                .addConnectorCustomizers(connector -> {
                     AbstractHttp11Protocol httpProtocol = (AbstractHttp11Protocol) connector.getProtocolHandler();
                     httpProtocol.setCompression("on");
                     httpProtocol.setCompressionMinSize(256);
                     String mimeTypes = Arrays.stream(httpProtocol.getCompressableMimeTypes()).collect(joining(","));
                     String mimeTypesWithJson = mimeTypes + "," + MediaType.APPLICATION_JSON_VALUE;
                     httpProtocol.setCompressableMimeType(mimeTypesWithJson);
-                }
-        );
+                });
     }
 }

@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 public class VishyOpenMrcServlet extends HttpServlet {
 
@@ -16,11 +17,11 @@ public class VishyOpenMrcServlet extends HttpServlet {
 
     public VishyOpenMrcServlet(OpenMrcHttpRequestService openMrcService) {
         super();
-        this.openMrcService = Objects.requireNonNull(openMrcService);
+        this.openMrcService = requireNonNull(openMrcService);
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "");
     }
 }

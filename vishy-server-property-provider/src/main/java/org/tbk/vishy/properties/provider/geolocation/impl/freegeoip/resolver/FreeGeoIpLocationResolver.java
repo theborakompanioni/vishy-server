@@ -14,14 +14,12 @@ import org.tbk.vishy.properties.provider.geolocation.GeoLocation;
 import org.tbk.vishy.properties.provider.geolocation.impl.freegeoip.FreeGeoIpLocation;
 import org.tbk.vishy.properties.provider.geolocation.resolver.GeoLocationResolver;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by void on 02.05.15.
- */
+import static java.util.Objects.requireNonNull;
+
 @Slf4j
 public class FreeGeoIpLocationResolver implements GeoLocationResolver {
     private static final String REMOTE_URL_PATTERN = "http://freegeoip.net/json/{ip}";
@@ -82,7 +80,7 @@ public class FreeGeoIpLocationResolver implements GeoLocationResolver {
      * @return
      */
     private GeoLocation convert(JSONObject json) {
-        Objects.requireNonNull(json);
+        requireNonNull(json);
 
         return new FreeGeoIpLocation.Builder()
                 .setLat(json.getDouble("latitude"))

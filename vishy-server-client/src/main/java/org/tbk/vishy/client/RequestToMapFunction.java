@@ -8,9 +8,8 @@ import com.googlecode.protobuf.format.JsonFormat;
 import java.io.IOException;
 import java.util.Map;
 
-/**
- * Created by void on 21.06.15.
- */
+import static java.util.Objects.requireNonNull;
+
 public class RequestToMapFunction implements OpenMrcRequestToMapFunction {
 
     private static final ObjectMapper DEFAULT_MAPPER = new ObjectMapper();
@@ -22,7 +21,7 @@ public class RequestToMapFunction implements OpenMrcRequestToMapFunction {
     }
 
     public RequestToMapFunction(ObjectMapper mapper) {
-        this.mapper = mapper;
+        this.mapper = requireNonNull(mapper);
     }
 
     @Override

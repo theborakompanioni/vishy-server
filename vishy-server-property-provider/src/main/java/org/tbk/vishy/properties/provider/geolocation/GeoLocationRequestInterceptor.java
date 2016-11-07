@@ -10,13 +10,9 @@ import org.tbk.vishy.properties.provider.geolocation.resolver.GeoLocationResolve
 import org.tbk.vishy.utils.ip.RemoteAddressExtractor;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
-/**
- * Created by void on 20.06.15.
- */
 public class GeoLocationRequestInterceptor extends ExtensionHttpRequestInterceptorSupport<OpenMrcExtensions.GeoLocation> {
 
     private final static HystrixCommandGroupKey DEFAULT_KEY = HystrixCommandGroupKey.Factory
@@ -54,14 +50,14 @@ public class GeoLocationRequestInterceptor extends ExtensionHttpRequestIntercept
     private final HystrixCommand.Setter setter;
 
     public GeoLocationRequestInterceptor(GeoLocationResolver geoLocationResolver) {
-        this(geoLocationResolver, Optional.of(UNKNOWN));
+        this(geoLocationResolver, UNKNOWN);
     }
 
-    public GeoLocationRequestInterceptor(GeoLocationResolver geoLocationResolver, Optional<OpenMrcExtensions.GeoLocation> defaultValue) {
-        super(OpenMrcExtensions.GeoLocation.geolocation, Objects.requireNonNull(defaultValue));
+    public GeoLocationRequestInterceptor(GeoLocationResolver geoLocationResolver, OpenMrcExtensions.GeoLocation defaultValue) {
+        super(OpenMrcExtensions.GeoLocation.geolocation, Optional.ofNullable(defaultValue));
         this.geoLocationResolver = geoLocationResolver;
         this.remoteAddressExtractor = RemoteAddressExtractor
-                .withLocalSubstitude(DEFAULT_LOCAL_IP_SUBSTITUTE);
+                .withLocalSubstitute(DEFAULT_LOCAL_IP_SUBSTITUTE);
 
         this.setter = HystrixCommand.Setter.withGroupKey(DEFAULT_KEY)
                 .andCommandPropertiesDefaults(HystrixCommandProperties.Setter()

@@ -14,6 +14,8 @@ import org.tbk.vishy.client.analytics.AnalyticsScriptLoaderFactory;
 
 import java.util.concurrent.TimeUnit;
 
+import static java.util.Objects.requireNonNull;
+
 @Slf4j
 @RestController
 @RequestMapping("/openmrc")
@@ -37,8 +39,8 @@ public class VishyScriptLoaderCtrl {
     }
 
     @Autowired
-    public VishyScriptLoaderCtrl(AnalyticsScriptLoaderFactory scriptLoaderFactory) {
-        this.scriptLoaderFactory = scriptLoaderFactory;
+    public VishyScriptLoaderCtrl(final AnalyticsScriptLoaderFactory scriptLoaderFactory) {
+        this.scriptLoaderFactory = requireNonNull(scriptLoaderFactory);
     }
 
     @RequestMapping(

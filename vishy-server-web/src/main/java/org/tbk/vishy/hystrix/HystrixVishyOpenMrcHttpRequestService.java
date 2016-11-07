@@ -23,11 +23,12 @@ public class HystrixVishyOpenMrcHttpRequestService extends OpenMrcHttpRequestSer
         super(mapper, requestConsumer);
         this.requestConsumer = requireNonNull(requestConsumer);
 
-        this.setter = HystrixCommand.Setter.withGroupKey(DEFAULT_KEY).andCommandPropertiesDefaults(HystrixCommandProperties.Setter()
-                .withRequestLogEnabled(false)
-                .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE)
-                .withFallbackIsolationSemaphoreMaxConcurrentRequests(1_000)
-                .withExecutionTimeoutInMilliseconds(5_000));
+        this.setter = HystrixCommand.Setter.withGroupKey(DEFAULT_KEY)
+                .andCommandPropertiesDefaults(HystrixCommandProperties.Setter()
+                        .withRequestLogEnabled(false)
+                        .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE)
+                        .withFallbackIsolationSemaphoreMaxConcurrentRequests(1_000)
+                        .withExecutionTimeoutInMilliseconds(5_000));
     }
 
     @Override

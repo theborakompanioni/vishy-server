@@ -1,10 +1,10 @@
 package org.tbk.vishy;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.system.ApplicationPidFileWriter;
-import org.springframework.boot.system.EmbeddedServerPortFileWriter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.system.ApplicationPidFileWriter;
+import org.springframework.boot.system.EmbeddedServerPortFileWriter;
 import org.springframework.context.ApplicationListener;
 
 @Slf4j
@@ -19,11 +19,11 @@ public class Application {
                 .run(args);
     }
 
-    public static ApplicationListener<?> applicationPidFileWriter() {
+    private static ApplicationListener<?> applicationPidFileWriter() {
         return new ApplicationPidFileWriter("app.pid");
     }
 
-    public static ApplicationListener<?> embeddedServerPortFileWriter() {
+    private static ApplicationListener<?> embeddedServerPortFileWriter() {
         return new EmbeddedServerPortFileWriter("app.port");
     }
 

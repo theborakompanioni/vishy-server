@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 public final class IpUtils {
-    private static final Splitter COMA_SPLITTER = Splitter.on(',')
+    private static final Splitter COMMA_SPLITTER = Splitter.on(',')
             .omitEmptyStrings()
             .trimResults();
 
@@ -20,14 +20,12 @@ public final class IpUtils {
     public static Optional<String> getIpAddress(HttpServletRequest request) {
         Optional<String> stringStream = Collections.list(request.getHeaderNames()).stream()
                 .filter(HttpHeaders.X_FORWARDED_FOR::equalsIgnoreCase)
-                .map(headerName -> request.getHeader(headerName))
-                .flatMap(headerValue -> COMA_SPLITTER.splitToList(headerValue).stream())
+                .map(request::getHeader)
+                .flatMap(headerValue -> COMMA_SPLITTER.splitToList(headerValue).stream())
                 .findFirst();
 
         String s = stringStream.orElse(request.getRemoteAddr());
 
-        Optional<String> optionalRemoteAddr = Optional.ofNullable(Strings.emptyToNull(s));
-
-        return optionalRemoteAddr;
+        return Optional.ofNullable(Strings.emptyToNull(s));
     }
 }

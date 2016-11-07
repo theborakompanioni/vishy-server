@@ -11,9 +11,6 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
-/**
- * Created by void on 08.08.15.
- */
 public class HystrixVishyOpenMrcHttpRequestServiceTest {
 
     @Test
@@ -26,7 +23,6 @@ public class HystrixVishyOpenMrcHttpRequestServiceTest {
 
         assertThat(builder, is(notNullValue()));
     }
-
 
     @Test
     public void it_should_return_a_non_null_value_when_constructed_with_one_consumer() {

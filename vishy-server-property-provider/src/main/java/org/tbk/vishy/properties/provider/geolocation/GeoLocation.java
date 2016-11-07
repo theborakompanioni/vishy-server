@@ -1,8 +1,5 @@
 package org.tbk.vishy.properties.provider.geolocation;
 
-/**
- * Created by void on 02.05.15.
- */
 public interface GeoLocation {
     double getLat();
 

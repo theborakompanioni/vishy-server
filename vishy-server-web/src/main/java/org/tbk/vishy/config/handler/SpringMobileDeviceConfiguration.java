@@ -12,9 +12,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import javax.annotation.PostConstruct;
 import java.util.List;
 
-/**
- * Created by void on 08.03.15.
- */
 @Slf4j
 @Configuration
 public class SpringMobileDeviceConfiguration extends WebMvcConfigurerAdapter {

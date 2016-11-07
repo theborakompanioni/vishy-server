@@ -9,14 +9,16 @@ import org.tbk.vishy.client.OpenMrcRequestToMapFunction;
 
 import java.util.Map;
 
+import static java.util.Objects.requireNonNull;
+
 public class SegmentOpenMrcClientAdapter implements OpenMrcRequestConsumer {
 
     private final Client analytics;
     private final OpenMrcRequestToMapFunction mapper;
 
     public SegmentOpenMrcClientAdapter(Client analytics, OpenMrcRequestToMapFunction mapper) {
-        this.analytics = analytics;
-        this.mapper = mapper;
+        this.analytics = requireNonNull(analytics);
+        this.mapper = requireNonNull(mapper);
     }
 
     @Override

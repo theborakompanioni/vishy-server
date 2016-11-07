@@ -6,24 +6,23 @@ import org.tbk.vishy.properties.provider.geolocation.resolver.GeoLocationResolve
 
 import java.util.Optional;
 
-/**
- * Created by void on 07.08.15.
- */
+import static java.util.Objects.requireNonNull;
+
 public class GeoLocationCommand extends HystrixCommand<Optional<GeoLocation>> {
 
-    private Optional<GeoLocation> fallback;
+    private final Optional<GeoLocation> fallback;
     private final GeoLocationResolver resolver;
     private final String ipAddress;
 
     public GeoLocationCommand(Setter setter, GeoLocationResolver resolver, String ipAddress) {
-        this(setter, Optional.empty(), resolver, ipAddress);
+        this(setter, resolver, ipAddress, null);
     }
 
-    public GeoLocationCommand(Setter setter, Optional<GeoLocation> fallback, GeoLocationResolver resolver, String ipAddress) {
+    public GeoLocationCommand(Setter setter, GeoLocationResolver resolver, String ipAddress, GeoLocation fallback) {
         super(setter);
-        this.fallback = fallback;
-        this.resolver = resolver;
-        this.ipAddress = ipAddress;
+        this.resolver = requireNonNull(resolver);
+        this.ipAddress = requireNonNull(ipAddress);
+        this.fallback = Optional.ofNullable(fallback);
     }
 
     @Override

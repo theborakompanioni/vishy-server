@@ -7,10 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.util.Optional;
 
-/**
- * Created by void on 17.03.15.
- */
-
 @Slf4j
 @Builder
 public class RemoteAddressExtractor {
@@ -18,24 +14,24 @@ public class RemoteAddressExtractor {
         return new RemoteAddressExtractor();
     }
 
-    public static RemoteAddressExtractor withLocalSubstitude(String localSubstitude) {
-        return new RemoteAddressExtractor(localSubstitude);
+    public static RemoteAddressExtractor withLocalSubstitute(String localSubstitute) {
+        return new RemoteAddressExtractor(localSubstitute);
     }
 
-    private final String localSubstitude;
+    private final String localSubstitute;
 
     private RemoteAddressExtractor() {
         this(null);
     }
 
-    private RemoteAddressExtractor(String localSubstitude) {
-        this.localSubstitude = localSubstitude;
+    private RemoteAddressExtractor(String localSubstitute) {
+        this.localSubstitute = localSubstitute;
     }
 
     public Optional<String> getIpAddress(HttpServletRequest request) {
         return IpUtils.getIpAddress(request).map(ip -> {
-            if (localSubstitude != null && InetAddress.getLoopbackAddress().getHostAddress().equals(ip)) {
-                return localSubstitude;
+            if (localSubstitute != null && InetAddress.getLoopbackAddress().getHostAddress().equals(ip)) {
+                return localSubstitute;
             }
             return ip;
         });

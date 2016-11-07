@@ -1,22 +1,18 @@
 package org.tbk.vishy.properties.provider.browser;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
-import eu.bitwalker.useragentutils.Browser;
-import eu.bitwalker.useragentutils.Version;
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
 import com.github.theborakompanioni.openmrc.impl.ExtensionHttpRequestInterceptorSupport;
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.Version;
 import org.tbk.vishy.utils.ExtractUserAgent;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Strings.nullToEmpty;
-import static java.util.Objects.requireNonNull;
 
 public class BrowserRequestInterceptor extends ExtensionHttpRequestInterceptorSupport<OpenMrcExtensions.Browser> {
 
@@ -39,11 +35,11 @@ public class BrowserRequestInterceptor extends ExtensionHttpRequestInterceptorSu
                     .build();
 
     public BrowserRequestInterceptor() {
-        this(Optional.of(UNKNOWN));
+        this(UNKNOWN);
     }
 
-    public BrowserRequestInterceptor(Optional<OpenMrcExtensions.Browser> defaultValue) {
-        super(OpenMrcExtensions.Browser.browser, requireNonNull(defaultValue));
+    public BrowserRequestInterceptor(OpenMrcExtensions.Browser defaultValue) {
+        super(OpenMrcExtensions.Browser.browser, Optional.ofNullable(defaultValue));
     }
 
     @Override

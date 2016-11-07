@@ -7,9 +7,8 @@ import com.github.theborakompanioni.openmrc.OpenMrc;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * Created by void on 01.05.15.
- */
+import static java.util.Objects.requireNonNull;
+
 @Slf4j
 public class DropwizardMetricsClientAdapter implements OpenMrcRequestConsumer {
     private static final String METRIC_PREFIX = "vishy";
@@ -22,6 +21,8 @@ public class DropwizardMetricsClientAdapter implements OpenMrcRequestConsumer {
         private final Histogram timeTotal;
 
         public VishyMetrics(String prefix, MetricRegistry metricsRegistry) {
+            requireNonNull(metricsRegistry);
+
             this.incomingRequests = metricsRegistry.meter(MetricRegistry.name(prefix, "requests.incoming"));
 
             this.timeVisible = metricsRegistry.histogram(MetricRegistry.name(prefix, "time.visible"));

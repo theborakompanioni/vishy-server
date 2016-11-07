@@ -5,9 +5,8 @@ import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.netflix.hystrix.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * Created by void on 07.08.15.
- */
+import static java.util.Objects.requireNonNull;
+
 @Slf4j
 public class ProcessOpenMrcRequestCommand extends HystrixCommand<OpenMrc.Request> {
 
@@ -16,8 +15,8 @@ public class ProcessOpenMrcRequestCommand extends HystrixCommand<OpenMrc.Request
 
     public ProcessOpenMrcRequestCommand(Setter setter, OpenMrcRequestConsumer consumer, OpenMrc.Request request) {
         super(setter);
-        this.consumer = consumer;
-        this.request = request;
+        this.consumer = requireNonNull(consumer);
+        this.request = requireNonNull(request);
     }
 
     @Override

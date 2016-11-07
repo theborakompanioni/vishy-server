@@ -1,23 +1,19 @@
 package org.tbk.vishy.properties.provider.device;
 
+import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
+import com.github.theborakompanioni.openmrc.impl.ExtensionHttpRequestInterceptorSupport;
 import eu.bitwalker.useragentutils.DeviceType;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.DeviceUtils;
-import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
-import com.github.theborakompanioni.openmrc.impl.ExtensionHttpRequestInterceptorSupport;
 import org.tbk.vishy.utils.ExtractUserAgent;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
-/**
- * Created by void on 20.06.15.
- */
 public class DeviceRequestInterceptor extends ExtensionHttpRequestInterceptorSupport<OpenMrcExtensions.Device> {
 
     private static final OpenMrcExtensions.Device UNKNOWN = OpenMrcExtensions.Device.newBuilder()
@@ -55,11 +51,11 @@ public class DeviceRequestInterceptor extends ExtensionHttpRequestInterceptorSup
                     .build();
 
     public DeviceRequestInterceptor() {
-        this(Optional.of(UNKNOWN));
+        this(UNKNOWN);
     }
 
-    public DeviceRequestInterceptor(Optional<OpenMrcExtensions.Device> defaultValue) {
-        super(OpenMrcExtensions.Device.device, Objects.requireNonNull(defaultValue));
+    public DeviceRequestInterceptor(OpenMrcExtensions.Device defaultValue) {
+        super(OpenMrcExtensions.Device.device, Optional.ofNullable(defaultValue));
     }
 
     @Override

@@ -9,9 +9,6 @@ import java.util.Optional;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
-/**
- * Created by void on 21.06.15.
- */
 public class IpUtilsTest {
 
     @Test

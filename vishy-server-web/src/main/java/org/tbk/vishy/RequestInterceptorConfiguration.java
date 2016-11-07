@@ -13,12 +13,9 @@ import org.tbk.vishy.properties.provider.geolocation.impl.freegeoip.resolver.Fre
 import org.tbk.vishy.properties.provider.geolocation.resolver.GeoLocationResolver;
 import org.tbk.vishy.properties.provider.operatingsystem.OperatingSystemRequestInterceptor;
 
-/**
- * Created by void on 21.06.15.
- */
 @Configuration
 public class RequestInterceptorConfiguration {
-    
+
     @Bean
     public LocaleRequestInterceptor localeRequestInterceptor() {
         return new LocaleRequestInterceptor();
