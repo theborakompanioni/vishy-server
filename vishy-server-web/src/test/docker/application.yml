@@ -11,6 +11,10 @@ logging.file: application.log
 logging.config: classpath:logback.xml
 logging.level.org.springframework: INFO
 
+vishy.metrics:
+  enabled: true
+  console: true
+
 vishy.influxdb:
   enabled: true
   host: ${INFLUXDB_HOST}

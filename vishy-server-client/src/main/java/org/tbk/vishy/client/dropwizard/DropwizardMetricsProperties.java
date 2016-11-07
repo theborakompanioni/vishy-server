@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("vishy.metrics")
 public class DropwizardMetricsProperties {
+    private static final long defaultIntervalInSeconds = 60L;
 
     private boolean enabled;
     private boolean console;
@@ -26,7 +27,7 @@ public class DropwizardMetricsProperties {
     }
 
     public long getIntervalInSeconds() {
-        return intervalInSeconds;
+        return intervalInSeconds > 0L ? intervalInSeconds : defaultIntervalInSeconds;
     }
 
     public void setIntervalInSeconds(long intervalInSeconds) {
