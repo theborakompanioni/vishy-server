@@ -3,9 +3,11 @@ package org.tbk.vishy.client.kafka;
 import com.github.theborakompanioni.openmrc.OpenMrc;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.googlecode.protobuf.format.JsonFormat;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
+@Slf4j
 public class KafkaOpenMrcClientAdapter implements OpenMrcRequestConsumer {
 
     private final Producer<String, String> client;
@@ -20,6 +22,14 @@ public class KafkaOpenMrcClientAdapter implements OpenMrcRequestConsumer {
         String topic = request.getType().name();
         ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topic, json);
 
+        logDebugMessageIfEnabled(json);
+
         client.send(producerRecord);
+    }
+
+    private static void logDebugMessageIfEnabled(String json) {
+        if (log.isDebugEnabled()) {
+            log.debug("Sending request to kafka: {}", json);
+        }
     }
 }
