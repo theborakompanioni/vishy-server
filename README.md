@@ -17,3 +17,6 @@ docker run -t -i -p 8080:8080 tbk/vishy-server-web
 
 ## ui
 visit [http://localhost:8080/static/vishy-ui/index.html](http://localhost:8080/static/vishy-ui/index.html)
+
+## swagger
+visit [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
