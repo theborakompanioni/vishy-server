@@ -1,11 +1,20 @@
 package org.tbk.vishy;
 
+import com.google.common.collect.ImmutableList;
+import io.vertx.core.Verticle;
+import io.vertx.core.Vertx;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.system.ApplicationPidFileWriter;
 import org.springframework.boot.system.EmbeddedServerPortFileWriter;
 import org.springframework.context.ApplicationListener;
+
+import javax.annotation.PostConstruct;
+import java.util.List;
+
+import static java.util.Objects.requireNonNull;
 
 @Slf4j
 @SpringBootApplication
@@ -27,5 +36,17 @@ public class Application {
         return new EmbeddedServerPortFileWriter("app.port");
     }
 
+    private Vertx vertx;
+    private List<Verticle> verticles;
 
+    @Autowired
+    public Application(Vertx vertx, List<Verticle> verticles) {
+        this.vertx = requireNonNull(vertx);
+        this.verticles = ImmutableList.copyOf(verticles);
+    }
+
+    @PostConstruct
+    public void deployVerticle() {
+        verticles.forEach(verticle -> vertx.deployVerticle(verticle));
+    }
 }

@@ -1,6 +1,7 @@
 package org.tbk.vishy;
 
 import com.github.theborakompanioni.openmrc.web.OpenMrcHttpRequestService;
+import io.vertx.core.Vertx;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.VelocityEngine;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.tbk.vishy.client.analytics.AnalyticsScriptLoaderFactory;
 import org.tbk.vishy.client.analytics.AnalyticsScriptLoaderFactoryImpl;
+import org.tbk.vishy.verticle.HelloVerticle;
 import org.tbk.vishy.web.VishyOpenMrcCtrl;
 import org.tbk.vishy.web.VishyScriptLoaderCtrl;
 
@@ -20,6 +22,17 @@ import org.tbk.vishy.web.VishyScriptLoaderCtrl;
 @AutoConfigureAfter({VishyOpenMrcConfiguration.class})
 @Configuration
 public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
+
+    @Bean
+    public Vertx vertx() {
+        return Vertx.vertx();
+    }
+
+    @Bean
+    public HelloVerticle helloVerticle() {
+        return new HelloVerticle(8081);
+    }
+
     @Bean
     public RequestInterceptorConfiguration extensionsConfiguration() {
         return new RequestInterceptorConfiguration();
