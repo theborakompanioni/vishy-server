@@ -13,9 +13,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.tbk.vishy.client.analytics.AnalyticsScriptLoaderFactory;
 import org.tbk.vishy.client.analytics.AnalyticsScriptLoaderFactoryImpl;
+import org.tbk.vishy.client.analytics.VishyScriptLoaderCtrl;
 import org.tbk.vishy.verticle.HelloVerticle;
 import org.tbk.vishy.web.VishyOpenMrcCtrl;
-import org.tbk.vishy.web.VishyScriptLoaderCtrl;
 
 @Slf4j
 @ComponentScan("org.tbk.vishy")
