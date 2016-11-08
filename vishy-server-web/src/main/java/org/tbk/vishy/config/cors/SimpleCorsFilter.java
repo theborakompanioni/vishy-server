@@ -78,7 +78,7 @@ public class SimpleCorsFilter implements Filter {
 
         final String allowOrigin = originHeaderValue.orElse("*");
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, allowOrigin);
-        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, this.allowedHeaders);
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, this.allowedMethods);
         response.setHeader(HttpHeaders.ACCESS_CONTROL_MAX_AGE, this.maxAge);
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, this.allowedHeaders);
 
