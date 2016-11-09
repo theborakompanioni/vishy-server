@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.theborakompanioni.openmrc.OpenMrc;
 import com.github.theborakompanioni.openmrc.mother.protobuf.InitialRequestProtobufMother;
+import com.google.protobuf.ExtensionRegistry;
 import com.googlecode.protobuf.format.JsonFormat;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -79,7 +80,7 @@ public class KafkaOpenMrcClientAdapterTest {
         assertThat(singleRecord, is(notNullValue()));
 
         final OpenMrc.Request.Builder builder = OpenMrc.Request.newBuilder();
-        JsonFormat.merge(singleRecord.value(), builder);
+        new JsonFormat().merge(singleRecord.value(), ExtensionRegistry.getEmptyRegistry(), builder);
         final OpenMrc.Request fromKafka = builder.build();
 
         assertThat(fromKafka, is(equalTo(initialRequest)));

@@ -11,27 +11,30 @@ import static java.util.Objects.requireNonNull;
 
 @Slf4j
 public class KafkaOpenMrcClientAdapter implements OpenMrcRequestConsumer {
+    private static final JsonFormat DEFAULT_JSON_FORMAT = new JsonFormat();
 
     private final Producer<String, String> client;
+    private final JsonFormat jsonFormat;
 
     public KafkaOpenMrcClientAdapter(Producer<String, String> client) {
+        this(client, DEFAULT_JSON_FORMAT);
+    }
+
+    public KafkaOpenMrcClientAdapter(Producer<String, String> client, JsonFormat jsonFormat) {
         this.client = requireNonNull(client);
+        this.jsonFormat = requireNonNull(jsonFormat);
     }
 
     @Override
     public void accept(OpenMrc.Request request) {
-        String json = JsonFormat.printToString(request);
+        String json = jsonFormat.printToString(request);
         String topic = request.getType().name();
         ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topic, json);
 
-        logDebugMessageIfEnabled(json);
-
-        client.send(producerRecord);
-    }
-
-    private static void logDebugMessageIfEnabled(String json) {
         if (log.isDebugEnabled()) {
             log.debug("Sending request to kafka: {}", json);
         }
+
+        client.send(producerRecord);
     }
 }

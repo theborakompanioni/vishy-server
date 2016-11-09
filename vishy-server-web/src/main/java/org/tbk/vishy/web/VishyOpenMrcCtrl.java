@@ -28,7 +28,12 @@ public class VishyOpenMrcCtrl {
 
     @RequestMapping(value = "/consume", method = RequestMethod.POST)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "payload", dataType = "String", paramType = "body", required = true)
+            @ApiImplicitParam(
+                    name = "payload",
+                    dataType = "String",
+                    paramType = "body",
+                    required = true
+            )
     })
     public ResponseEntity<Void> trackMapping(HttpServletRequest request) {
         try {
