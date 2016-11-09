@@ -62,6 +62,7 @@ local.properties
 ######################
 /log/**
 **/target/**
+*.versionsBackup
 
 ######################
 # Gradle
