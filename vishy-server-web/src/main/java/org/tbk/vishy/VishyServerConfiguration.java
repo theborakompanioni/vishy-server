@@ -34,7 +34,7 @@ public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public RequestInterceptorConfiguration extensionsConfiguration() {
+    public RequestInterceptorConfiguration requestInterceptorConfiguration() {
         return new RequestInterceptorConfiguration();
     }
 

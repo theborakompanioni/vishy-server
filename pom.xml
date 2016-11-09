@@ -92,7 +92,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.theborakompanioni</groupId>
-            <artifactId>openmrc-web</artifactId>
+            <artifactId>openmrc-spring</artifactId>
             <version>${openmrc.version}</version>
         </dependency>
         <dependency>
