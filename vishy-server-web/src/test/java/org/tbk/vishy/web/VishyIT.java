@@ -1,11 +1,15 @@
 package org.tbk.vishy.web;
 
+import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestInterceptor;
 import com.github.theborakompanioni.openmrc.mother.InitialRequests;
 import com.github.theborakompanioni.openmrc.mother.StatusRequests;
 import com.github.theborakompanioni.openmrc.mother.SummaryRequests;
 import com.github.theborakompanioni.openmrc.mother.json.InitialRequestJsonMother;
 import com.github.theborakompanioni.openmrc.mother.json.StatusRequestJsonMother;
 import com.github.theborakompanioni.openmrc.mother.json.SummaryRequestJsonMother;
+import com.github.theborakompanioni.vishy.metrics.DropwizardMetricsClientAdapter;
+import com.google.common.base.Charsets;
 import com.google.common.net.HttpHeaders;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,9 +24,15 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.tbk.vishy.VishyServerConfiguration;
+import org.tbk.vishy.properties.provider.browser.BrowserRequestInterceptor;
+import org.tbk.vishy.properties.provider.device.DeviceRequestInterceptor;
+import org.tbk.vishy.properties.provider.geolocation.GeoLocationRequestInterceptor;
+import org.tbk.vishy.properties.provider.operatingsystem.OperatingSystemRequestInterceptor;
 
-import java.nio.charset.Charset;
+import java.util.Map;
 
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -37,7 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class VishyIT {
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
-            Charset.forName("utf8"));
+            Charsets.UTF_8);
 
     @Autowired
     private WebApplicationContext wac;
@@ -47,6 +57,31 @@ public class VishyIT {
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    }
+
+    @Test
+    public void itShouldHaveStandardConsumers() throws Exception {
+        final Map<String, OpenMrcRequestConsumer> beansOfType = wac.getBeansOfType(OpenMrcRequestConsumer.class);
+        assertThat(beansOfType, is(notNullValue()));
+        assertThat(beansOfType.values(), hasSize(greaterThan(0)));
+        assertThat(beansOfType.values().stream()
+                .anyMatch(obj -> obj instanceof DropwizardMetricsClientAdapter), is(true));
+    }
+
+    @Test
+    public void itShouldHaveStandardInterceptors() throws Exception {
+        final Map<String, OpenMrcRequestInterceptor> beansOfType = wac.getBeansOfType(OpenMrcRequestInterceptor.class);
+        assertThat(beansOfType, is(notNullValue()));
+        assertThat(beansOfType.values(), hasSize(greaterThanOrEqualTo(7)));
+
+        assertThat(beansOfType.values().stream()
+                .anyMatch(obj -> obj instanceof GeoLocationRequestInterceptor), is(true));
+        assertThat(beansOfType.values().stream()
+                .anyMatch(obj -> obj instanceof DeviceRequestInterceptor), is(true));
+        assertThat(beansOfType.values().stream()
+                .anyMatch(obj -> obj instanceof OperatingSystemRequestInterceptor), is(true));
+        assertThat(beansOfType.values().stream()
+                .anyMatch(obj -> obj instanceof BrowserRequestInterceptor), is(true));
     }
 
     @Test
