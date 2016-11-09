@@ -14,7 +14,6 @@
         <module>vishy-server-utils</module>
         <module>vishy-server-analytics-script</module>
         <module>vishy-server-property-provider</module>
-        <module>vishy-server-client</module>
         <module>vishy-server-extensions</module>
         <module>vishy-web-ui</module>
         <module>vishy-server-swagger</module>
@@ -36,6 +35,7 @@
         <mockito.version>1.10.19</mockito.version>
         <junitparams.version>1.0.4</junitparams.version>
         <openmrc.version>0.2.0-SNAPSHOT</openmrc.version>
+        <vishy-consumer-all.version>1.1.0-SNAPSHOT</vishy-consumer-all.version>
         <guava.version>20.0</guava.version>
         <jackson.jdk8.version>2.5.3</jackson.jdk8.version>
         <lombok.version>1.14.8</lombok.version>
@@ -79,12 +79,6 @@
 
 
         <!-- openmrc dependencies -->
-        <!-- dependency>
-            <groupId>com.segment.analytics.java</groupId>
-            <artifactId>analytics</artifactId>
-            <version>LATEST</version>
-        </dependency -->
-
         <dependency>
             <groupId>com.github.theborakompanioni</groupId>
             <artifactId>openmrc-core</artifactId>
@@ -187,6 +181,17 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.github.theborakompanioni</groupId>
+                <artifactId>vishy-consumer-all</artifactId>
+                <version>${vishy-consumer-all.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.github.theborakompanioni</groupId>
+                        <artifactId>vishy-consumer-elasticsearch</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
             <dependency>
                 <groupId>com.netflix.hystrix</groupId>
                 <artifactId>hystrix-core</artifactId>
