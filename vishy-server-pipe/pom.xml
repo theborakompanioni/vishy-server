@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>vishy-server-client</artifactId>
+    <artifactId>vishy-server-pipe</artifactId>
 
     <properties>
         <keen.client.version>2.1.1</keen.client.version>
