@@ -19,6 +19,7 @@ public class SwaggerProperties {
             "https://opensource.org/licenses/MIT"
     );
 
+    private boolean enabled;
     private String version = DEFAULT.getVersion();
     private String title = DEFAULT.getTitle();
     private String description = DEFAULT.getDescription();
@@ -26,6 +27,14 @@ public class SwaggerProperties {
     private String license = DEFAULT.getLicense();
     private String licenseUrl = DEFAULT.getLicenseUrl();
     private String contact = DEFAULT.getContact().getName();
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public String getVersion() {
         return version;
