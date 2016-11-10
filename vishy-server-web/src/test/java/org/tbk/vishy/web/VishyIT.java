@@ -85,6 +85,21 @@ public class VishyIT {
     }
 
     @Test
+    public void itShouldFetchAnalyticsScript() throws Exception {
+        mockMvc.perform(get("/static/vishy-analytics/dist/vishy-analytics.min.js")
+                .accept("application/javascript"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void itShouldFetchDemoScript() throws Exception {
+        mockMvc.perform(get("/openmrc/vishy/demo.js")
+                .param("elementId", "my-element")
+                .accept("application/javascript"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void testHelloGet() throws Exception {
         mockMvc.perform(get("/hello")
                 .accept(MediaType.APPLICATION_JSON))

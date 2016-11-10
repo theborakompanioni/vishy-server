@@ -10,7 +10,8 @@ import java.io.StringWriter;
 import static java.util.Objects.requireNonNull;
 
 public class AnalyticsScriptLoaderFactoryImpl implements AnalyticsScriptLoaderFactory {
-    final Template template;
+    private final Template template;
+    private final Whitelist emptyWhitelist = Whitelist.none();
 
     public AnalyticsScriptLoaderFactoryImpl(Template template) {
         this.template = requireNonNull(template);
@@ -18,8 +19,8 @@ public class AnalyticsScriptLoaderFactoryImpl implements AnalyticsScriptLoaderFa
 
     @Override
     public String createLoaderScript(String projectId, String elementId) {
-        String cleanProjectId = Jsoup.clean(projectId, Whitelist.none());
-        String cleanElementId = Jsoup.clean(elementId, Whitelist.none());
+        String cleanProjectId = Jsoup.clean(projectId, emptyWhitelist);
+        String cleanElementId = Jsoup.clean(elementId, emptyWhitelist);
 
         VelocityContext context = new VelocityContext();
         context.put("projectId", cleanProjectId);

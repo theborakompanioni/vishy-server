@@ -22,6 +22,8 @@ import static java.util.Objects.requireNonNull;
 @RequestMapping("/openmrc")
 public class VishyScriptLoaderCtrl {
 
+    private static final String PUBLIC_PROJECT_ID = "DEMO";
+
     private AnalyticsScriptLoaderFactory scriptLoaderFactory;
 
     private final LoadingCache<CacheKey, String> scriptCache = CacheBuilder.newBuilder()
@@ -35,8 +37,10 @@ public class VishyScriptLoaderCtrl {
     @Builder
     private static class CacheKey {
         private static int MAX_VALUE_LENGTH = 32;
-        private static CharMatcher VALID_CHARS = CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('A', 'Z'))
+        private static CharMatcher VALID_CHARS = CharMatcher.inRange('a', 'z')
+                .or(CharMatcher.inRange('A', 'Z'))
                 .or(CharMatcher.javaDigit())
+                .or(CharMatcher.anyOf("-_"))
                 .precomputed();
 
         private String elementId;
@@ -59,6 +63,15 @@ public class VishyScriptLoaderCtrl {
     @Autowired
     public VishyScriptLoaderCtrl(final AnalyticsScriptLoaderFactory scriptLoaderFactory) {
         this.scriptLoaderFactory = requireNonNull(scriptLoaderFactory);
+    }
+
+    @RequestMapping(
+            value = "/vishy/demo.js",
+            method = RequestMethod.GET
+    )
+    public ResponseEntity<?> demoProjectAnalyticsScript(@RequestParam(required = true) String elementId) {
+        return A(PUBLIC_PROJECT_ID, elementId);
+
     }
 
     @RequestMapping(

@@ -39,4 +39,26 @@ public class AnalyticsScriptIT {
                 .accept("application/javascript"))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void itShouldReturnErrorOnFetchDemoScriptWithMissingElementId() throws Exception {
+        mockMvc.perform(get("/openmrc/vishy/demo.js")
+                .param("elementId", "")
+                .accept("application/javascript"))
+                .andExpect(status().isBadRequest());
+
+        mockMvc.perform(get("/openmrc/vishy/demo.js")
+                .param("elementId", "my-element")
+                .accept("application/javascript"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void itShouldFetchDemoScript() throws Exception {
+        mockMvc.perform(get("/openmrc/vishy/demo.js")
+                .param("elementId", "my-element")
+                .accept("application/javascript"))
+                .andExpect(status().isOk());
+    }
+
 }
