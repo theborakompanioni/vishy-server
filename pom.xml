@@ -4,11 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.tbk.vishy</groupId>
-    <artifactId>vishy-server</artifactId>
-    <packaging>pom</packaging>
-    <version>1.1.0-SNAPSHOT</version>
-
     <modules>
         <module>vishy-server-web</module>
         <module>vishy-server-utils</module>
@@ -24,6 +19,48 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.4.1.RELEASE</version>
     </parent>
+
+    <groupId>com.github.theborakompanioni</groupId>
+    <artifactId>vishy-server</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>vishy-server</name>
+    <description>
+        OpenMrc implementation
+    </description>
+    <url>https://github.com/theborakompanioni/vishy-server</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <issueManagement>
+        <url>https://github.com/theborakompanioni/vishy-server/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <scm>
+        <url>git@github.com:theborakompanioni/vishy-server.git</url>
+        <connection>git@github.com:theborakompanioni/vishy-server.git</connection>
+        <developerConnection>git@github.com:theborakompanioni/vishy-server.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>theborakompanioni</id>
+            <name>theborakompanioni</name>
+            <email>theborakompanioni+github@gmail.com</email>
+        </developer>
+    </developers>
+
+    <prerequisites>
+        <maven>3.2</maven>
+    </prerequisites>
 
     <properties>
         <java.version>1.8</java.version>
@@ -232,6 +269,41 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <preparationGoals>clean verify javadoc:aggregate</preparationGoals>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.5</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
