@@ -1,7 +1,6 @@
 package org.tbk.vishy;
 
 import com.github.theborakompanioni.openmrc.web.OpenMrcHttpRequestService;
-import com.github.theborakompanioni.vishy.metrics.DropwizardMetricsConfig;
 import io.vertx.core.Vertx;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.Template;
@@ -19,9 +18,10 @@ import org.tbk.vishy.verticle.HelloVerticle;
 import org.tbk.vishy.web.VishyOpenMrcCtrl;
 
 @Slf4j
-@ComponentScan(
-        value = "org.tbk.vishy",
-        basePackageClasses = DropwizardMetricsConfig.class)
+@ComponentScan(value = {
+        "org.tbk.vishy",
+        "com.github.theborakompanioni"
+})
 @AutoConfigureAfter({VishyOpenMrcConfiguration.class})
 @Configuration
 public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
