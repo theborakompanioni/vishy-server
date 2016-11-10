@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -20,7 +22,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @EnableConfigurationProperties(SwaggerProperties.class)
 @ConditionalOnProperty(value = "vishy.swagger.enabled", matchIfMissing = true)
 @EnableSwagger2
-public class SwaggerConfiguration {
+public class SwaggerConfiguration extends WebMvcConfigurerAdapter {
 
     @Autowired
     private SwaggerProperties swaggerProperties;
@@ -57,5 +59,20 @@ public class SwaggerConfiguration {
                 properties.getLicense(),
                 properties.getLicenseUrl()
         );
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        int cachePeriod = 1000;
+
+        if (!registry.hasMappingForPattern("/webjars/**")) {
+            registry.addResourceHandler("/webjars/**")
+                    .addResourceLocations("classpath:/META-INF/resources/webjars/")
+                    .setCachePeriod(cachePeriod);
+        }
+
+        registry.addResourceHandler("/swagger-ui.html")
+                .addResourceLocations("classpath:/static/swagger-ui.html")
+                .setCachePeriod(cachePeriod);
     }
 }

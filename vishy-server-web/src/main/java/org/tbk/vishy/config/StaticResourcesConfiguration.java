@@ -1,7 +1,7 @@
 package org.tbk.vishy.config;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 @Configuration
 public class StaticResourcesConfiguration extends WebMvcConfigurerAdapter {
 
-    private static Log logger = LogFactory.getLog(StaticResourcesConfiguration.class);
+    private static Logger logger = LoggerFactory.getLogger(StaticResourcesConfiguration.class);
 
     private static final int CACHE_PERIOD = 1000;
 
@@ -56,15 +56,5 @@ public class StaticResourcesConfiguration extends WebMvcConfigurerAdapter {
                 .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"))
                 .addTransformer(new AppCacheManifestTransformer());
 
-        if (!registry.hasMappingForPattern("/webjars/**")) {
-            registry.addResourceHandler("/webjars/**")
-                    .addResourceLocations("classpath:/META-INF/resources/webjars/")
-                    .setCachePeriod(cachePeriod);
-        }
-
-        // important for swagger-ui
-        registry.addResourceHandler("/swagger-ui.html")
-                .addResourceLocations("classpath:/static/swagger-ui.html")
-                .setCachePeriod(cachePeriod);
     }
 }
