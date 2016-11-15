@@ -6,6 +6,7 @@ import io.vertx.core.Vertx;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.system.ApplicationPidFileWriter;
 import org.springframework.boot.system.EmbeddedServerPortFileWriter;
@@ -17,7 +18,11 @@ import java.util.List;
 import static java.util.Objects.requireNonNull;
 
 @Slf4j
-@SpringBootApplication
+@SpringBootApplication(
+        // DataSource auto-config disabled to pevent spring
+        // from erring "Cannot determine embedded database driver class"
+        exclude = DataSourceAutoConfiguration.class
+)
 public class Application {
 
     public static void main(String[] args) {
