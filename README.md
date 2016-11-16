@@ -12,7 +12,7 @@ see [vishy-server-web/README.md](vishy-server-web/README.md).
 ### docker
 ```
 mvn -pl vishy-server-web docker:build
-docker run -t -i -p 8080:8080 tbk/vishy-server-web
+docker run -t -i -p 8080:8080 theborakompanioni/vishy
 ```
 
 ## ui
