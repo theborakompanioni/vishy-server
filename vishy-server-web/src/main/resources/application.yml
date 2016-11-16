@@ -10,6 +10,8 @@ server.compression.enabled: true
 management.port: 9001
 management.context-path: /actuator
 
+#spring.boot.admin.url: http://localhost:9080
+
 # LOGGING
 logging.path: ./var/log
 logging.file: application.log

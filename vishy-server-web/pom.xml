@@ -37,13 +37,13 @@
             <artifactId>vertx-web</artifactId>
             <version>${vertx.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-unit</artifactId>
             <version>${vertx.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>com.github.theborakompanioni</groupId>
             <artifactId>vishy-server-utils</artifactId>
@@ -77,6 +77,11 @@
             <groupId>com.github.theborakompanioni</groupId>
             <artifactId>vishy-web-ui</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
         </dependency>
 
         <dependency>
