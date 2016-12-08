@@ -4,6 +4,7 @@
 /src/main/webapp/dist
 app.pid
 app.port
+app-management.port
 
 ######################
 # Node
