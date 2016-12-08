@@ -13,7 +13,7 @@ management.context-path: /actuator
 logging.path: ./var/log
 logging.file: application.log
 logging.config: classpath:logback-development.xml
-logging.level.org.springframework: DEBUG
+logging.level.org.springframework: INFO
 logging.level.org.pac4j: DEBUG
 logging.level.org.apache.shiro: DEBUG
 
@@ -27,6 +27,8 @@ vishy.oauth:
 
 vishy.metrics:
   enabled: true
+  console: true
+  interval-in-seconds: 42
 
 vishy.influxdb:
   enabled: false

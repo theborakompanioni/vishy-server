@@ -8,7 +8,7 @@ import com.github.theborakompanioni.openmrc.mother.SummaryRequests;
 import com.github.theborakompanioni.openmrc.mother.json.InitialRequestJsonMother;
 import com.github.theborakompanioni.openmrc.mother.json.StatusRequestJsonMother;
 import com.github.theborakompanioni.openmrc.mother.json.SummaryRequestJsonMother;
-import com.github.theborakompanioni.vishy.metrics.DropwizardMetricsClientAdapter;
+import com.github.theborakompanioni.vishy.metrics.VishyMetricsClientAdapter;
 import com.google.common.base.Charsets;
 import com.google.common.net.HttpHeaders;
 import org.junit.Before;
@@ -65,7 +65,7 @@ public class VishyIT {
         assertThat(beansOfType, is(notNullValue()));
         assertThat(beansOfType.values(), hasSize(greaterThan(0)));
         assertThat(beansOfType.values().stream()
-                .anyMatch(obj -> obj instanceof DropwizardMetricsClientAdapter), is(true));
+                .anyMatch(obj -> obj instanceof VishyMetricsClientAdapter), is(true));
     }
 
     @Test

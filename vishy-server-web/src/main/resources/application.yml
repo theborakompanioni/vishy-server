@@ -30,6 +30,8 @@ vishy.oauth:
 
 vishy.metrics:
   enabled: true
+  console: true
+  interval-in-seconds: 300
 
 vishy.influxdb:
   enabled: false
