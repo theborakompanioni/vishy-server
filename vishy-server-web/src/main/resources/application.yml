@@ -48,3 +48,10 @@ vishy.jdbc:
   jdbcUrl: jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=FALSE
   driverClassName: org.h2.Driver
   tableName: vishy_openmrc_request
+
+
+vishy.js.analytics:
+  enabled: true
+  protocol: http
+  host: localhost
+  port: 8080

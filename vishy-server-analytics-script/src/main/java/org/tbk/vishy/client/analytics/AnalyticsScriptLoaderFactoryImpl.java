@@ -11,9 +11,11 @@ import static java.util.Objects.requireNonNull;
 
 public class AnalyticsScriptLoaderFactoryImpl implements AnalyticsScriptLoaderFactory {
     private final Template template;
+    private final VishyAnalyticsScriptProperties properties;
     private final Whitelist emptyWhitelist = Whitelist.none();
 
-    public AnalyticsScriptLoaderFactoryImpl(Template template) {
+    public AnalyticsScriptLoaderFactoryImpl(VishyAnalyticsScriptProperties properties, Template template) {
+        this.properties = requireNonNull(properties);
         this.template = requireNonNull(template);
     }
 
@@ -26,9 +28,9 @@ public class AnalyticsScriptLoaderFactoryImpl implements AnalyticsScriptLoaderFa
         context.put("projectId", cleanProjectId);
         context.put("elementId", cleanElementId);
         context.put("analyticsScriptSrc", getAnalyticsScriptSource());
-        context.put("protocol", "http");
-        context.put("host", "localhost");
-        context.put("port", "8080");
+        context.put("protocol", properties.getHost());
+        context.put("host", properties.getHost());
+        context.put("port", properties.getPort());
 
         StringWriter sw = new StringWriter();
 

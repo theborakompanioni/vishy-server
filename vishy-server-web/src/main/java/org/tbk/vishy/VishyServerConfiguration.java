@@ -46,18 +46,6 @@ public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
         return new VishyOpenMrcCtrl(openMrcHttpRequestService);
     }
 
-    @Bean
-    public VishyScriptLoaderCtrl vishyScriptLoaderCtrl(VelocityEngine velocityEngine) {
-        return new VishyScriptLoaderCtrl(analyticsScriptLoaderFactory(velocityEngine));
-    }
-
-    @Bean
-    public AnalyticsScriptLoaderFactory analyticsScriptLoaderFactory(VelocityEngine velocityEngine) {
-        final Template template = velocityEngine.getTemplate("velocity/vishy_analytics_loader_template.vm");
-        AnalyticsScriptLoaderFactory bean = new AnalyticsScriptLoaderFactoryImpl(template);
-        return bean;
-    }
-
     /*@Bean
     public ServletRegistrationBean vishyOpenMrcServlet(OpenMrcClientList clients) {
         return new ServletRegistrationBean(new VishyOpenMrcServlet(clients), "/openmrc");
