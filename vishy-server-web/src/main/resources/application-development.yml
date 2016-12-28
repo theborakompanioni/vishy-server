@@ -50,5 +50,5 @@ vishy.js.analytics:
   enabled: true
   protocol: http
   host: localhost
-  port: 8080
+  port: ${server.port}
   scriptSrc: static/vishy-analytics/dist/vishy-analytics.js

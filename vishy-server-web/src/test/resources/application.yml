@@ -10,3 +10,10 @@ logging.path: ./var/log
 logging.file: application.log
 logging.config: classpath:logback.xml
 logging.level.org.springframework: WARN
+
+vishy.js.analytics:
+  enabled: true
+  protocol: http
+  host: localhost
+  port: ${server.port}
+  scriptSrc: static/vishy-analytics/dist/vishy-analytics.js

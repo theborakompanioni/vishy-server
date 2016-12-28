@@ -11,7 +11,8 @@ import java.util.Set;
 public class VishyAnalyticsScriptPropertiesValidator implements Validator {
 
     private static Set<String> supportedProtocols = ImmutableSet.<String>builder()
-            .add("http", "https").build();
+            .add("http", "https")
+            .build();
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -20,12 +21,12 @@ public class VishyAnalyticsScriptPropertiesValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        ValidationUtils.rejectIfEmpty(errors, "host", "host.empty");
-        ValidationUtils.rejectIfEmpty(errors, "port", "port.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "host", "host.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "port", "port.empty");
 
         VishyAnalyticsScriptProperties properties = (VishyAnalyticsScriptProperties) target;
 
-        if (Ints.tryParse(properties.getPort(), 10) == null) {
+        if (properties.getPort() == null || Ints.tryParse(properties.getPort(), 10) == null) {
             errors.rejectValue("port", "port.invalid", "Invalid port");
         }
 
