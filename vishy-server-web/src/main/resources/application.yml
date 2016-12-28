@@ -55,3 +55,4 @@ vishy.js.analytics:
   protocol: http
   host: localhost
   port: 8080
+  scriptSrc: static/vishy-analytics/dist/vishy-analytics.min.js

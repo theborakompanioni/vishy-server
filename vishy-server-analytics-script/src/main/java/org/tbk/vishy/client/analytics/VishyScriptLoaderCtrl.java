@@ -71,7 +71,6 @@ public class VishyScriptLoaderCtrl {
     )
     public ResponseEntity<?> demoProjectAnalyticsScript(@RequestParam(required = true) String elementId) {
         return A(PUBLIC_PROJECT_ID, elementId);
-
     }
 
     @RequestMapping(

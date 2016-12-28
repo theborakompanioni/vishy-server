@@ -28,7 +28,7 @@ public class AnalyticsScriptLoaderFactoryImpl implements AnalyticsScriptLoaderFa
         context.put("projectId", cleanProjectId);
         context.put("elementId", cleanElementId);
         context.put("analyticsScriptSrc", getAnalyticsScriptSource());
-        context.put("protocol", properties.getHost());
+        context.put("protocol", properties.getProtocol());
         context.put("host", properties.getHost());
         context.put("port", properties.getPort());
 
@@ -40,6 +40,6 @@ public class AnalyticsScriptLoaderFactoryImpl implements AnalyticsScriptLoaderFa
     }
 
     private String getAnalyticsScriptSource() {
-        return "//localhost:8080/static/vishy-analytics/dist/vishy-analytics.min.js";
+        return "//" + properties.getHost() + ":" + properties.getPort() + "/" + properties.getScriptSrc();
     }
 }

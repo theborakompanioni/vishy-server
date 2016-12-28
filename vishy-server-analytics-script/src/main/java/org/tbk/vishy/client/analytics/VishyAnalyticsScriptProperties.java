@@ -9,6 +9,7 @@ public class VishyAnalyticsScriptProperties {
     private String host;
     private String port;
     private String protocol;
+    private String scriptSrc;
 
     public VishyAnalyticsScriptProperties() {
     }
@@ -43,5 +44,13 @@ public class VishyAnalyticsScriptProperties {
 
     public void setProtocol(String protocol) {
         this.protocol = protocol;
+    }
+
+    public String getScriptSrc() {
+        return scriptSrc;
+    }
+
+    public void setScriptSrc(String scriptSrc) {
+        this.scriptSrc = scriptSrc;
     }
 }
