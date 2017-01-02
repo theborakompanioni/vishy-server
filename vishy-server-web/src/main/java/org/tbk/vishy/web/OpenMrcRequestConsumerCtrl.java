@@ -17,12 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @RestController
 @RequestMapping("/openmrc")
-public class VishyOpenMrcCtrl {
+public class OpenMrcRequestConsumerCtrl {
 
     private final OpenMrcHttpRequestService openMrcService;
 
     @Autowired
-    public VishyOpenMrcCtrl(OpenMrcHttpRequestService openMrcService) {
+    public OpenMrcRequestConsumerCtrl(OpenMrcHttpRequestService openMrcService) {
         this.openMrcService = openMrcService;
     }
 
