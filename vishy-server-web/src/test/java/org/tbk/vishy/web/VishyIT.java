@@ -11,12 +11,15 @@ import com.github.theborakompanioni.openmrc.mother.json.SummaryRequestJsonMother
 import com.github.theborakompanioni.vishy.metrics.VishyMetricsClientAdapter;
 import com.google.common.base.Charsets;
 import com.google.common.net.HttpHeaders;
+import org.hamcrest.CustomMatcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Repeat;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,6 +39,7 @@ import static org.junit.Assert.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -114,80 +118,80 @@ public class VishyIT {
     }
 
     @Test
-    public void testWithoutRequestBody() throws Exception {
+    public void itShouldDeclineMissingRequestBody() throws Exception {
         mockMvc.perform(post("/openmrc/consume")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(request().asyncResult(HttpStatusMatcher.badRequest()));
     }
 
     @Test
-    public void testWithEmptyRequestBody() throws Throwable {
-        send("").andExpect(status().isBadRequest());
-        send("{}").andExpect(status().isBadRequest());
+    public void itShouldDeclineEmptyRequestBody() throws Throwable {
+        send("").andExpect(request().asyncResult(HttpStatusMatcher.badRequest()));
+        send("{}").andExpect(request().asyncResult(HttpStatusMatcher.badRequest()));
     }
 
     @Test
-    public void testWithRequestBodyWithoutTypeInformation() throws Throwable {
-        send("{ test: \"Test\" }").andExpect(status().isBadRequest());
+    public void itShouldDeclineRequestBodyWithoutTypeInformation() throws Throwable {
+        send("{ test: \"Test\" }").andExpect(request().asyncResult(HttpStatusMatcher.badRequest()));
     }
 
     @Test
-    public void testWithInitialEventRequestBody() throws Exception {
+    public void itShouldAcceptInitialEventRequestBody() throws Exception {
         String requestJson = InitialRequests.json().standardInitialRequest();
-        send(requestJson).andExpect(status().isAccepted());
+        send(requestJson).andExpect(request().asyncResult(HttpStatusMatcher.accepted()));
 
         String requestWithExtensionJson = InitialRequests.json().initialRequestWithBrowserExtension();
-        send(requestWithExtensionJson).andExpect(status().isAccepted());
+        send(requestWithExtensionJson).andExpect(request().asyncResult(HttpStatusMatcher.accepted()));
     }
 
     @Test
-    public void testWithInitialEventWithBrowserExtensionRequestBody() throws Exception {
+    public void itShouldAcceptInitialEventWithBrowserExtensionRequestBody() throws Exception {
         String requestWithExtensionJson = InitialRequests.json().initialRequestWithBrowserExtension();
-        send(requestWithExtensionJson).andExpect(status().isAccepted());
+        send(requestWithExtensionJson).andExpect(request().asyncResult(HttpStatusMatcher.accepted()));
     }
 
     @Test
-    public void testWithStatusEventRequestBody() throws Exception {
+    public void itShouldAcceptStatusEventRequestBody() throws Exception {
         String requestJson = StatusRequests.json().standardStatusRequest();
-        send(requestJson).andExpect(status().isAccepted());
+        send(requestJson).andExpect(request().asyncResult(HttpStatusMatcher.accepted()));
     }
 
     @Test
-    public void testWithSummaryEventRequestBody() throws Exception {
+    public void itShouldAcceptSummaryEventRequestBody() throws Exception {
         String requestJson = SummaryRequests.json().standardSummaryRequest();
-        send(requestJson).andExpect(status().isAccepted());
+        send(requestJson).andExpect(request().asyncResult(HttpStatusMatcher.accepted()));
     }
 
     @Test
-    public void itShouldAcceptValidInitialRequests() throws Exception {
+    public void itShouldAcceptAcceptValidInitialRequests() throws Exception {
         String requestJson = new InitialRequestJsonMother().initialRequestWithBrowserExtension();
-        send(requestJson).andExpect(status().isAccepted());
+        send(requestJson).andExpect(request().asyncResult(HttpStatusMatcher.accepted()));
     }
 
     @Test
     public void itShouldAcceptValidStatusRequests() throws Exception {
         String requestJson = new StatusRequestJsonMother().standardStatusRequest();
-        send(requestJson).andExpect(status().isAccepted());
+        send(requestJson).andExpect(request().asyncResult(HttpStatusMatcher.accepted()));
     }
 
     @Test
     public void itShouldAcceptValidStatusRequestsWithFloatValues() throws Exception {
         String requestJson2 = "{\"type\":\"STATUS\",\"monitorId\":\"9f554854-86a6-43b1-a11b-8a987e50f870\",\"status\":{\"test\":{\"monitorState\":{\"code\":1,\"state\":\"visible\",\"percentage\":0.8,\"fullyvisible\":false,\"visible\":true,\"hidden\":false},\"testConfig\":{\"percentageLimit\":0.5,\"timeLimit\":1000,\"interval\":100},\"timeReport\":{\"timeHidden\":0,\"timeVisible\":1268,\"timeFullyVisible\":0,\"timeRelativeVisible\":1030,\"duration\":1268,\"timeStarted\":1435010244664,\"percentage\":{\"current\":0.6,\"maximum\":0.99,\"minimum\":0.77}}}},\"sessionId\":\"5b9a546a-ee0e-44ba-adf1-4d1757422529\",\"viewport\":{\"width\":960,\"height\":198},\"vishy\":{\"id\":\"42\",\"projectId\":\"myElement\"}}";
-        send(requestJson2).andExpect(status().isAccepted());
+        send(requestJson2).andExpect(request().asyncResult(HttpStatusMatcher.accepted()));
     }
 
     @Test
     @Repeat(5)
     public void itShouldAcceptValidSummaryRequests() throws Exception {
         String requestJson = new SummaryRequestJsonMother().standardSummaryRequest();
-        send(requestJson).andExpect(status().isAccepted());
+        send(requestJson).andExpect(request().asyncResult(HttpStatusMatcher.accepted()));
     }
 
     @Test
     @Repeat(5)
     public void itShouldDeclineRequestsWithoutValidStatus() throws Exception {
         String requestJson = "{\"type\":\"STATUS--invalid--\",\"monitorId\":\"8\",\"status\":{\"test\":{\"monitorState\":{\"code\":2,\"state\":\"fullyvisible\",\"percentage\":1,\"previous\":{\"code\":2,\"state\":\"fullyvisible\",\"percentage\":1,\"fullyvisible\":true,\"visible\":true,\"hidden\":false},\"fullyvisible\":true,\"visible\":true,\"hidden\":false},\"testConfig\":{\"percentageLimit\":0.5,\"timeLimit\":1000,\"interval\":100},\"timeReport\":{\"timeHidden\":0,\"timeVisible\":1068,\"timeFullyVisible\":1068,\"timeRelativeVisible\":1068,\"duration\":1068,\"timeStarted\":1435006723958,\"percentage\":{\"current\":1,\"maximum\":1,\"minimum\":1}}}},\"sessionId\":\"557a4811-7e29-4bb2-8f43-66fb3929591b\",\"viewport\":{\"width\":1920,\"height\":372},\"vishy\":{\"id\":\"42\",\"projectId\":\"myElement\"}}";
-        send(requestJson).andExpect(status().isBadRequest());
+        send(requestJson).andExpect(request().asyncResult(HttpStatusMatcher.badRequest()));
     }
 
     private ResultActions send(String json) throws Exception {
@@ -196,5 +200,34 @@ public class VishyIT {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(contentType)
                 .content(json));
+    }
+
+
+    public static class HttpStatusMatcher extends CustomMatcher<ResponseEntity> {
+        private static HttpStatusMatcher of(HttpStatus status) {
+            return new HttpStatusMatcher(status);
+        }
+        public static HttpStatusMatcher accepted() {
+            return HttpStatusMatcher.of(HttpStatus.ACCEPTED);
+        }
+        public static HttpStatusMatcher badRequest() {
+            return HttpStatusMatcher.of(HttpStatus.BAD_REQUEST);
+        }
+        public static HttpStatusMatcher internalServerError() {
+            return HttpStatusMatcher.of(HttpStatus.BAD_REQUEST);
+        }
+
+        private final HttpStatus status;
+
+        private HttpStatusMatcher(HttpStatus status) {
+            super(status.getReasonPhrase());
+            this.status = status;
+        }
+
+        @Override
+        public boolean matches(Object item) {
+            ResponseEntity<?> value = (ResponseEntity<?>) item;
+            return value.getStatusCode() == status;
+        }
     }
 }

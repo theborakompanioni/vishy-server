@@ -1,18 +1,19 @@
 package org.tbk.vishy.web;
 
-import com.github.theborakompanioni.openmrc.web.OpenMrcHttpRequestService;
+import com.github.theborakompanioni.openmrc.spring.web.OpenMrcHttpRequestService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @RestController
@@ -35,16 +36,34 @@ public class OpenMrcRequestConsumerCtrl {
                     required = true
             )
     })
-    public ResponseEntity<Void> trackMapping(HttpServletRequest request) {
-        try {
-            HttpServletResponse response = openMrcService.apply(request);
-            return ResponseEntity.status(response.getStatus()).build();
-        } catch (RuntimeException | Error e) {
-            log.error("", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        } catch (Exception e) {
-            log.warn("", e);
-            return ResponseEntity.badRequest().build();
+    public DeferredResult<HttpEntity<String>> consume(HttpServletRequest request) {
+        final DeferredResult<HttpEntity<String>> deferredResult = new DeferredResult<>();
+        openMrcService.apply(request)
+                .subscribe(deferredResult::setResult,
+                        e -> {
+                            if (e instanceof RuntimeException) {
+                                log.error("", e);
+                                deferredResult.setErrorResult(new InternalServerException(e));
+                            } else {
+                                log.warn("", e);
+                                deferredResult.setErrorResult(new BadRequestException(e));
+                            }
+                        });
+
+        return deferredResult;
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public static class InternalServerException extends Exception {
+        public InternalServerException(Throwable t) {
+            super(t);
+        }
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public static class BadRequestException extends Exception {
+        public BadRequestException(Throwable t) {
+            super(t);
         }
     }
 }

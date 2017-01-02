@@ -1,10 +1,11 @@
 package org.tbk.vishy.properties.provider.device;
 
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
-import com.github.theborakompanioni.openmrc.impl.ExtensionHttpRequestInterceptorSupport;
+import com.github.theborakompanioni.openmrc.spring.impl.ExtensionHttpRequestInterceptorSupport;
 import eu.bitwalker.useragentutils.DeviceType;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
+import io.reactivex.Observable;
 import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.DeviceUtils;
 import org.tbk.vishy.utils.ExtractUserAgent;
@@ -59,7 +60,7 @@ public class DeviceRequestInterceptor extends ExtensionHttpRequestInterceptorSup
     }
 
     @Override
-    protected Optional<OpenMrcExtensions.Device> extract(HttpServletRequest httpServletRequest) {
+    protected Observable<OpenMrcExtensions.Device> extract(HttpServletRequest httpServletRequest) {
         Device device = Optional.ofNullable(httpServletRequest)
                 .map(DeviceUtils::getCurrentDevice)
                 .orElse(NORMAL_INSTANCE);
@@ -69,7 +70,9 @@ public class DeviceRequestInterceptor extends ExtensionHttpRequestInterceptorSup
                 .flatMap(Supplier::get)
                 .map(UserAgent::getOperatingSystem)
                 .map(OperatingSystem::getDeviceType)
-                .map(deviceType -> TO_PROTO.apply(device, deviceType));
+                .map(deviceType -> TO_PROTO.apply(device, deviceType))
+                .map(Observable::just)
+                .orElse(Observable.empty());
     }
 
 }

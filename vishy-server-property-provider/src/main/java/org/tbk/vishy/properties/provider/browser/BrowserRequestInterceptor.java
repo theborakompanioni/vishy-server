@@ -1,9 +1,10 @@
 package org.tbk.vishy.properties.provider.browser;
 
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
-import com.github.theborakompanioni.openmrc.impl.ExtensionHttpRequestInterceptorSupport;
+import com.github.theborakompanioni.openmrc.spring.impl.ExtensionHttpRequestInterceptorSupport;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.Version;
+import io.reactivex.Observable;
 import org.tbk.vishy.utils.ExtractUserAgent;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,11 +44,13 @@ public class BrowserRequestInterceptor extends ExtensionHttpRequestInterceptorSu
     }
 
     @Override
-    protected Optional<OpenMrcExtensions.Browser> extract(HttpServletRequest httpServletRequest) {
+    protected Observable<OpenMrcExtensions.Browser> extract(HttpServletRequest httpServletRequest) {
         return Optional.ofNullable(httpServletRequest)
                 .map(ExtractUserAgent.fromHttpRequest)
                 .flatMap(Supplier::get)
-                .map(ua -> TO_PROTO.apply(ua.getBrowser(), firstNonNull(ua.getBrowserVersion(), UNKNOWN_VERSION)));
+                .map(ua -> TO_PROTO.apply(ua.getBrowser(), firstNonNull(ua.getBrowserVersion(), UNKNOWN_VERSION)))
+                .map(Observable::just)
+                .orElse(Observable.empty());
     }
 
 }

@@ -72,8 +72,8 @@
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
         <junitparams.version>1.0.4</junitparams.version>
-        <openmrc.version>0.2.0-SNAPSHOT</openmrc.version>
-        <vishy-consumer-all.version>1.1.0-SNAPSHOT</vishy-consumer-all.version>
+        <openmrc.version>0.4.0-SNAPSHOT</openmrc.version>
+        <vishy-consumer-all.version>1.2.0-SNAPSHOT</vishy-consumer-all.version>
         <guava.version>20.0</guava.version>
         <jackson.jdk8.version>2.5.3</jackson.jdk8.version>
         <lombok.version>1.14.8</lombok.version>
@@ -84,8 +84,8 @@
         <org.json.version>20140107</org.json.version>
         <hamcrest.version>1.3</hamcrest.version>
 
-        <hystrix.version>1.4.14</hystrix.version>
-        <rxjava_version_requested_by_hystrix-core_1_4_14>1.0.13</rxjava_version_requested_by_hystrix-core_1_4_14>
+        <hystrix.version>1.5.9</hystrix.version>
+        <!--rxjava_version_requested_by_hystrix-core_1_4_14>1.0.13</rxjava_version_requested_by_hystrix-core_1_4_14-->
         <spring-boot-admin-starter-client.version>1.4.3</spring-boot-admin-starter-client.version>
     </properties>
 
@@ -240,12 +240,6 @@
                 <groupId>com.netflix.hystrix</groupId>
                 <artifactId>hystrix-core</artifactId>
                 <version>${hystrix.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.reactivex</groupId>
-                <artifactId>rxjava</artifactId>
-                <version>${rxjava_version_requested_by_hystrix-core_1_4_14}</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>de.codecentric</groupId>

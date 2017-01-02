@@ -1,21 +1,16 @@
 package org.tbk.vishy;
 
-import com.github.theborakompanioni.openmrc.web.OpenMrcHttpRequestService;
+import com.github.theborakompanioni.openmrc.spring.web.OpenMrcHttpRequestService;
 import io.vertx.core.Vertx;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.velocity.Template;
-import org.apache.velocity.app.VelocityEngine;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.tbk.vishy.client.analytics.AnalyticsScriptLoaderFactory;
-import org.tbk.vishy.client.analytics.AnalyticsScriptLoaderFactoryImpl;
-import org.tbk.vishy.client.analytics.VishyScriptLoaderCtrl;
 import org.tbk.vishy.verticle.HelloVerticle;
-import org.tbk.vishy.web.VishyOpenMrcCtrl;
+import org.tbk.vishy.web.OpenMrcRequestConsumerCtrl;
 
 @Slf4j
 @ComponentScan(value = {
@@ -42,8 +37,8 @@ public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public VishyOpenMrcCtrl vishyOpenMrcCtrl(OpenMrcHttpRequestService openMrcHttpRequestService) {
-        return new VishyOpenMrcCtrl(openMrcHttpRequestService);
+    public OpenMrcRequestConsumerCtrl openMrcRequestConsumerCtrl(OpenMrcHttpRequestService openMrcHttpRequestService) {
+        return new OpenMrcRequestConsumerCtrl(openMrcHttpRequestService);
     }
 
     /*@Bean

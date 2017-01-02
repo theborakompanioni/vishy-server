@@ -1,10 +1,11 @@
 package org.tbk.vishy.properties.provider.geolocation;
 
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
-import com.github.theborakompanioni.openmrc.impl.ExtensionHttpRequestInterceptorSupport;
+import com.github.theborakompanioni.openmrc.spring.impl.ExtensionHttpRequestInterceptorSupport;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandProperties;
+import io.reactivex.Observable;
 import org.tbk.vishy.properties.provider.geolocation.impl.freegeoip.GeoLocationCommand;
 import org.tbk.vishy.properties.provider.geolocation.resolver.GeoLocationResolver;
 import org.tbk.vishy.utils.ip.RemoteAddressExtractor;
@@ -68,12 +69,19 @@ public class GeoLocationRequestInterceptor extends ExtensionHttpRequestIntercept
     }
 
     @Override
-    protected Optional<OpenMrcExtensions.GeoLocation> extract(HttpServletRequest httpServletRequest) {
-        return Optional.ofNullable(httpServletRequest)
+    protected Observable<OpenMrcExtensions.GeoLocation> extract(HttpServletRequest httpServletRequest) {
+        final Optional<GeoLocationCommand> geoLocationCommand = Optional.ofNullable(httpServletRequest)
                 .flatMap(remoteAddressExtractor::getIpAddress)
-                .map(ipAddress -> new GeoLocationCommand(setter, geoLocationResolver, ipAddress))
-                .flatMap(HystrixCommand::execute)
-                .map(TO_PROTO);
+                .map(ipAddress -> new GeoLocationCommand(setter, geoLocationResolver, ipAddress));
+
+        return Observable.defer(() -> Observable.just(geoLocationCommand)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(HystrixCommand::execute)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(TO_PROTO::apply));
+
     }
 
 }

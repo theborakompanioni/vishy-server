@@ -1,10 +1,12 @@
 package org.tbk.vishy;
 
-import com.github.theborakompanioni.openmrc.SpringOpenMrcConfigurationSupport;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.github.theborakompanioni.openmrc.VishyOpenMrcExtensions;
-import com.github.theborakompanioni.openmrc.mapper.OpenMrcHttpRequestMapper;
+import com.github.theborakompanioni.openmrc.spring.mapper.OpenMrcHttpRequestMapper;
+import com.github.theborakompanioni.openmrc.spring.SpringOpenMrcConfigurationSupport;
 import com.github.theborakompanioni.openmrc.mapper.StandardOpenMrcJsonMapper;
-import com.github.theborakompanioni.openmrc.web.OpenMrcHttpRequestService;
+import com.github.theborakompanioni.openmrc.spring.web.OpenMrcHttpRequestService;
+import com.google.common.collect.Lists;
 import com.google.protobuf.ExtensionRegistry;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
@@ -14,7 +16,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.tbk.vishy.hystrix.HystrixVishyOpenMrcHttpRequestService;
+import org.tbk.vishy.hystrix.HystrixOpenMrcRequestInterceptor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Configuration
@@ -29,9 +34,28 @@ public class VishyOpenMrcConfiguration extends SpringOpenMrcConfigurationSupport
     @Override
     @Bean
     public OpenMrcHttpRequestService httpRequestService() {
-        return new HystrixVishyOpenMrcHttpRequestService(httpRequestMapper(),
+        /*return new HystrixVishyOpenMrcHttpRequestService(httpRequestMapper(),
                 defaultHystrixCommandSetter(),
-                openMrcRequestConsumer());
+                openMrcRequestConsumer());*/
+        return new OpenMrcHttpRequestService(httpRequestMapper(), openMrcRequestConsumer());
+    }
+
+
+    @Override
+    @Bean
+    public List<OpenMrcRequestConsumer> openMrcRequestConsumer() {
+        List<OpenMrcRequestConsumer> consumers = Lists.newArrayList(super.openMrcRequestConsumer());
+
+        if (consumers.isEmpty()) {
+            log.warn("No request consumer found. Registering standard consumers.");
+            consumers.addAll(super.openMrcRequestConsumer());
+        }
+
+        log.info("registering {} request consumer(s): {}", consumers.size(), consumers);
+
+        return consumers.stream()
+                .map(c -> new HystrixOpenMrcRequestInterceptor(defaultHystrixCommandSetter(), c))
+                .collect(Collectors.toList());
     }
 
     @Bean
