@@ -1,7 +1,7 @@
 package org.tbk.vishy.properties.provider.browser;
 
+import com.github.theborakompanioni.openmrc.ExtensionRequestInterceptorSupport;
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
-import com.github.theborakompanioni.openmrc.spring.impl.ExtensionHttpRequestInterceptorSupport;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.Version;
 import io.reactivex.Observable;
@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Strings.nullToEmpty;
 
-public class BrowserRequestInterceptor extends ExtensionHttpRequestInterceptorSupport<OpenMrcExtensions.Browser> {
+public class BrowserRequestInterceptor extends ExtensionRequestInterceptorSupport<HttpServletRequest, OpenMrcExtensions.Browser> {
 
     private static final Version UNKNOWN_VERSION = new Version("?", "?", "?");
     private static final OpenMrcExtensions.Browser UNKNOWN = OpenMrcExtensions.Browser.newBuilder()

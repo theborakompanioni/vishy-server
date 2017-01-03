@@ -8,12 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import static java.util.Objects.requireNonNull;
 
 @Slf4j
-public class ProcessOpenMrcRequestCommand extends HystrixCommand<OpenMrc.Request> {
+public class ProcessOpenMrcRequestConsumeCommand extends HystrixCommand<OpenMrc.Request> {
 
     private final OpenMrcRequestConsumer consumer;
     private final OpenMrc.Request request;
 
-    public ProcessOpenMrcRequestCommand(Setter setter, OpenMrcRequestConsumer consumer, OpenMrc.Request request) {
+    public ProcessOpenMrcRequestConsumeCommand(Setter setter, OpenMrcRequestConsumer consumer, OpenMrc.Request request) {
         super(setter);
         this.consumer = requireNonNull(consumer);
         this.request = requireNonNull(request);

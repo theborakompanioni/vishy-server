@@ -1,7 +1,7 @@
 package org.tbk.vishy.properties.provider.geolocation;
 
+import com.github.theborakompanioni.openmrc.ExtensionRequestInterceptorSupport;
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
-import com.github.theborakompanioni.openmrc.spring.impl.ExtensionHttpRequestInterceptorSupport;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandProperties;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class GeoLocationRequestInterceptor extends ExtensionHttpRequestInterceptorSupport<OpenMrcExtensions.GeoLocation> {
+public class GeoLocationRequestInterceptor extends ExtensionRequestInterceptorSupport<HttpServletRequest, OpenMrcExtensions.GeoLocation> {
 
     private final static HystrixCommandGroupKey DEFAULT_KEY = HystrixCommandGroupKey.Factory
             .asKey("GeoLocationRequestInterceptor");

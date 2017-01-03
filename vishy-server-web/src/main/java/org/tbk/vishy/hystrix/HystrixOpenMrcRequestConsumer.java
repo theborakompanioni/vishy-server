@@ -9,19 +9,19 @@ import rx.Observer;
 import static java.util.Objects.requireNonNull;
 
 @Slf4j
-public class HystrixOpenMrcRequestInterceptor implements OpenMrcRequestConsumer {
+public class HystrixOpenMrcRequestConsumer implements OpenMrcRequestConsumer {
 
     private final HystrixCommand.Setter setter;
     private final OpenMrcRequestConsumer consumer;
 
-    public HystrixOpenMrcRequestInterceptor(HystrixCommand.Setter setter, OpenMrcRequestConsumer consumer) {
+    public HystrixOpenMrcRequestConsumer(HystrixCommand.Setter setter, OpenMrcRequestConsumer consumer) {
         this.setter = requireNonNull(setter);
         this.consumer = requireNonNull(consumer);
     }
 
     @Override
     public void accept(OpenMrc.Request request) {
-        new ProcessOpenMrcRequestCommand(setter, consumer, request).toObservable()
+        new ProcessOpenMrcRequestConsumeCommand(setter, consumer, request).toObservable()
                 .subscribe(new Observer<OpenMrc.Request>() {
                     @Override
                     public void onCompleted() {

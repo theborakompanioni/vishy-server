@@ -17,9 +17,13 @@ public class TomcatConfiguration {
     public EmbeddedServletContainerCustomizer servletContainerCustomizer() {
         return servletContainer -> ((TomcatEmbeddedServletContainerFactory) servletContainer)
                 .addConnectorCustomizers(connector -> {
+                    connector.setAsyncTimeout(30_000);
+                    connector.setXpoweredBy(false);
+
                     AbstractHttp11Protocol httpProtocol = (AbstractHttp11Protocol) connector.getProtocolHandler();
                     httpProtocol.setCompression("on");
                     httpProtocol.setCompressionMinSize(256);
+
                     String mimeTypes = Arrays.stream(httpProtocol.getCompressableMimeTypes()).collect(joining(","));
                     String mimeTypesWithJson = mimeTypes + "," + MediaType.APPLICATION_JSON_VALUE;
                     httpProtocol.setCompressableMimeType(mimeTypesWithJson);

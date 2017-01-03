@@ -1,7 +1,7 @@
 package org.tbk.vishy.properties.provider.operatingsystem;
 
+import com.github.theborakompanioni.openmrc.ExtensionRequestInterceptorSupport;
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
-import com.github.theborakompanioni.openmrc.spring.impl.ExtensionHttpRequestInterceptorSupport;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
 import io.reactivex.Observable;
@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class OperatingSystemRequestInterceptor extends ExtensionHttpRequestInterceptorSupport<OpenMrcExtensions.OperatingSystem> {
+public class OperatingSystemRequestInterceptor extends ExtensionRequestInterceptorSupport<HttpServletRequest, OpenMrcExtensions.OperatingSystem> {
 
     private static final OpenMrcExtensions.OperatingSystem UNKNOWN = OpenMrcExtensions.OperatingSystem.newBuilder()
             .setName("?")

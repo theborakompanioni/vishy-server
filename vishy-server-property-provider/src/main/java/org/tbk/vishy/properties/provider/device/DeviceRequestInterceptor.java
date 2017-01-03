@@ -1,7 +1,7 @@
 package org.tbk.vishy.properties.provider.device;
 
+import com.github.theborakompanioni.openmrc.ExtensionRequestInterceptorSupport;
 import com.github.theborakompanioni.openmrc.OpenMrcExtensions;
-import com.github.theborakompanioni.openmrc.spring.impl.ExtensionHttpRequestInterceptorSupport;
 import eu.bitwalker.useragentutils.DeviceType;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
-public class DeviceRequestInterceptor extends ExtensionHttpRequestInterceptorSupport<OpenMrcExtensions.Device> {
+public class DeviceRequestInterceptor extends ExtensionRequestInterceptorSupport<HttpServletRequest, OpenMrcExtensions.Device> {
 
     private static final OpenMrcExtensions.Device UNKNOWN = OpenMrcExtensions.Device.newBuilder()
             .setName("?")

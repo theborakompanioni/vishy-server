@@ -17,7 +17,7 @@ import org.tbk.vishy.web.OpenMrcRequestConsumerCtrl;
         "org.tbk.vishy",
         "com.github.theborakompanioni"
 })
-@AutoConfigureAfter({VishyOpenMrcConfiguration.class})
+@AutoConfigureAfter({VishySpringOpenMrcConfiguration.class})
 @Configuration
 public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
 
