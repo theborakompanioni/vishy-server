@@ -1,4 +1,4 @@
-package org.tbk.vishy.config.cors;
+package org.tbk.vishy.filter;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
@@ -17,7 +17,6 @@ import java.util.Optional;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
-
 
 public class SimpleCorsFilter implements Filter {
     @Value

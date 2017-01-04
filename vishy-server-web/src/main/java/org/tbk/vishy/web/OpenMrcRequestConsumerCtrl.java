@@ -1,12 +1,13 @@
 package org.tbk.vishy.web;
 
-import com.github.theborakompanioni.openmrc.spring.web.OpenMrcHttpRequestService;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestService;
+import io.reactivex.Observable;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -20,11 +21,24 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/openmrc")
 public class OpenMrcRequestConsumerCtrl {
 
-    private final OpenMrcHttpRequestService openMrcService;
+    private final OpenMrcRequestService<HttpServletRequest, ResponseEntity<String>> openMrcService;
 
     @Autowired
-    public OpenMrcRequestConsumerCtrl(OpenMrcHttpRequestService openMrcService) {
+    public OpenMrcRequestConsumerCtrl(OpenMrcRequestService<HttpServletRequest, ResponseEntity<String>> openMrcService) {
         this.openMrcService = openMrcService;
+    }
+
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    public DeferredResult<ResponseEntity<String>> hello() {
+        final DeferredResult<ResponseEntity<String>> deferredResult = new DeferredResult<>();
+
+        Observable.just("{\n" +
+                "  \"message\": \"Hello world\"\n" +
+                "}")
+                .map(ResponseEntity::ok)
+                .subscribe(deferredResult::setResult, deferredResult::setErrorResult);
+
+        return deferredResult;
     }
 
     @RequestMapping(value = "/consume", method = RequestMethod.POST)
@@ -36,8 +50,8 @@ public class OpenMrcRequestConsumerCtrl {
                     required = true
             )
     })
-    public DeferredResult<HttpEntity<String>> consume(HttpServletRequest request) {
-        final DeferredResult<HttpEntity<String>> deferredResult = new DeferredResult<>();
+    public DeferredResult<ResponseEntity<String>> consume(HttpServletRequest request) {
+        final DeferredResult<ResponseEntity<String>> deferredResult = new DeferredResult<>();
         openMrcService.apply(request)
                 .subscribe(deferredResult::setResult,
                         e -> {

@@ -1,16 +1,20 @@
 package org.tbk.vishy;
 
-import com.github.theborakompanioni.openmrc.spring.web.OpenMrcHttpRequestService;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestService;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestServiceImpl;
 import io.vertx.core.Vertx;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.tbk.vishy.verticle.HelloVerticle;
 import org.tbk.vishy.web.OpenMrcRequestConsumerCtrl;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @ComponentScan(value = {
@@ -37,14 +41,10 @@ public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public OpenMrcRequestConsumerCtrl openMrcRequestConsumerCtrl(OpenMrcHttpRequestService openMrcHttpRequestService) {
+    public OpenMrcRequestConsumerCtrl openMrcRequestConsumerCtrl(OpenMrcRequestService<HttpServletRequest, ResponseEntity<String>>
+                                                                         openMrcHttpRequestService) {
         return new OpenMrcRequestConsumerCtrl(openMrcHttpRequestService);
     }
-
-    /*@Bean
-    public ServletRegistrationBean vishyOpenMrcServlet(OpenMrcClientList clients) {
-        return new ServletRegistrationBean(new VishyOpenMrcServlet(clients), "/openmrc");
-    }*/
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
