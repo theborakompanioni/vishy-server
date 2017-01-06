@@ -11,6 +11,7 @@ management.port: 9001
 management.context-path: /actuator
 
 #spring.boot.admin.url: http://localhost:9080
+spring.data.rest.base-path: /api
 
 # LOGGING
 logging.path: ./var/log
@@ -28,12 +29,26 @@ vishy.oauth:
     key: insertYourKey
     secret: insertYourSecret
 
-vishy.metrics:
+
+vishy.model.jdbc:
+  jdbcUrl: jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=FALSE
+  driverClassName: org.h2.Driver
+  tableSetupEnabled: true
+
+vishy.js.analytics:
+  enabled: true
+  protocol: http
+  host: localhost
+  port: ${server.port}
+  scriptSrc: static/vishy-analytics/dist/vishy-analytics.min.js
+
+
+vishy.consumer.metrics:
   enabled: true
   console: true
   interval-in-seconds: 300
 
-vishy.influxdb:
+vishy.consumer.influxdb:
   enabled: false
   host: ${INFLUXDB_1_PORT_8086_TCP_ADDR}
   port: ${INFLUXDB_1_PORT_8086_TCP_PORT}
@@ -43,16 +58,8 @@ vishy.influxdb:
   skip-idle-metrics: true
   interval-in-seconds: 60
 
-vishy.jdbc:
+vishy.consumer.jdbc:
   enabled: false
   jdbcUrl: jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=FALSE
   driverClassName: org.h2.Driver
   tableName: vishy_openmrc_request
-
-
-vishy.js.analytics:
-  enabled: true
-  protocol: http
-  host: localhost
-  port: ${server.port}
-  scriptSrc: static/vishy-analytics/dist/vishy-analytics.min.js

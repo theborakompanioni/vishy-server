@@ -12,6 +12,7 @@
         <module>vishy-server-extensions</module>
         <module>vishy-web-ui</module>
         <module>vishy-server-swagger</module>
+        <module>vishy-model</module>
     </modules>
 
     <parent>
@@ -114,7 +115,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        
+
         <!-- openmrc dependencies -->
         <dependency>
             <groupId>com.github.theborakompanioni</groupId>
