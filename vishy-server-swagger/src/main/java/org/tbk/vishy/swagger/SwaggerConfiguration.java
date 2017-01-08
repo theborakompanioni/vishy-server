@@ -6,12 +6,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -22,6 +24,9 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @EnableConfigurationProperties(SwaggerProperties.class)
 @ConditionalOnProperty(value = "vishy.swagger.enabled", matchIfMissing = true)
 @EnableSwagger2
+@Import({
+        SpringDataRestConfiguration.class
+})
 public class SwaggerConfiguration extends WebMvcConfigurerAdapter {
 
     @Autowired
@@ -40,7 +45,8 @@ public class SwaggerConfiguration extends WebMvcConfigurerAdapter {
     private Predicate<String> paths() {
         return or(
                 //regex("/.*"),
-                regex("/openmrc/.*")
+                regex("/openmrc/.*"),
+                regex("/api/.*")
         );
     }
 

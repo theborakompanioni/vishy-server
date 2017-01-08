@@ -2,6 +2,7 @@ package org.tbk.vishy.jdbc.model;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.Optional;
@@ -10,7 +11,7 @@ import java.util.stream.Stream;
 @RepositoryRestResource(collectionResourceRel = "customer", path = "customer")
 public interface CustomerRepository extends PagingAndSortingRepository<Customer, Long> {
 
-    Optional<Customer> findByName(String name);
+    Optional<Customer> findByName(@Param("name") String name);
 
     /**
      * Sample method to demonstrate support for {@link Stream} as a return type with a custom query. The query is executed

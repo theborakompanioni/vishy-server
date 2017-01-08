@@ -44,6 +44,12 @@
             <version>${springfox-swagger.version}</version>
         </dependency>
         <dependency>
+            <!-- This is still in incubation! -->
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-data-rest</artifactId>
+            <version>${springfox-swagger.version}</version>
+        </dependency>
+        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-swagger.version}</version>
