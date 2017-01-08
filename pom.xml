@@ -13,6 +13,7 @@
         <module>vishy-web-ui</module>
         <module>vishy-server-swagger</module>
         <module>vishy-model</module>
+        <module>vishy-security</module>
     </modules>
 
     <parent>
