@@ -1,12 +1,11 @@
 package org.tbk.vishy.jdbc.config;
 
 import com.codahale.metrics.MetricRegistry;
-import com.google.common.collect.ImmutableMap;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
+import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +20,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.tbk.vishy.jdbc.converter.LocalDateTimeAttributeConverter;
 import org.tbk.vishy.jdbc.model.AbstractEntity;
+
+import javax.annotation.PostConstruct;
 
 @Slf4j
 @Configuration
@@ -57,6 +58,7 @@ public class VishyJdbcConfig {
         config.setJdbcUrl(properties.getJdbcUrl());
         config.setUsername(properties.getUsername());
         config.setPassword(properties.getPassword());
+        config.setPoolName("vishy-jdbc");
 
         if (metricRegistry != null) {
             config.setMetricRegistry(metricRegistry);
@@ -76,7 +78,7 @@ public class VishyJdbcConfig {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
+    public JdbcTemplate vishyJdbcTemplate() {
         return new JdbcTemplate(hikariDataSource());
     }
 
@@ -101,34 +103,20 @@ public class VishyJdbcConfig {
         factory.setDataSource(hikariDataSource());
 
         return factory;
-
     }
 
-
-    @Bean
-    public FlywayMigrationStrategy flywayMigrationStrategy() {
-        if (!properties.isTableSetupEnabled()) {
-            return idleFlywayMigrationStrategy();
-        }
-
-        return initializingFlywayMigrationStrategy();
-    }
-
-    private FlywayMigrationStrategy initializingFlywayMigrationStrategy() {
-        return flyway -> {
-            log.info("Starting flyway migration v{}", flyway.getBaselineVersion().getVersion());
-
+    @PostConstruct
+    public void postConstruct() {
+        if (properties.isTableSetupEnabled()) {
+            Flyway flyway = new Flyway();
             flyway.setLocations("db/model/migration");
             flyway.setTable("vishy_model_schema_version");
             flyway.setDataSource(hikariDataSource());
-            flyway.setPlaceholders(ImmutableMap.<String, String>builder()
-                    .build());
+
+            log.info("Starting flyway migration v{}", flyway.getBaselineVersion().getVersion());
 
             flyway.migrate();
-        };
-    }
+        }
 
-    private FlywayMigrationStrategy idleFlywayMigrationStrategy() {
-        return flyway -> log.info("Skipping flyway migration - vishy.");
     }
 }

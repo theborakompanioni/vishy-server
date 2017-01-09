@@ -5,17 +5,22 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.tbk.vishy.jdbc.listener.AbstractEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners({
+        AbstractEntityListener.class,
+        AuditingEntityListener.class
+})
 public abstract class AbstractEntity {
 
     @Id
     @GeneratedValue
+    @Column(name = "id", updatable = false, nullable = false)
     Long id;
 
     @CreatedDate

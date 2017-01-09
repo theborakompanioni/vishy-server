@@ -1,7 +1,8 @@
 package org.tbk.vishy;
 
 import com.github.theborakompanioni.openmrc.OpenMrcRequestService;
-import com.github.theborakompanioni.openmrc.OpenMrcRequestServiceImpl;
+import com.github.theborakompanioni.openmrc.json.OpenMrcJsonMapper;
+import com.github.theborakompanioni.vishy.jdbc.OpenMrcJdbcSaveAction;
 import io.vertx.core.Vertx;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -41,9 +42,21 @@ public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public OpenMrcRequestConsumerCtrl openMrcRequestConsumerCtrl(OpenMrcRequestService<HttpServletRequest, ResponseEntity<String>>
-                                                                         openMrcHttpRequestService) {
+    public OpenMrcRequestConsumerCtrl openMrcRequestConsumerCtrl(
+            OpenMrcRequestService<HttpServletRequest, ResponseEntity<String>> openMrcHttpRequestService) {
         return new OpenMrcRequestConsumerCtrl(openMrcHttpRequestService);
+    }
+
+    @Bean
+    public OpenMrcJdbcSaveAction openMrcJdbcSaveAction(OpenMrcJsonMapper jsonMapper) {
+        String TABLE_NAME = "vishy_openmrc_request";
+        final String sql = "insert into " + TABLE_NAME + "(type, json) values (?,?)";
+
+        return (jdbcTemplate1, request) -> {
+            final String type = request.getType().name();
+            final String json = jsonMapper.toJson(request);
+            jdbcTemplate1.update(sql, type, json);
+        };
     }
 
     @Override

@@ -1,5 +1,6 @@
 package org.tbk.vishy;
 
+import com.github.theborakompanioni.openmrc.OpenMrcMapper;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.github.theborakompanioni.openmrc.OpenMrcResponseSupplier;
 import com.github.theborakompanioni.openmrc.VishyOpenMrcExtensions;
