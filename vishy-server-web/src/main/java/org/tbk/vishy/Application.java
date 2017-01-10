@@ -22,7 +22,7 @@ import static java.util.Objects.requireNonNull;
 @Slf4j
 @SpringBootApplication(
         exclude = {
-                // DataSource auto-config disabled to pevent spring
+                // DataSource auto-config disabled to prevent spring
                 // from erring "Cannot determine embedded database driver class"
                 DataSourceAutoConfiguration.class,
                 FlywayAutoConfiguration.class,

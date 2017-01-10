@@ -35,6 +35,7 @@ vishy.oauth:
       userInfoUri: https://api.github.com/user
 
 vishy.model.jdbc:
+  enabled: true
   jdbcUrl: jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=FALSE
   driverClassName: org.h2.Driver
   tableSetupEnabled: true

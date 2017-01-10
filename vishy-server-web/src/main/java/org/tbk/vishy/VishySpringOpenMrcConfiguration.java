@@ -1,6 +1,5 @@
 package org.tbk.vishy;
 
-import com.github.theborakompanioni.openmrc.OpenMrcMapper;
 import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
 import com.github.theborakompanioni.openmrc.OpenMrcResponseSupplier;
 import com.github.theborakompanioni.openmrc.VishyOpenMrcExtensions;
@@ -26,6 +25,7 @@ import static java.util.Objects.requireNonNull;
 public class VishySpringOpenMrcConfiguration extends SpringOpenMrcConfigurationSupport {
 
     @Override
+    @Bean
     public OpenMrcResponseSupplier openMrcResponseSupplier() {
         return new VishyOpenMrcResponseSupplier();
     }

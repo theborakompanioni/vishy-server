@@ -8,9 +8,9 @@
     return protocol + '://' + host + ':' + port + '';
   };
 
-  VisSense.Client.Vishy = function(config, http) {
+  VisSense.Client.Vishy = function (config, http) {
     if (!Utils.isFunction(VisSense.Client.Simple)) {
-      throw new Error('Cannot load VisSense.Client.Simple. Is it included?');
+      throw new Error('Cannot load VisSense.Client.Simple Is it included?');
     }
 
     var vishyConfig = Utils.defaults(config, {
@@ -26,12 +26,12 @@
     var baseEndpoint = createBaseEndpoint(vishyConfig.protocol, vishyConfig.host, vishyConfig.port);
 
     return {
-      monitors: function(config) {
+      monitors: function (config) {
         if (!config.projectId) {
           throw new Error('Please provide a vishy.projectId!');
         }
         if (!config.elementId) {
-          throw new Error('Please provide a vishy.projectId!');
+          throw new Error('Please provide a vishy.elementId!');
         }
 
         var vishyObject = {
@@ -44,7 +44,7 @@
             var url = baseEndpoint + '/openmrc/consume';
 
             var _data = Utils.extend(data, {
-              'com.github.theborakompanioni.openmrc.Vishy.': vishyObject
+              'com.github.theborakompanioni.openmrc.Vishy.vishy': vishyObject
             });
 
             http.post(url, _data, {}).then(function (data) {

@@ -1,11 +1,14 @@
 package org.tbk.vishy.jdbc.config;
 
 import com.codahale.metrics.MetricRegistry;
+import com.github.theborakompanioni.openmrc.json.OpenMrcJsonMapper;
+import com.github.theborakompanioni.vishy.jdbc.OpenMrcJdbcSaveAction;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,12 +23,15 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.tbk.vishy.jdbc.converter.LocalDateTimeAttributeConverter;
 import org.tbk.vishy.jdbc.model.AbstractEntity;
+import org.tbk.vishy.jdbc.model.openmrc.PersistedOpenMrcRequest;
+import org.tbk.vishy.jdbc.model.openmrc.PersistedOpenMrcRequestRepository;
 
 import javax.annotation.PostConstruct;
 
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(VishyJdbcProperties.class)
+@ConditionalOnProperty(name = "vishy.model.jdbc.enabled", havingValue = "true")
 @EnableTransactionManagement
 @EnableJpaAuditing
 @EnableJpaRepositories(basePackageClasses = AbstractEntity.class)
@@ -80,6 +86,18 @@ public class VishyJdbcConfig {
     @Bean
     public JdbcTemplate vishyJdbcTemplate() {
         return new JdbcTemplate(hikariDataSource());
+    }
+
+    @Bean
+    public OpenMrcJdbcSaveAction openMrcJdbcSaveAction(
+            PersistedOpenMrcRequestRepository requestRepository, OpenMrcJsonMapper jsonMapper
+    ) {
+        return (jdbcTemplate1, request) -> {
+            final PersistedOpenMrcRequest dbEntity = PersistedOpenMrcRequest.create(request)
+                    .build();
+
+            requestRepository.save(dbEntity);
+        };
     }
 
     @Bean

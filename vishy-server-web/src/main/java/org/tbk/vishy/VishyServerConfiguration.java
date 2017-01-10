@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.tbk.vishy.jdbc.model.openmrc.PersistedOpenMrcRequest;
-import org.tbk.vishy.jdbc.model.openmrc.PerstistedOpenMrcRequestRepository;
+import org.tbk.vishy.jdbc.model.openmrc.PersistedOpenMrcRequestRepository;
 import org.tbk.vishy.verticle.HelloVerticle;
 import org.tbk.vishy.web.OpenMrcRequestConsumerCtrl;
 
@@ -47,20 +47,6 @@ public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
     public OpenMrcRequestConsumerCtrl openMrcRequestConsumerCtrl(
             OpenMrcRequestService<HttpServletRequest, ResponseEntity<String>> openMrcHttpRequestService) {
         return new OpenMrcRequestConsumerCtrl(openMrcHttpRequestService);
-    }
-
-    @Bean
-    public OpenMrcJdbcSaveAction openMrcJdbcSaveAction(
-            PerstistedOpenMrcRequestRepository requestRepository,
-            OpenMrcJsonMapper jsonMapper
-    ) {
-
-        return (jdbcTemplate1, request) -> {
-            final PersistedOpenMrcRequest dbEntity = PersistedOpenMrcRequest.create(request)
-                    .build();
-
-            requestRepository.save(dbEntity);
-        };
     }
 
     @Override
