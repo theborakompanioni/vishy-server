@@ -1,5 +1,5 @@
 CREATE TABLE customer (
-  id         BIGSERIAL,
+  id         BIGSERIAL    NOT NULL,
   created_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   type       VARCHAR(32)  NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE customer (
 
 
 CREATE TABLE project (
-  id          BIGSERIAL,
+  id          BIGSERIAL    NOT NULL,
   customer_id BIGSERIAL REFERENCES customer (ID),
   created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -21,19 +21,12 @@ CREATE TABLE project (
 
 
 CREATE TABLE experiment (
-  id          BIGSERIAL,
+  id          BIGSERIAL    NOT NULL,
   project_id  BIGSERIAL REFERENCES project (ID),
   created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   type        VARCHAR(32)  NOT NULL,
   name        VARCHAR(128) NOT NULL,
   description VARCHAR(1024),
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE vishy_openmrc_request (
-  id   BIGSERIAL,
-  type VARCHAR(32)    NOT NULL,
-  json VARCHAR(10000) NOT NULL,
   PRIMARY KEY (id)
 );

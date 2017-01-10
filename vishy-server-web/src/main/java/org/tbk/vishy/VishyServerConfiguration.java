@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.tbk.vishy.jdbc.model.openmrc.PersistedOpenMrcRequest;
+import org.tbk.vishy.jdbc.model.openmrc.PerstistedOpenMrcRequestRepository;
 import org.tbk.vishy.verticle.HelloVerticle;
 import org.tbk.vishy.web.OpenMrcRequestConsumerCtrl;
 
@@ -48,14 +50,16 @@ public class VishyServerConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public OpenMrcJdbcSaveAction openMrcJdbcSaveAction(OpenMrcJsonMapper jsonMapper) {
-        String TABLE_NAME = "vishy_openmrc_request";
-        final String sql = "insert into " + TABLE_NAME + "(type, json) values (?,?)";
+    public OpenMrcJdbcSaveAction openMrcJdbcSaveAction(
+            PerstistedOpenMrcRequestRepository requestRepository,
+            OpenMrcJsonMapper jsonMapper
+    ) {
 
         return (jdbcTemplate1, request) -> {
-            final String type = request.getType().name();
-            final String json = jsonMapper.toJson(request);
-            jdbcTemplate1.update(sql, type, json);
+            final PersistedOpenMrcRequest dbEntity = PersistedOpenMrcRequest.create(request)
+                    .build();
+
+            requestRepository.save(dbEntity);
         };
     }
 
