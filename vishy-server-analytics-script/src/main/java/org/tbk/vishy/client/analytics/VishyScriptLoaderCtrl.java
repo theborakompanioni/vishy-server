@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.Objects.requireNonNull;
@@ -21,8 +22,9 @@ import static java.util.Objects.requireNonNull;
 @RestController
 @RequestMapping("/openmrc")
 public class VishyScriptLoaderCtrl {
-
-    private static final String PUBLIC_PROJECT_ID = "DEMO";
+    private static final String PUBLIC_PROJECT_ID = "1";
+    private static final String PUBLIC_EXPERIMENT_ID1 = "1";
+    private static final String PUBLIC_EXPERIMENT_ID2 = "2";
 
     private AnalyticsScriptLoaderFactory scriptLoaderFactory;
 
@@ -30,7 +32,10 @@ public class VishyScriptLoaderCtrl {
             .initialCapacity(100_000)
             .expireAfterAccess(30, TimeUnit.MINUTES)
             .build(CacheLoader.from(key -> {
-                return scriptLoaderFactory.createLoaderScript(key.getProjectId(), key.getElementId());
+                return scriptLoaderFactory.createLoaderScript(
+                        key.getProjectId(),
+                        key.getExperimentId(),
+                        key.getElementId());
             }));
 
     @Value
@@ -70,34 +75,37 @@ public class VishyScriptLoaderCtrl {
             method = RequestMethod.GET
     )
     public ResponseEntity<?> demoProjectAnalyticsScript(@RequestParam(required = true) String elementId) {
-        return A(PUBLIC_PROJECT_ID, elementId);
+        final boolean whatShouldIChoose = ThreadLocalRandom.current().nextFloat() > 0.5f;
+        return whatShouldIChoose ?
+                A(PUBLIC_PROJECT_ID, PUBLIC_EXPERIMENT_ID1, elementId) :
+                B(PUBLIC_PROJECT_ID, PUBLIC_EXPERIMENT_ID2, elementId);
     }
 
     @RequestMapping(
-            value = "/analytics/{projectId}/A",
+            value = "/analytics/{projectId}/{experimentId}/A.js",
             method = RequestMethod.GET
     )
-    public ResponseEntity<?> A(@PathVariable String projectId,
+    public ResponseEntity<?> A(@PathVariable String projectId, @PathVariable String experimentId,
                                @RequestParam(required = true) String elementId) {
-        return createResponse(projectId, elementId, "A");
+        return createResponse(projectId, experimentId, elementId);
     }
 
     @RequestMapping(
-            value = "/analytics/{projectId}/B.js",
+            value = "/analytics/{projectId}/{experimentId}/B.js",
             method = RequestMethod.GET
     )
-    public ResponseEntity<?> B(@PathVariable String projectId,
+    public ResponseEntity<?> B(@PathVariable String projectId, @PathVariable String experimentId,
                                @RequestParam(required = true) String elementId) {
-        return createResponse(projectId, elementId, "B");
+        return createResponse(projectId, "2", elementId);
     }
 
 
-    public ResponseEntity<?> createResponse(String projectId, String elementId, String experimentName) {
+    public ResponseEntity<?> createResponse(String projectId, String experimentId, String elementId) {
         try {
             final CacheKey cacheKey = CacheKey.builder()
                     .projectId(projectId)
                     .elementId(elementId)
-                    .experimentId(experimentName)
+                    .experimentId(experimentId)
                     .build();
 
             if (!cacheKey.isValid()) {

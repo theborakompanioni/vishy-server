@@ -12,5 +12,6 @@ message Vishy {
     }
 
     required string projectId = 1;
-    required string elementId = 2;
+    required string experimentId = 2;
+    required string elementId = 3;
 }

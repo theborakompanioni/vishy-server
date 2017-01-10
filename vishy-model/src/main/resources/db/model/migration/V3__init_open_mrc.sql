@@ -33,6 +33,8 @@ CREATE TABLE vishy_openmrc_summary_context (
 
 CREATE TABLE vishy_openmrc_request (
   id         BIGSERIAL   NOT NULL,
+  project_id BIGINT NOT NULL REFERENCES project (ID),
+  experiment_id BIGINT NOT NULL REFERENCES experiment (ID),
   type       VARCHAR(32) NOT NULL,
   json       VARCHAR(10000), -- TODO: try to remove or use jsonb
   initial_id BIGINT REFERENCES vishy_openmrc_initial_context (ID),

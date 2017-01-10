@@ -30,13 +30,17 @@
         if (!config.projectId) {
           throw new Error('Please provide a vishy.projectId!');
         }
+        if (!config.experimentId) {
+          throw new Error('Please provide a vishy.experimentId!');
+        }
         if (!config.elementId) {
           throw new Error('Please provide a vishy.elementId!');
         }
 
         var vishyObject = {
-          elementId: config.elementId,
-          projectId: config.projectId
+          projectId: config.projectId,
+          experimentId: config.experimentId,
+          elementId: config.elementId
         };
 
         var client = {

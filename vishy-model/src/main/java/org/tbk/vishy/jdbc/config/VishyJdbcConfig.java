@@ -93,7 +93,8 @@ public class VishyJdbcConfig {
             PersistedOpenMrcRequestRepository requestRepository, OpenMrcJsonMapper jsonMapper
     ) {
         return (jdbcTemplate1, request) -> {
-            final PersistedOpenMrcRequest dbEntity = PersistedOpenMrcRequest.create(request)
+            final PersistedOpenMrcRequest dbEntity = PersistedOpenMrcRequest
+                    .create(request)
                     .build();
 
             requestRepository.save(dbEntity);

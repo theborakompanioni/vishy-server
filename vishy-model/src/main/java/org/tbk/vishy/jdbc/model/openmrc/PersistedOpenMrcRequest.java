@@ -1,13 +1,20 @@
 package org.tbk.vishy.jdbc.model.openmrc;
 
 import com.github.theborakompanioni.openmrc.OpenMrc;
+import com.github.theborakompanioni.openmrc.VishyOpenMrcExtensions.Vishy;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 @Data
 @Entity
 @Table(name = "vishy_openmrc_request")
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersistedOpenMrcRequest {
 
     public static PersistedOpenMrcRequestBuilder builder() {
@@ -15,7 +22,13 @@ public class PersistedOpenMrcRequest {
     }
 
     public static PersistedOpenMrcRequestBuilder create(OpenMrc.Request request) {
+        checkArgument(request.hasExtension(Vishy.vishy), "request is missing extension 'vishy'");
+
+        final Vishy vishyDetails = request.getExtension(Vishy.vishy);
+
         final PersistedOpenMrcRequestBuilder builder = PersistedOpenMrcRequest.builder()
+                .projectId(Long.parseLong(vishyDetails.getProjectId()))
+                .experimentId(Long.parseLong(vishyDetails.getExperimentId()))
                 .type(request.getType().name());
 
         SummaryContext.create(request).ifPresent(builder::summaryContext);
@@ -23,23 +36,20 @@ public class PersistedOpenMrcRequest {
         return builder;
     }
 
-    public PersistedOpenMrcRequest() {
-    }
-
-    public PersistedOpenMrcRequest(Long id, String type, InitialContext initialContext, SummaryContext summaryContext) {
-        this.id = id;
-        this.type = type;
-        this.initialContext = initialContext;
-        this.summaryContext = summaryContext;
-    }
-
     @Id
     @GeneratedValue
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
+    @Column(name = "project_id", updatable = false)
+    private long projectId;
+
+    @Column(name = "experiment_id", updatable = false)
+    private long experimentId;
+
     @Column(name = "type")
     private String type;
+
 
     //@Column(name = "json")
     //private String json;
@@ -57,6 +67,8 @@ public class PersistedOpenMrcRequest {
         private String type;
         private InitialContext initialContext;
         private SummaryContext summaryContext;
+        private long projectId;
+        private long experimentId;
 
         PersistedOpenMrcRequestBuilder() {
         }
@@ -71,6 +83,16 @@ public class PersistedOpenMrcRequest {
             return this;
         }
 
+        public PersistedOpenMrcRequest.PersistedOpenMrcRequestBuilder projectId(long projectId) {
+            this.projectId = projectId;
+            return this;
+        }
+
+        public PersistedOpenMrcRequest.PersistedOpenMrcRequestBuilder experimentId(long experimentId) {
+            this.experimentId = experimentId;
+            return this;
+        }
+
         public PersistedOpenMrcRequest.PersistedOpenMrcRequestBuilder initialContext(InitialContext initialContext) {
             this.initialContext = initialContext;
             return this;
@@ -82,7 +104,7 @@ public class PersistedOpenMrcRequest {
         }
 
         public PersistedOpenMrcRequest build() {
-            return new PersistedOpenMrcRequest(id, type, initialContext, summaryContext);
+            return new PersistedOpenMrcRequest(id, projectId, experimentId, type, initialContext, summaryContext);
         }
 
         public String toString() {

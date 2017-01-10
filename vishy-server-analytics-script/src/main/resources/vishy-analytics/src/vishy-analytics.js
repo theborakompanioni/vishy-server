@@ -16,6 +16,7 @@
     var monitor = VisSense.Client.Vishy(config, jsonHttp)
       .monitors({
         projectId: config.projectId,
+        experimentId: config.experimentId,
         elementId: elementId
       }).custom(visobj, {
         interval: 1000,

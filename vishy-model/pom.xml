@@ -22,6 +22,11 @@
             <version>${vishy-consumer-all.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.github.theborakompanioni</groupId>
+            <artifactId>vishy-server-extensions</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
             <exclusions>

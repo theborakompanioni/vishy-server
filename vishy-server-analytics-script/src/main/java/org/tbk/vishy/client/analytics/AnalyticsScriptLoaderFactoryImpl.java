@@ -1,12 +1,13 @@
 package org.tbk.vishy.client.analytics;
 
+import com.google.common.base.CharMatcher;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 import java.io.StringWriter;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 
 public class AnalyticsScriptLoaderFactoryImpl implements AnalyticsScriptLoaderFactory {
@@ -14,19 +15,23 @@ public class AnalyticsScriptLoaderFactoryImpl implements AnalyticsScriptLoaderFa
     private final VishyAnalyticsScriptProperties properties;
     private final Whitelist emptyWhitelist = Whitelist.none();
 
+    private final CharMatcher lettersAndDigits = CharMatcher.javaLetterOrDigit().precomputed();
+
     public AnalyticsScriptLoaderFactoryImpl(VishyAnalyticsScriptProperties properties, Template template) {
         this.properties = requireNonNull(properties);
         this.template = requireNonNull(template);
     }
 
     @Override
-    public String createLoaderScript(String projectId, String elementId) {
-        String cleanProjectId = Jsoup.clean(projectId, emptyWhitelist);
-        String cleanElementId = Jsoup.clean(elementId, emptyWhitelist);
+    public String createLoaderScript(String projectId, String experimentId, String elementId) {
+        checkArgument(lettersAndDigits.matchesAllOf(projectId));
+        checkArgument(lettersAndDigits.matchesAllOf(experimentId));
+        checkArgument(lettersAndDigits.matchesAllOf(elementId));
 
         VelocityContext context = new VelocityContext();
-        context.put("projectId", cleanProjectId);
-        context.put("elementId", cleanElementId);
+        context.put("projectId", projectId);
+        context.put("experimentId", experimentId);
+        context.put("elementId", elementId);
         context.put("analyticsScriptSrc", getAnalyticsScriptSource());
         context.put("protocol", properties.getProtocol());
         context.put("host", properties.getHost());
