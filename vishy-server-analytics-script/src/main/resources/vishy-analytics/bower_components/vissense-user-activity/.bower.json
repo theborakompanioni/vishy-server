@@ -48,7 +48,7 @@
     "tag": "0.3.0",
     "commit": "c5f9d2ad03d7b101a6be0cd807a4eff7db0599bf"
   },
-  "_source": "git://github.com/vissense/vissense-user-activity.git",
+  "_source": "https://github.com/vissense/vissense-user-activity.git",
   "_target": "~0.3.0",
   "_originalSource": "vissense/vissense-user-activity"
 }

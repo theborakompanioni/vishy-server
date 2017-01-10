@@ -489,10 +489,9 @@ function now() {
  * @name once
  * @memberof VisSense.Utils
  *
- * @param {function} callback The function to throttle.
- * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
+ * @param {function} callback The function to proxy.
  *
- * @returns {function} A throttled version of the given function
+ * @returns {function} A proxy function that will only be invoked once.
  *
  * @description Returns a function that is restricted to invoking `callback`
  * once. Repeat calls to the function return the value of the first call.
@@ -569,6 +568,8 @@ function throttle(callback, wait, thisArg) {
  * @name viewport
  * @memberof VisSense.Utils
  *
+ * @param {Window} [referenceWindow=window] The window object.
+ *
  * @returns {Viewport} The current viewport size.
  *
  * @description Gets the current viewport size of the browser window.
@@ -597,7 +598,7 @@ function viewport(referenceWindow) {
  * @memberof VisSense.Utils
  *
  * @param {DOMElement} element A DOM element.
- * @param {Window} [referenceWindow=window] The window object
+ * @param {Window} [referenceWindow=window] The window object.
  *
  * @returns {CSSStyleDeclaration} Returns the elements computed style.
  *
@@ -688,6 +689,7 @@ function isDisplayed(element, style) {
  * @memberof VisSense.Utils
  *
  * @param {DOMElement} element A DOM element
+ * @param {Window} [referenceWindow=window] The window object.
  *
  * @returns {boolean} `true` if the element is visible by style and the style of
  * its parents, otherwise `false`.
@@ -769,6 +771,7 @@ function isInViewport(rect, viewport) {
  * @memberof VisSense.Utils
  *
  * @param {DOMElement} element A DOM element.
+ * @param {Window} [referenceWindow=window] The window object.
  *
  * @returns {number} the percentage of the elements surface area within the
  * visible area of a viewer's browser window on an in focus web page.
@@ -810,14 +813,14 @@ function percentage(element, referenceWindow) {
    } */
 
   // rect's height and width are greater than 0 because element is in viewport
-  return Math.round((vh * vw) / (rect.height * rect.width) * 1000) / 1000;
+  return (vh * vw) / (rect.height * rect.width);
 }
 
 /*****************************************************element visibility end */
 
 /*********************************************************** page visibility */
 /* istanbul ignore next */
-var createVisibilityApi = function(referenceWindow) {
+var createVisibilityApi = function (referenceWindow) {
   return (function (document, undefined) {
     var entry = function (propertyName, eventName) {
       return {property: propertyName, event: eventName};
@@ -895,7 +898,7 @@ var PubSub = (function (undefined) {
   /**
    * Invokes all consumers with the given arguments.
    * @param {function[]} consumers An array of functions taking the args array as parameter.
-   * @param {*[]} args An array of arguments to pass to the function
+   * @param {*} args An array of arguments to pass to the function
    */
   var syncFireListeners = function (consumers, args) {
     forEach(consumers, function (consumer) {
@@ -981,6 +984,8 @@ var PubSub = (function (undefined) {
  * considered fully visible.
  * @property {number} [hidden=0] The percentage an element limit is considered
  * hidden.
+ * @property {number} [precision=3] The precision of the default percentage algorithm.
+ * Must be not be negative.
  * @property {VisSense~PercentageHook} [percentageHook=VisSense.Utils.percentage]
  * A callback function to determine the visible percentage of the element.
  * If not provided it will fallback to VisSense.Utils.percentage.
@@ -1050,8 +1055,14 @@ function VisSense(element, config) {
     hidden: 0,
     referenceWindow: window,
     percentageHook: percentage,
+    precision: 3,
     visibilityHooks: []
   });
+
+  var roundFactor = this._config.precision <= 0 ? 1 : Math.pow(10, this._config.precision || 3);
+  this._round = function (val) {
+    return Math.round(val * roundFactor) / roundFactor;
+  };
 
   // page must be visible in order for the element to be visible
   var visibilityApi = createVisibilityApi(this._config.referenceWindow);
@@ -1094,8 +1105,8 @@ VisSense.prototype.state = function () {
     }
   }, this);
 
-  return hiddenByHook || (function (element, config) {
-      var perc = config.percentageHook(element, config.referenceWindow);
+  return hiddenByHook || (function (visobj, element, config) {
+      var perc = visobj._round(config.percentageHook(element, config.referenceWindow));
 
       if (perc <= config.hidden) {
         return VisSense.VisState.hidden(perc);
@@ -1105,7 +1116,7 @@ VisSense.prototype.state = function () {
       }
 
       return VisSense.VisState.visible(perc);
-    })(this._element, this._config);
+    })(this, this._element, this._config);
 };
 
 /**
@@ -1400,15 +1411,16 @@ function nextState(visobj, currentState) {
  * @memberof VisSense.VisMon#
  *
  * @property {VisSense.VisMon.Strategy|VisSense.VisMon.Strategy[]} [strategy=[PollingStrategy,EventStrategy]]
- * @property {function} [start]
- * @property {function} [stop]
- * @property {function} [update]
- * @property {function} [hidden]
- * @property {function} [visible]
- * @property {function} [fullyvisible]
- * @property {function} [percentagechange]
- * @property {function} [visibilitychange]
- * @property {boolean} [async=false]
+ *   a strategy or array of strategies for observing the element.
+ * @property {function} [start] function to run when monitoring the element starts
+ * @property {function} [stop] function to run when monitoring the element stops
+ * @property {function} [update] function to run when elements update function is called
+ * @property {function} [hidden] function to run when element becomes hidden
+ * @property {function} [visible] function to run when element becomes visible
+ * @property {function} [fullyvisible] function to run when element becomes fully visible
+ * @property {function} [percentagechange] function to run when the percentage of the element changes
+ * @property {function} [visibilitychange] function to run when the visibility of the element changes
+ * @property {boolean} [async=false] a boolean flag indicating whether events are synchronous or asynchronous
  *
  * A configuration object to configure a VisMon instance.
  */
@@ -1534,7 +1546,7 @@ VisMon.prototype.visobj = function () {
  * @memberof VisSense.VisMon#
  *
  * @param {String} eventName The name of the event
- * @param {*[]} args The arguments to pass to the subscribers of the event
+ * @param {*} args The arguments to pass to the subscribers of the event
  *
  * @returns Returns a function that cancels the event execution - this can only
  * be done if the monitor has an async queue (option async enabled).
@@ -1642,6 +1654,8 @@ VisMon.prototype.start = function (config) {
     return this.startAsync();
   }
 
+  this._started = true;
+
   // the contract for strategies says, that
   // the monitor has been updated at least once
   // when their `start` method is called.
@@ -1650,8 +1664,6 @@ VisMon.prototype.start = function (config) {
   this._pubsub.publish('start', [this]);
 
   this._strategy.start(this);
-
-  this._started = true;
 
   return this;
 };
@@ -1739,11 +1751,13 @@ VisMon.prototype.stop = function () {
  * // -> prints 'update' to console
  */
 VisMon.prototype.update = function () {
-  // update state
-  this._state = nextState(this._visobj, this._state);
+  if (this._started) {
+    // update state
+    this._state = nextState(this._visobj, this._state);
 
-  // notify listeners
-  this._pubsub.publish('update', [this]);
+    // notify listeners
+    this._pubsub.publish('update', [this]);
+  }
 };
 
 /**
@@ -2292,16 +2306,18 @@ VisMon.Strategy.EventStrategy.prototype = Object.create(
 VisMon.Strategy.EventStrategy.prototype.start = function (monitor) {
   if (!this._started) {
     this._removeEventListeners = (function (update) {
-      var visibilityApi = createVisibilityApi(monitor.visobj().referenceWindow());
+      var referenceWindow = monitor.visobj().referenceWindow();
+      var visibilityApi = createVisibilityApi(referenceWindow);
+
       var removeOnVisibilityChangeEvent = visibilityApi.onVisibilityChange(update);
-      addEventListener('scroll', update, false);
-      addEventListener('resize', update, false);
-      addEventListener('touchmove', update, false);
+      referenceWindow.addEventListener('scroll', update, false);
+      referenceWindow.addEventListener('resize', update, false);
+      referenceWindow.addEventListener('touchmove', update, false);
 
       return function () {
-        removeEventListener('touchmove', update, false);
-        removeEventListener('resize', update, false);
-        removeEventListener('scroll', update, false);
+        referenceWindow.removeEventListener('touchmove', update, false);
+        referenceWindow.removeEventListener('resize', update, false);
+        referenceWindow.removeEventListener('scroll', update, false);
         removeOnVisibilityChangeEvent();
       };
     })(throttle(function () {

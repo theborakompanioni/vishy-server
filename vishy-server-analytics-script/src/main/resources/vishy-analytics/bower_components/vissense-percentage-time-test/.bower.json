@@ -42,7 +42,7 @@
     "tag": "0.5.0",
     "commit": "0d850436a6bbe74b08b265c2a52aa03e9d1040ff"
   },
-  "_source": "git://github.com/vissense/vissense-percentage-time-test.git",
+  "_source": "https://github.com/vissense/vissense-percentage-time-test.git",
   "_target": "~0.5.0",
   "_originalSource": "vissense/vissense-percentage-time-test"
 }

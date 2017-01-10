@@ -3,7 +3,6 @@ package org.tbk.vishy.client.analytics;
 import com.google.common.base.CharMatcher;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.jsoup.safety.Whitelist;
 
 import java.io.StringWriter;
 
@@ -13,9 +12,11 @@ import static java.util.Objects.requireNonNull;
 public class AnalyticsScriptLoaderFactoryImpl implements AnalyticsScriptLoaderFactory {
     private final Template template;
     private final VishyAnalyticsScriptProperties properties;
-    private final Whitelist emptyWhitelist = Whitelist.none();
 
-    private final CharMatcher lettersAndDigits = CharMatcher.javaLetterOrDigit().precomputed();
+    private final CharMatcher lettersAndDigitsMatcher = CharMatcher.javaLetterOrDigit().precomputed();
+    private final CharMatcher validElementIdMatcher = CharMatcher.anyOf("_-")
+            .or(lettersAndDigitsMatcher)
+            .precomputed();
 
     public AnalyticsScriptLoaderFactoryImpl(VishyAnalyticsScriptProperties properties, Template template) {
         this.properties = requireNonNull(properties);
@@ -24,9 +25,9 @@ public class AnalyticsScriptLoaderFactoryImpl implements AnalyticsScriptLoaderFa
 
     @Override
     public String createLoaderScript(String projectId, String experimentId, String elementId) {
-        checkArgument(lettersAndDigits.matchesAllOf(projectId));
-        checkArgument(lettersAndDigits.matchesAllOf(experimentId));
-        checkArgument(lettersAndDigits.matchesAllOf(elementId));
+        checkArgument(lettersAndDigitsMatcher.matchesAllOf(projectId));
+        checkArgument(lettersAndDigitsMatcher.matchesAllOf(experimentId));
+        checkArgument(validElementIdMatcher.matchesAllOf(elementId));
 
         VelocityContext context = new VelocityContext();
         context.put("projectId", projectId);

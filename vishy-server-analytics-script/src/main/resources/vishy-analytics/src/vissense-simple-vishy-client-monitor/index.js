@@ -10,7 +10,7 @@
 
   VisSense.Client.Vishy = function (config, http) {
     if (!Utils.isFunction(VisSense.Client.Simple)) {
-      throw new Error('Cannot load VisSense.Client.Simple Is it included?');
+      throw new Error('Cannot load VisSense.Client.Simple! Is it included?');
     }
 
     var vishyConfig = Utils.defaults(config, {

@@ -27,7 +27,7 @@
     "tag": "0.1.1",
     "commit": "e61935a5f52ff186a1ad30d2b7d034c3e1c867fc"
   },
-  "_source": "git://github.com/theborakompanioni/countonmejs.git",
+  "_source": "https://github.com/theborakompanioni/countonmejs.git",
   "_target": "0.1.1",
   "_originalSource": "theborakompanioni/countonmejs"
 }

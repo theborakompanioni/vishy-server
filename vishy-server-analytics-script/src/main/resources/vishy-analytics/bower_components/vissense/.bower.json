@@ -1,6 +1,6 @@
 {
   "name": "vissense",
-  "version": "0.8.2",
+  "version": "0.10.0",
   "license": "MIT",
   "main": "dist/vissense.min.js",
   "description": "A utility library for observing visibility changes of DOM elements.",
@@ -45,13 +45,13 @@
     "jasmine-jquery": "velesin/jasmine-jquery#2.1.0",
     "jasmine-jsreporter": "detro/jasmine-jsreporter#7bcea60db1a45cc77c5a463f"
   },
-  "_release": "0.8.2",
+  "_release": "0.10.0",
   "_resolution": {
     "type": "version",
-    "tag": "0.8.2",
-    "commit": "72e08127f024d7fbd40ef00cd1eaced8da3b75ae"
+    "tag": "0.10.0",
+    "commit": "ad36e5266894e890ffed28df0a561034c752f8eb"
   },
-  "_source": "git://github.com/vissense/vissense.git",
-  "_target": "~0.8.0",
-  "_originalSource": "vissense"
+  "_source": "https://github.com/vissense/vissense.git",
+  "_target": "~0.10.0",
+  "_originalSource": "vissense/vissense"
 }

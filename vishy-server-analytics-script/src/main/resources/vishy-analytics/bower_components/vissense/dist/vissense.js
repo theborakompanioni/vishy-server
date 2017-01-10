@@ -1,10 +1,22 @@
-/*! { "name": "vissense", "version": "0.8.2", "homepage": "https://vissense.github.io/vissense","copyright": "(c) 2015 tbk" } */
+/*! { "name": "vissense", "version": "0.10.0", "homepage": "https://vissense.github.io/vissense","copyright": "(c) 2016 tbk" } */
 !function(root, name, factory) {
     "use strict";
-    var _oldValue = root[name], _newValue = factory(root, root.document);
-    root[name] = _newValue, root[name].noConflict = function() {
-        return root[name] = _oldValue, _newValue;
+    var withWindow = function(win) {
+        var product = factory(win, win.document);
+        return product.noConflict = function() {
+            return product;
+        }, product;
     };
+    if ("function" == typeof define && define.amd) define([], function() {
+        return withWindow;
+    }); else if ("object" == typeof exports) module.exports = function(win) {
+        return withWindow(win);
+    }; else {
+        var _oldValue = root[name], _newValue = factory(root, root.document);
+        root[name] = _newValue, root[name].noConflict = function() {
+            return root[name] = _oldValue, _newValue;
+        };
+    }
 }(this, "VisSense", function(window, document, undefined) {
     "use strict";
     function async(callback, delay) {
@@ -130,7 +142,7 @@
         var vh = 0, vw = 0;
         return rect.top >= 0 ? vh = Math.min(rect.height, view.height - rect.top) : rect.bottom > 0 && (vh = Math.min(view.height, rect.bottom)), 
         rect.left >= 0 ? vw = Math.min(rect.width, view.width - rect.left) : rect.right > 0 && (vw = Math.min(view.width, rect.right)), 
-        Math.round(vh * vw / (rect.height * rect.width) * 1e3) / 1e3;
+        vh * vw / (rect.height * rect.width);
     }
     function isPageVisible(referenceWindow) {
         return !createVisibilityApi(referenceWindow || window).isHidden();
@@ -143,8 +155,13 @@
             hidden: 0,
             referenceWindow: window,
             percentageHook: percentage,
+            precision: 3,
             visibilityHooks: []
         });
+        var roundFactor = this._config.precision <= 0 ? 1 : Math.pow(10, this._config.precision || 3);
+        this._round = function(val) {
+            return Math.round(val * roundFactor) / roundFactor;
+        };
         var visibilityApi = createVisibilityApi(this._config.referenceWindow);
         this._config.visibilityHooks.push(function() {
             return !visibilityApi.isHidden();
@@ -244,10 +261,10 @@
         var hiddenByHook = forEach(this._config.visibilityHooks, function(hook) {
             return hook(this._element) ? void 0 : VisSense.VisState.hidden(0);
         }, this);
-        return hiddenByHook || function(element, config) {
-            var perc = config.percentageHook(element, config.referenceWindow);
+        return hiddenByHook || function(visobj, element, config) {
+            var perc = visobj._round(config.percentageHook(element, config.referenceWindow));
             return perc <= config.hidden ? VisSense.VisState.hidden(perc) : perc >= config.fullyvisible ? VisSense.VisState.fullyvisible(perc) : VisSense.VisState.visible(perc);
-        }(this._element, this._config);
+        }(this, this._element, this._config);
     }, VisSense.prototype.percentage = function() {
         return this.state().percentage;
     }, VisSense.prototype.element = function() {
@@ -304,8 +321,8 @@
         var _config = defaults(config, {
             async: !1
         });
-        return this._cancelAsyncStart && this._cancelAsyncStart(), _config.async ? this.startAsync() : (this.update(), 
-        this._pubsub.publish("start", [ this ]), this._strategy.start(this), this._started = !0, 
+        return this._cancelAsyncStart && this._cancelAsyncStart(), _config.async ? this.startAsync() : (this._started = !0, 
+        this.update(), this._pubsub.publish("start", [ this ]), this._strategy.start(this), 
         this);
     }, VisMon.prototype.startAsync = function(config) {
         this._cancelAsyncStart && this._cancelAsyncStart();
@@ -321,7 +338,7 @@
         this._cancelAsyncStart && this._cancelAsyncStart(), this._started && (this._strategy.stop(this), 
         this._pubsub.publish("stop", [ this ])), this._started = !1;
     }, VisMon.prototype.update = function() {
-        this._state = nextState(this._visobj, this._state), this._pubsub.publish("update", [ this ]);
+        this._started && (this._state = nextState(this._visobj, this._state), this._pubsub.publish("update", [ this ]));
     }, VisMon.prototype.on = function(topic, callback) {
         return this._pubsub.on(topic, callback);
     }, VisMon.Builder = function() {
@@ -398,11 +415,11 @@
     }, VisMon.Strategy.EventStrategy.prototype = Object.create(VisMon.Strategy.prototype), 
     VisMon.Strategy.EventStrategy.prototype.start = function(monitor) {
         return this._started || (this._removeEventListeners = function(update) {
-            var visibilityApi = createVisibilityApi(monitor.visobj().referenceWindow()), removeOnVisibilityChangeEvent = visibilityApi.onVisibilityChange(update);
-            return addEventListener("scroll", update, !1), addEventListener("resize", update, !1), 
-            addEventListener("touchmove", update, !1), function() {
-                removeEventListener("touchmove", update, !1), removeEventListener("resize", update, !1), 
-                removeEventListener("scroll", update, !1), removeOnVisibilityChangeEvent();
+            var referenceWindow = monitor.visobj().referenceWindow(), visibilityApi = createVisibilityApi(referenceWindow), removeOnVisibilityChangeEvent = visibilityApi.onVisibilityChange(update);
+            return referenceWindow.addEventListener("scroll", update, !1), referenceWindow.addEventListener("resize", update, !1), 
+            referenceWindow.addEventListener("touchmove", update, !1), function() {
+                referenceWindow.removeEventListener("touchmove", update, !1), referenceWindow.removeEventListener("resize", update, !1), 
+                referenceWindow.removeEventListener("scroll", update, !1), removeOnVisibilityChangeEvent();
             };
         }(throttle(function() {
             monitor.update();

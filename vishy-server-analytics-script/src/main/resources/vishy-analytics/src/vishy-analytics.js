@@ -18,7 +18,8 @@
         projectId: config.projectId,
         experimentId: config.experimentId,
         elementId: elementId
-      }).custom(visobj, {
+      })
+      .custom(visobj, {
         interval: 1000,
         throttle: 100,
         inactiveAfter: 60 * 1000

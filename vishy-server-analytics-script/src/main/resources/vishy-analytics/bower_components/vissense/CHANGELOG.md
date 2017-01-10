@@ -4,6 +4,26 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][unreleased]
 
+## [0.10.0] - 2016-02-09
+### Changed
+- monitor can only be updated if it has been started before
+
+### Fixed
+- possible multiple calls to monitor listeners after stop event
+- publish 'stop' event if monitor is stopped in first update cycle
+
+## [0.9.0] - 2016-01-12
+### Added
+- CommonJS compatibility
+- added config parameter `precision` to VisSense config object
+
+### Changed
+- `Utils.percentage()` does not round return value
+
+## [0.8.3] - 2015-09-07
+### Fixed
+- EventStrategy adds listeners to referenceWindow
+
 ## [0.8.2] - 2015-06-11
 ### Fixed
 - check computed style attribute "visibility" only once
@@ -81,7 +101,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 - removed `VisMon.NoopStrategy`
 
-[unreleased]: https://github.com/vissense/vissense/compare/0.8.2...HEAD
+[unreleased]: https://github.com/vissense/vissense/compare/0.10.0...HEAD
+[0.10.0]: https://github.com/vissense/vissense/compare/0.9.0...0.10.0
+[0.9.0]: https://github.com/vissense/vissense/compare/0.8.3...0.9.0
+[0.8.3]: https://github.com/vissense/vissense/compare/0.8.2...0.8.3
 [0.8.2]: https://github.com/vissense/vissense/compare/0.8.1...0.8.2
 [0.8.1]: https://github.com/vissense/vissense/compare/0.8.0...0.8.1
 [0.8.0]: https://github.com/vissense/vissense/compare/0.7.0...0.8.0

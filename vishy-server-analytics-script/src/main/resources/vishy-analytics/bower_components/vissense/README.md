@@ -7,14 +7,15 @@
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/vissense.svg)](https://saucelabs.com/u/vissense)
 
+![logo](https://raw.githubusercontent.com/vissense/vissense/master/vissense-logo.png)
+
 VisSense.js
 ====
 
 A utility library for observing visibility changes of DOM elements.
 Immediately know when an element becomes hidden, partly visible or fully visible.
 
-VisSense.js is **lightweight** (<4KB minified and gzipped) and **highly extensible**.
-It has **sane default values**, is **tested**, **documented** and **production-ready**. Best of all: **No dependencies**.
+VisSense.js is **lightweight** (<4KB minified and gzipped), **tested** and **documented**. Best of all: **No dependencies**.
 
 #### What it does
  * provides methods for detecting visibility of DOM elements
@@ -23,13 +24,13 @@ It has **sane default values**, is **tested**, **documented** and **production-r
 
 #### What it does *not* do (by default)
  * detect if an element is overlapped by others
- * detect if an element is a hidden input element
  * take elements opacity into account
  * take scrollbars into account - elements "hidden" behind scrollbars are considered visible
 
 
-[Demos](https://vissense.github.io/vissense-demo/) and Examples
+Demos and Examples
 ------------
+Check out [this bin for a quick demo](https://jsbin.com/yoqopa/edit?js,console,output).
 See more examples on the [demo page](https://vissense.github.io/vissense-demo/).
 
 In this simple example a video will only be started if at least 75% of its area is in the users viewport:
@@ -56,8 +57,9 @@ var visibility_monitor = visibility.monitor({
   }
 }).start();
 ```
+See a slightly adapted version of this example live and [try it on jsbin.com](https://jsbin.com/maqaco/edit?js,output).
 
-[Documentation](https://vissense.github.io/vissense/)
+Documentation
 ------------
 See [vissense.github.io/vissense](https://vissense.github.io/vissense/) or generate the documentation locally.
 
@@ -67,19 +69,24 @@ Clone the repository and run `grunt docs`
 Download
 ------------
 
+### npm
+Install with [npm](https://www.npmjs.com/package/vissense)
+```
+npm install vissense --save
+```
+
 ### Bower
 Install with bower
 ```
-bower install vissense/vissense --save-dev
+bower install vissense/vissense --save
 ```
 
 ### Github
 [Download from Github](https://github.com/vissense/vissense/releases)
 
-Add this `<script>` tag somewhere
-```
-<script src="/path/to/components/vissense/dist/vissense.min.js"></script>
-```
+
+### cdnjs
+[Reference from cdnjs.com](https://cdnjs.com/libraries/vissense)
 
 
 Contribute
@@ -92,8 +99,13 @@ Contribute
 `git clone https://github.com/vissense/vissense.git`
 
 #### Install dependencies
-
-`npm install && bower install`
+```
+npm install -g grunt-cli
+npm install -g karma-cli
+npm install -g bower
+npm install
+bower install
+```
 
 #### Build project
 
@@ -113,19 +125,18 @@ and it automatically opens `http://localhost:3000/SpecRunner.html` in your brows
 API
 ------------
 
-### VisSense([options])
+### VisSense(element [, options])
 
 Object constructor. Options:
 
 - `hidden` (_default: 0_) - if percentage is equal or below this limit the element is considered hidden
 - `fullyvisible` (_default: 1_) -  if percentage is equal or above this limit the element is considered fully visible
 
-Note: you can omit `new` keyword when calling `VisSense()`
+Note: you can omit `new` keyword when calling `VisSense(...)`
 
 #### .percentage()
 
 gets the current visible percentage (0..1)
-
 
 #### .isHidden()
 
@@ -173,7 +184,10 @@ var visibility_monitor = VisSense(element).monitor({
 }).start();
 ```
 
-### VisSense.VisMon(visobj, [, options])
+### VisSense.VisMon(visobj [, options])
+
+A monitor object lets you observe an element over a period of time.
+It emits certain events you can subscribe to, and it can be extended with custom logic.
 
 Object constructor. Options:
 
@@ -186,13 +200,14 @@ Object constructor. Options:
 - `fullyvisible` function to run when element becomes fully visible
 - `visibilitychange` function to run when the visibility of the element changes
 - `percentagechange` function to run when the percentage of the element changes
+- `async` a boolean flag indicating whether events are synchronous or asynchronous
 
 ```javascript
 var visobj = VisSense(document.getElementById('video'));
 
 var visibilityMonitor = VisSense.VisMon(visobj, { 
   strategy: [
-    new VisSense.VisMon.Strategy.EventStrategy({ debounce: 42 })
+    new VisSense.VisMon.Strategy.EventStrategy({ throttle: 42 })
   ],
   visibilitychange: function() { 
     console.log('visibilitychange');
@@ -289,7 +304,7 @@ var visibilityMonitor = VisSense.VisMon.Builder(visobj)
     console.log('[Visibility Monitor] Element became visible!');
   })
   .on('50%/10s', function (monitor) {
-    console.log('[Visibility Monitor] Element was >50% visible for 10 second!');
+    console.log('[Visibility Monitor] Element was >50% visible for 10 seconds!');
   })
   .on('mySpecialEvent', function (monitor) {
     console.log('[Visibility Monitor] MySpecialEvent received!');
@@ -304,4 +319,4 @@ License
 -------
 
 The project is licensed under the MIT license. See
-[LICENSE](https://github.com/vissense/vissense/blob/master/LICENSE) for details.
+[LICENSE](LICENSE) for details.

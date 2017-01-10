@@ -38,7 +38,7 @@
     "tag": "0.1.0",
     "commit": "1cc59eddb82b40062f511aefcd55c8e5a2235e3c"
   },
-  "_source": "git://github.com/vissense/vissense-metrics.git",
+  "_source": "https://github.com/vissense/vissense-metrics.git",
   "_target": "~0.1.0",
   "_originalSource": "vissense/vissense-metrics"
 }
