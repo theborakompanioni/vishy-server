@@ -1,0 +1,197 @@
+<div class="row">
+
+  <div class="col-sm-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-primary"
+      data-icon="fa-check-square-o">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="count"
+             data-event-collection="visibility-percentage-time-test"
+             data-query-options="{
+               filters: [{
+                 'property_name': 'test.testConfig.timeLimit',
+                 'operator': 'eq',
+                 'property_value': 1000
+               }, {
+                 'property_name': 'test.testConfig.percentageLimit',
+                 'operator': 'eq',
+                 'property_value': 0.5
+               }]
+             }">
+          Here should be a metric.
+        </div>
+      </div>
+      <div>Total Count Of Passed 50/1 Tests</div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+  <div class="col-sm-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-green"
+      data-icon="fa-clock-o">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="average"
+             data-event-collection="visibility-percentage-time-test"
+             data-target-property="test.timeReport.timeVisible"
+             data-query-options="{
+               filters: [{
+                 'property_name': 'test.testConfig.timeLimit',
+                 'operator': 'eq',
+                 'property_value': 1000
+               }, {
+                 'property_name': 'test.testConfig.percentageLimit',
+                 'operator': 'eq',
+                 'property_value': 0.5
+               }]
+             }"
+             data-postfix="s"
+             data-factor="0.001"
+             data-scale="1">
+          Here should be a metric.
+        </div>
+      </div>
+      <div>
+        Average Time Visible of a 50/1 Test
+      </div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+
+  <div class="col-sm-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-red"
+      data-icon="fa-clock-o">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="average"
+             data-event-collection="visibility-percentage-time-test"
+             data-target-property="test.timeReport.duration"
+             data-query-options="{
+               filters: [{
+                 'property_name': 'test.testConfig.timeLimit',
+                 'operator': 'eq',
+                 'property_value': 1000
+               }, {
+                 'property_name': 'test.testConfig.percentageLimit',
+                 'operator': 'eq',
+                 'property_value': 0.5
+               }]
+             }"
+             data-postfix="s"
+             data-factor="0.001"
+             data-scale="1">
+          Here should be a metric.
+        </div>
+      </div>
+      <div>
+        Average Time Duration of a 50/1 Test
+      </div>
+      <!--
+
+        The average time a 50/1 test took to pass. This means
+        that your element has the oppertunity to be seen after
+        this amount of time after a page has been loaded.
+      -->
+    </tbk-dashboard-lead-metric>
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Total Count Of Passed 100/3 Tests
+      </div>
+      <div class="chart-stage">
+        <div tbk-keen-default-metric
+             data-analysis-type="count"
+             data-event-collection="visibility-percentage-time-test"
+             data-query-options="{
+               filters: [{
+                 'property_name': 'test.testConfig.timeLimit',
+                 'operator': 'eq',
+                 'property_value': 3000
+               }, {
+                 'property_name': 'test.testConfig.percentageLimit',
+                 'operator': 'eq',
+                 'property_value': 1
+               }]
+             }">
+          Here should be a metric.
+        </div>
+      </div>
+      <div class="chart-notes">
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Average Time Visible of a 100/3 Test
+      </div>
+      <div class="chart-stage">
+        <div tbk-keen-default-metric
+             data-analysis-type="average"
+             data-event-collection="visibility-percentage-time-test"
+             data-target-property="test.timeReport.timeVisible"
+             data-query-options="{
+               filters: [{
+                 'property_name': 'test.testConfig.timeLimit',
+                 'operator': 'eq',
+                 'property_value': 3000
+               }, {
+                 'property_name': 'test.testConfig.percentageLimit',
+                 'operator': 'eq',
+                 'property_value': 1
+               }]
+             }"
+             data-filter="tbkReadableTime"
+             data-scale="1">
+          Here should be a metric.
+        </div>
+      </div>
+      <div class="chart-notes">
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Average Time Duration of a 100/3 Test
+      </div>
+      <div class="chart-stage">
+        <div tbk-keen-default-metric
+             data-analysis-type="average"
+             data-event-collection="visibility-percentage-time-test"
+             data-target-property="test.timeReport.duration"
+             data-query-options="{
+               filters: [{
+                 'property_name': 'test.testConfig.timeLimit',
+                 'operator': 'eq',
+                 'property_value': 3000
+               }, {
+                 'property_name': 'test.testConfig.percentageLimit',
+                 'operator': 'eq',
+                 'property_value': 1
+               }]
+             }"
+             data-filter="tbkReadableTime"
+             data-scale="1">
+          Here should be a metric.
+        </div>
+      </div>
+      <div class="chart-notes">
+        The average time a 100/3 test took to pass. This means
+        that your element has the oppertunity to be seen after
+        this amount of time after a page has been loaded.
+      </div>
+    </div>
+  </div>
+
+</div>

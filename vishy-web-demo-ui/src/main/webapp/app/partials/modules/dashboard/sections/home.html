@@ -1,0 +1,219 @@
+<div class="row">
+
+  <div class="col-lg-3 col-md-6">
+    <a data-ui-sref="dashboard.initialRequests.percentiles">
+      <tbk-dashboard-lead-metric
+        data-panel-class="panel-primary"
+        data-icon="fa-tachometer">
+        <div class="huge">
+          <div tbk-vishy-initial-request-percentage-percentile-metric data-percentile="50">
+            Here should be a metric.
+          </div>
+        </div>
+        <div>Initial Percentage Median</div>
+      </tbk-dashboard-lead-metric>
+    </a>
+  </div>
+
+  <div class="col-lg-3 col-md-6">
+    <a data-ui-sref="dashboard.percentageTimeTest.percentiles">
+      <tbk-dashboard-lead-metric
+        data-panel-class="panel-green"
+        data-icon="fa-eye">
+        <div class="huge">
+          <div tbk-keen-default-metric
+               data-analysis-type="count"
+               data-event-collection="visibility-percentage-time-test"
+               data-query-options="{
+             filters: [{
+               'property_name': 'test.testConfig.timeLimit',
+               'operator': 'eq',
+               'property_value': 1000
+             }, {
+               'property_name': 'test.testConfig.percentageLimit',
+               'operator': 'eq',
+               'property_value': 0.5
+             }]
+           }">XXX
+          </div>
+        </div>
+        <div>Passed 50/1 Tests</div>
+      </tbk-dashboard-lead-metric>
+    </a>
+  </div>
+
+  <div class="col-lg-3 col-md-6">
+    <a data-ui-sref="dashboard.timeReport.percentiles">
+      <tbk-dashboard-lead-metric
+        data-panel-class="panel-yellow"
+        data-icon="fa-clock-o">
+        <div class="huge">
+          <div tbk-keen-default-metric
+               data-analysis-type="median"
+               data-event-collection="visibility-time-report"
+               data-target-property="report.timeVisible"
+               data-postfix="s"
+               data-factor="0.001"
+               data-scale="1">XXX
+          </div>
+        </div>
+        <div>Median Time Visible</div>
+      </tbk-dashboard-lead-metric>
+    </a>
+  </div>
+
+
+  <div class="col-lg-3 col-md-6">
+    <a data-ui-sref="dashboard.timeReport">
+      <tbk-dashboard-lead-metric
+        data-panel-class="panel-red"
+        data-icon="fa-clock-o">
+        <div class="huge">
+          <div tbk-keen-default-metric
+               data-analysis-type="median"
+               data-event-collection="visibility-time-report"
+               data-target-property="report.timeFullyVisible"
+               data-postfix="s"
+               data-factor="0.001"
+               data-scale="1">XXX
+          </div>
+        </div>
+        <div>Median Time Fully Visible</div>
+      </tbk-dashboard-lead-metric>
+    </a>
+  </div>
+
+</div>
+
+
+<div class="row">
+
+  <div class="col-md-4">
+    <a data-ui-sref="dashboard.overview.device">
+      <tbk-dashboard-lead-metric
+        data-panel-class="panel-primary"
+        data-icon="fa-mobile">
+        <div class="huge">
+          <div tbk-keen-default-metric
+               data-analysis-type="count"
+               data-event-collection="visibility-initial-request"
+               data-query-options="{
+             filters: [{
+               'property_name': 'device.mobile',
+               'operator': 'eq',
+               'property_value': true
+             }]
+           }">XXX
+          </div>
+        </div>
+        <div>Mobile</div>
+      </tbk-dashboard-lead-metric>
+    </a>
+  </div>
+
+  <div class="col-md-4">
+    <a data-ui-sref="dashboard.overview.device">
+      <tbk-dashboard-lead-metric
+        data-panel-class="panel-green"
+        data-icon="fa-tablet">
+        <div class="huge">
+          <div tbk-keen-default-metric
+               data-analysis-type="count"
+               data-event-collection="visibility-initial-request"
+               data-query-options="{
+             filters: [{
+               'property_name': 'device.tablet',
+               'operator': 'eq',
+               'property_value': true
+             }]
+           }">XXX
+          </div>
+        </div>
+        <div>Tablet</div>
+      </tbk-dashboard-lead-metric>
+    </a>
+  </div>
+
+  <div class="col-md-4">
+    <a data-ui-sref="dashboard.overview.device">
+      <tbk-dashboard-lead-metric
+        data-panel-class="panel-yellow"
+        data-icon="fa-desktop">
+        <div class="huge">
+          <div tbk-keen-default-metric
+               data-analysis-type="count"
+               data-event-collection="visibility-initial-request"
+               data-query-options="{
+             filters: [{
+               'property_name': 'device.normal',
+               'operator': 'eq',
+               'property_value': true
+             }]
+           }">XXX
+          </div>
+        </div>
+        <div>Desktop</div>
+      </tbk-dashboard-lead-metric>
+    </a>
+  </div>
+
+</div>
+
+
+<div class="row">
+
+  <div class="col-md-8">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Requests by Visibility State (absolute)
+      </div>
+      <div class="chart-stage">
+        <div tbk-vishy-default-areachart
+             analysis-type="count"
+             event-collection="visibility-initial-request"
+             is-stacked="false"
+             group-by="state.state">
+          Here should be a chart.
+        </div>
+      </div>
+      <div class="chart-notes">
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Requests by Visibility State (relative)
+      </div>
+      <div class="chart-stage">
+        <div tbk-vishy-request-by-state-piechart>
+          Here should be a chart.
+        </div>
+      </div>
+      <div class="chart-notes">
+        Notes go down here
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-12">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Average Visible Time (in milliseconds)
+      </div>
+      <div class="chart-stage">
+        <div tbk-vishy-default-areachart
+             analysis-type="average"
+             event-collection="visibility-time-report"
+             target-property="report.timeVisible">
+          Here should be a chart.
+        </div>
+      </div>
+      <div class="chart-notes">
+      </div>
+    </div>
+  </div>
+
+</div>
