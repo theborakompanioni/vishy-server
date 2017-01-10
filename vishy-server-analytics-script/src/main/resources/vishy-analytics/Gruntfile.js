@@ -44,10 +44,12 @@ module.exports = function (grunt) {
       },
       dist: {
         src: [
+          // dependencies
           '<%= dirs.bower %>/vissense/dist/vissense.min.js',
           '<%= dirs.bower %>/vissense-percentage-time-test/dist/vissense-percentage-time-test.min.js',
           '<%= dirs.bower %>/vissense-metrics/dist/vissense.metrics.min.js',
           '<%= dirs.bower %>/vissense-user-activity/dist/vissense-user-activity.min.js',
+          // project files
           '<%= dirs.src %>/vissense-simple-client-monitor/index.js',
           '<%= dirs.src %>/vissense-simple-vishy-client-monitor/index.js',
           '<%= dirs.src %>/vishy-analytics.js'

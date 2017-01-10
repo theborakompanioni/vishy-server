@@ -1,3 +1,4 @@
+/*global VisSense */
 (function (VisSense, Utils) {
   'use strict';
 
@@ -15,7 +16,7 @@
 
    monitors.push(simplePiwikClientMonitor); */
 
-  VisSense.Client = VisSense.Client || {}
+  VisSense.Client = VisSense.Client || {};
 
   VisSense.Client.Piwik = function (piwikClient) {
     if (!Utils.isFunction(VisSense.Client.Simple)) {

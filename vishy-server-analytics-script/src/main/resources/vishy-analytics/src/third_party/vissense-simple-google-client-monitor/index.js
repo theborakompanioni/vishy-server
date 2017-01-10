@@ -1,3 +1,4 @@
+/*global VisSense */
 (function (VisSense, Utils) {
   'use strict';
 
@@ -15,7 +16,7 @@
    monitors.push(googleMonitor);
    */
 
-  VisSense.Client = VisSense.Client || {}
+  VisSense.Client = VisSense.Client || {};
 
   VisSense.Client.Google = function (gaClient) {
     if (!Utils.isFunction(VisSense.Client.Simple)) {

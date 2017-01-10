@@ -1,3 +1,4 @@
+/*global VisSense */
 (function (VisSense, Utils) {
   'use strict';
 
@@ -31,7 +32,7 @@
 
   /************** SegmentIo Client End */
 
-  VisSense.Client = VisSense.Client || {}
+  VisSense.Client = VisSense.Client || {};
 
   VisSense.Client.SegmentIO = function (segmentClient) {
     if (!Utils.isFunction(VisSense.Client.Simple)) {

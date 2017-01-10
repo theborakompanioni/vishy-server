@@ -1,3 +1,71 @@
+/*global VisSense */
+(function (VisSense, Utils) {
+  'use strict';
+
+  // FIXME: temporary -> Everything in here should be considered to be moved to an own plugin
+
+  var simpleHelpers = function () {
+  };
+
+  simpleHelpers.createTimeReport = function (metrics) {
+    var report = {};
+    report.timeHidden = metrics.getMetric('time.hidden').get();
+    report.timeVisible = metrics.getMetric('time.visible').get();
+    report.timeFullyVisible = metrics.getMetric('time.fullyvisible').get();
+    report.timeRelativeVisible = Math.round(metrics.getMetric('time.relativeVisible').get());
+    report.duration = metrics.getMetric('time.duration').get();
+    report.timeStarted = new Date().getTime() - report.duration;
+
+    report.percentage = {
+      current: metrics.getMetric('percentage').get(),
+      maximum: metrics.getMetric('percentage.max').get(),
+      minimum: metrics.getMetric('percentage.min').get()
+    };
+
+    return report;
+  };
+
+  simpleHelpers.newInitialStateEventStrategy = function (eventName) {
+    return {
+      init: function (monitor) {
+        console.debug('[InitialRequestEventStrategy] init');
+        var stopSendingInitialRequestEvents = monitor.on('update', function (monitor) {
+          var state = monitor.state();
+          monitor.publish(eventName, [monitor, state]);
+          stopSendingInitialRequestEvents();
+        });
+      }
+    };
+  };
+
+  simpleHelpers.createSummaryEventStrategy = function (eventName) {
+    return {
+      init: function (monitor) {
+        if (!Utils.isFunction(monitor.metrics) || !Utils.isFunction(VisSense.VisMon.Strategy.MetricsStrategy)) {
+          throw new Error('Cannot load MetricsStrategy. Is it included?');
+        }
+      },
+      start: function () {
+        console.debug('[TimeReportEventStrategy] start');
+      },
+      stop: function (monitor) {
+        monitor.metrics().update();
+
+        var timeReport = simpleHelpers.createTimeReport(monitor.metrics());
+
+        monitor.publish(eventName, [monitor, timeReport]);
+
+        console.debug('[TimeReportEventStrategy] stop');
+      }
+    };
+  };
+
+  VisSense.Client = VisSense.Client || {};
+  VisSense.Client.Helpers = VisSense.Client.Helpers || {};
+  VisSense.Client.Helpers.Simple = simpleHelpers;
+
+})(VisSense, VisSense.Utils);
+
 (function (VisSense, factory) {
   'use strict';
 
@@ -8,7 +76,7 @@
 
   var uuid = function () {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
   };
@@ -108,11 +176,16 @@
               }))
               .strategy(VisSense.Client.Helpers.Simple.createSummaryEventStrategy(internalSummaryEventName))
               .on(internalInitEventName, function (monitor, state) {
+                var stateWithoutPrevious = Utils.extend({}, state);
+                stateWithoutPrevious.previous = null;
+
                 var initEventData = {
-                  type: 'initial',
+                  type: 'INITIAL',
                   monitorId: monitorId,
-                  initial: true,
-                  state: state
+                  initial: {
+                    timeStarted: new Date().getTime(),
+                    state: stateWithoutPrevious
+                  }
                 };
 
                 sendEventWithClient(client, 'visibility-initial-request', initEventData);
@@ -122,14 +195,22 @@
               .on(internalStatus501TestPassedEventName, function (monitor, data) {
                 var timeReport = VisSense.Client.Helpers.Simple.createTimeReport(monitor.metrics());
 
+                if (data.monitorState) {
+                  var stateWithoutPrevious = Utils.extend({}, data.monitorState);
+                  stateWithoutPrevious.previous = null;
+                  data.monitorState = stateWithoutPrevious;
+                }
+
                 var dataWithTimeReport = Utils.extend(data, {
                   timeReport: timeReport
                 });
 
                 var status501TestPassedEventData = {
-                  type: 'status',
+                  type: 'STATUS',
                   monitorId: monitorId,
-                  test: dataWithTimeReport
+                  status: {
+                    test: dataWithTimeReport
+                  }
                 };
 
                 sendEventWithClient(client, 'visibility-percentage-time-test', status501TestPassedEventData);
@@ -137,9 +218,11 @@
               })
               .on(internalSummaryEventName, function (monitor, timeReport) {
                 var summaryEventData = {
-                  type: 'summary',
+                  type: 'SUMMARY',
                   monitorId: monitorId,
-                  report: timeReport
+                  summary: {
+                    report: timeReport
+                  }
                 };
 
                 sendEventWithClient(client, 'visibility-time-report', summaryEventData);

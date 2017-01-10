@@ -23,11 +23,16 @@
           url: '/info',
           template: '<ui-view/>'
         })
-        .state('info.overview', {
-          url: '/overview',
-          templateUrl: 'partials/info.html',
-          controller: 'NoopCtrl'
-        })
+          .state('info.overview', {
+            url: '/overview',
+            templateUrl: 'partials/info.html',
+            controller: 'NoopCtrl'
+          })
+          .state('info.launch', {
+            url: '/launch',
+            templateUrl: 'partials/launch-information.html',
+            controller: 'NoopCtrl'
+          })
         .state('product', {
           abstract: true,
           url: '/product',

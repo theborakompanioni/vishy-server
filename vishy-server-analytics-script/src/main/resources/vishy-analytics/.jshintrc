@@ -23,7 +23,7 @@
   "maxparams": 5,
   "maxdepth": 3,
   "maxcomplexity": 11,
-  "maxlen": 120,
+  "maxlen": 180,
   /* Relaxing options */
   "boss": false,
   "debug": false,
