@@ -1,7 +1,10 @@
 package org.tbk.vishy.web;
 
 import com.github.theborakompanioni.openmrc.OpenMrcRequestService;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.Executors;
 
 @Slf4j
 @RestController
@@ -22,6 +26,11 @@ import javax.servlet.http.HttpServletRequest;
 public class OpenMrcRequestConsumerCtrl {
 
     private final OpenMrcRequestService<HttpServletRequest, ResponseEntity<String>> openMrcService;
+    private final Scheduler scheduler = Schedulers.from(Executors.newFixedThreadPool(
+            Runtime.getRuntime().availableProcessors(),
+            new ThreadFactoryBuilder()
+                    .setNameFormat("http-openmrc-consume-%d")
+                    .build()));
 
     @Autowired
     public OpenMrcRequestConsumerCtrl(OpenMrcRequestService<HttpServletRequest, ResponseEntity<String>> openMrcService) {
@@ -53,6 +62,7 @@ public class OpenMrcRequestConsumerCtrl {
     public DeferredResult<ResponseEntity<String>> consume(HttpServletRequest request) {
         final DeferredResult<ResponseEntity<String>> deferredResult = new DeferredResult<>();
         openMrcService.apply(request)
+                .subscribeOn(scheduler)
                 .subscribe(deferredResult::setResult,
                         e -> {
                             if (e instanceof RuntimeException) {
