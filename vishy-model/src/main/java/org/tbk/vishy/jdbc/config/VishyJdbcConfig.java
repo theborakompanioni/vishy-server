@@ -21,9 +21,9 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.tbk.vishy.jdbc.VishyJdbcSaveAction;
 import org.tbk.vishy.jdbc.converter.LocalDateTimeAttributeConverter;
 import org.tbk.vishy.jdbc.model.AbstractEntity;
-import org.tbk.vishy.jdbc.model.openmrc.PersistedOpenMrcRequest;
 import org.tbk.vishy.jdbc.model.openmrc.PersistedOpenMrcRequestRepository;
 
 import javax.annotation.PostConstruct;
@@ -88,6 +88,14 @@ public class VishyJdbcConfig {
         return new JdbcTemplate(hikariDataSource());
     }
 
+
+    @Bean
+    public OpenMrcJdbcSaveAction openMrcJdbcSaveAction(
+            PersistedOpenMrcRequestRepository requestRepository, OpenMrcJsonMapper jsonMapper
+    ) {
+        return new VishyJdbcSaveAction(requestRepository);
+    }
+    /*
     @Bean
     public OpenMrcJdbcSaveAction openMrcJdbcSaveAction(
             PersistedOpenMrcRequestRepository requestRepository, OpenMrcJsonMapper jsonMapper
@@ -99,7 +107,7 @@ public class VishyJdbcConfig {
 
             requestRepository.save(dbEntity);
         };
-    }
+    }*/
 
     @Bean
     public PlatformTransactionManager transactionManager() {
