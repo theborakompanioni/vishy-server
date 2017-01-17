@@ -29,7 +29,9 @@
                         </goals>
                         <phase>generate-resources</phase>
                     </execution>
-                    <execution>
+                    <!-- travis does not like `npm prune` as of 2017-01-17:
+                    -->
+                    <!--execution>
                         <id>npm prune</id>
                         <goals>
                             <goal>npm</goal>
@@ -39,7 +41,7 @@
                         <configuration>
                             <arguments>prune</arguments>
                         </configuration>
-                    </execution>
+                    </execution-->
                     <execution>
                         <id>npm install</id>
                         <goals>
@@ -84,6 +86,7 @@
                 </executions>
                 <configuration>
                     <nodeVersion>v5.0.0</nodeVersion>
+                    <npmVersion>3.3.6</npmVersion>
                     <workingDirectory>src/main/webapp</workingDirectory>
                 </configuration>
             </plugin>
