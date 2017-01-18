@@ -15,7 +15,7 @@ before_install:
 before_script:
   - 'phantomjs --version'
   - 'firefox --version'
-  - 'npm install -g gulp-cli'
+  - 'npm install -g gulp'
   - 'npm install -g karma-cli'
   - 'npm install -g bower'
   - 'bower install'

@@ -25,7 +25,7 @@
                 <version>1.7</version>
                 <executions>
                     <execution>
-                        <id>run grunt</id>
+                        <id>build webapps</id>
                         <phase>generate-sources</phase>
                         <configuration>
                             <target>
@@ -76,7 +76,6 @@
             </plugin>
         </plugins>
         <resources>
-
             <resource>
                 <directory>${app.main.dir}/dist/app</directory>
                 <targetPath>static/${app.main.path}</targetPath>
@@ -94,24 +93,6 @@
                 </includes>
                 <filtering>false</filtering>
             </resource>
-
-            <!--resource>
-                <directory>src/main/${app.dir}/dist/app</directory>
-                <targetPath>static/${app.path}</targetPath>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-                <filtering>false</filtering>
-            </resource>
-
-            <resource>
-                <directory>src/main/${app.demo.dir}/dist/app</directory>
-                <targetPath>static/${app.demo.path}</targetPath>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-                <filtering>false</filtering>
-            </resource-->
         </resources>
     </build>
 
