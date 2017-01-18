@@ -12,19 +12,106 @@
     <artifactId>vishy-web-ui</artifactId>
 
     <properties>
-        <web.path>vishy-ui</web.path>
+        <app.main.dir>${project.basedir}/src/main/webapp</app.main.dir>
+        <app.main.path>main</app.main.path>
+        <app.demo.dir>${project.basedir}/src/main/demo-ui</app.demo.dir>
+        <app.demo.path>demo</app.demo.path>
     </properties>
 
     <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>run grunt</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <target>
+                                <macrodef name="npm-prune">
+                                    <attribute name="dir"/>
+                                    <sequential>
+                                        <echo>npm prune: @{dir}</echo>
+                                        <exec executable="npm" dir="@{dir}" failonerror="true">
+                                            <arg value="prune"/>
+                                        </exec>
+                                    </sequential>
+                                </macrodef>
+
+                                <macrodef name="npm-install">
+                                    <attribute name="dir"/>
+                                    <sequential>
+                                        <echo>npm install: @{dir}</echo>
+                                        <exec executable="npm" dir="@{dir}" failonerror="true">
+                                            <arg value="install"/>
+                                        </exec>
+                                    </sequential>
+                                </macrodef>
+
+                                <macrodef name="gulp">
+                                    <attribute name="dir"/>
+                                    <sequential>
+                                        <echo>gulp: @{dir}</echo>
+                                        <exec executable="gulp" dir="@{dir}" failonerror="true">
+                                            <arg value="--environment=production"/>
+                                        </exec>
+                                    </sequential>
+                                </macrodef>
+
+                                <npm-prune dir="${app.main.dir}"/>
+                                <npm-install dir="${app.main.dir}"/>
+                                <gulp dir="${app.main.dir}"/>
+
+                                <npm-prune dir="${app.demo.dir}"/>
+                                <npm-install dir="${app.demo.dir}"/>
+                                <gulp dir="${app.demo.dir}"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
         <resources>
+
             <resource>
-                <directory>src/main/resources/bower_components/vishy-ui/dist/app</directory>
-                <targetPath>static/${web.path}</targetPath>
+                <directory>${app.main.dir}/dist/app</directory>
+                <targetPath>static/${app.main.path}</targetPath>
                 <includes>
                     <include>**/*</include>
                 </includes>
                 <filtering>false</filtering>
             </resource>
+
+            <resource>
+                <directory>${app.demo.dir}/dist/app</directory>
+                <targetPath>static/${app.demo.path}</targetPath>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+
+            <!--resource>
+                <directory>src/main/${app.dir}/dist/app</directory>
+                <targetPath>static/${app.path}</targetPath>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+
+            <resource>
+                <directory>src/main/${app.demo.dir}/dist/app</directory>
+                <targetPath>static/${app.demo.path}</targetPath>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource-->
         </resources>
     </build>
 

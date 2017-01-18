@@ -1,0 +1,106 @@
+<style>
+  .price-table {
+    background: none;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border: 4px solid #dddddd;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    -webkit-transition: all .3s ease;
+
+    margin-bottom: 33px;
+  }
+  .price-table:hover {
+    background: rgba(0,0,0, .03);
+    border-color: #3d4a57;
+  }
+  .price-table .price-table-heading {
+    color: #333333;
+    background: #f9f9f9;
+    padding: 10px 0;
+    margin: 0;
+  }
+  .price-table .price-table-heading .title {
+    color: #333333;
+    font-weight: 900;
+    letter-spacing: 1px;
+  }
+  .price-table > .price-table-body {
+    color: #FFFFFF;
+    background: #3d4a57;
+    padding: 50px 0 30px;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    -webkit-transition: all .3s ease;
+  }
+  .price-table > .price-table-body .value {
+    font-size: 33px;
+    font-weight: 300;
+    color: #FFFFFF;
+    padding: 0;
+  }
+  .price-table > .price-table-body .value small {
+    font-size: 16px;
+  }
+  .price-table > .list-group {
+    color: #333;
+    font-weight: 400;
+    margin-bottom: 0;
+  }
+  .price-table > .list-group .list-group-item {
+    color: #333;
+    font-weight: 400;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+  }
+  .price-table .btn {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+  .price-table-footer {
+    background: #eeeeee;
+    padding: 15px 0;
+  }
+</style>
+
+<div class="container">
+
+  <h3><strong>Vis</strong>hy Pricing Plans</h3>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-3" data-ng-repeat="pricing in model.pricings">
+      <!-- Price Table Item -->
+      <div class="price-table text-center">
+        <div class="price-table-heading">
+          <h4 class="title">{{pricing.title}}</h4>
+        </div>
+        <div class="price-table-body">
+          <p class="value" data-ng-show="pricing.costPerMonth > -1">
+            <!-- {{pricing.costPerMonth | number:0 | currency : pricing.currencySign : 0}} -->
+            {{pricing.currencySign}}{{pricing.costPerMonth | number:0}}<small>/month</small>
+          </p>
+          <p class="value" data-ng-show="pricing.priceMessage">
+            {{ pricing.priceMessage }}
+          </p>
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item" data-ng-repeat="feature in pricing.features">
+            <i class="fa fa-check"></i> {{ feature.message }}
+          </li>
+        </ul>
+        <div class="price-table-footer">
+          <a class="btn btn-lg btn-success" data-ui-sref="{{pricing.linkTarget}}">{{pricing.buttonText}}</a>
+        </div>
+      </div>
+      <!-- END Price Table Item -->
+      <!-- START: Will be visible in tablet and mobile devices to make gap between tow price items -->
+      <div class="col-xs-12 col-sm-12" style="margin-bottom:20px;"></div>
+      <!-- END: Will be visible in tablet and mobile devices to make gap between tow price items -->
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,105 @@
+
+body.application {
+  background: none repeat scroll 0 0 #f2f2f2;
+  padding: 60px 20px 0;
+}
+body.application > .container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+body.application div[class^="col-"] {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+body.application div[class^="col-"] div[class^="col-"] {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+body.application hr {
+  border-color: #d7d7d7;
+  margin: 10px 0;
+}
+.navbar-inverse {
+  background-color: #3d4a57;
+  border-color: #333;
+}
+.navbar-inverse .navbar-nav > li > a, .navbar .navbar-brand {
+  color: #fbfbfb;
+  text-decoration: none;
+}
+.chart-wrapper {
+  background: none repeat scroll 0 0 #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+.chart-wrapper .chart-title {
+  border-bottom: 1px solid #d7d7d7;
+  color: #666;
+  font-size: 14px;
+  font-weight: 200;
+  padding: 7px 10px 4px;
+}
+.chart-wrapper .chart-stage {
+  overflow: hidden;
+  padding: 5px 10px;
+  position: relative;
+}
+.chart-wrapper .chart-notes {
+  background: none repeat scroll 0 0 #fbfbfb;
+  border-top: 1px solid #e2e2e2;
+  color: #808080;
+  font-size: 12px;
+  padding: 8px 10px 5px;
+}
+
+
+.chart-stage .tbk-keen-metric {
+  display: block;
+  font-size: 30px;
+}
+
+.chart-stage .tbk-keen-metric.blue {
+  display: block;
+  border: 1px solid #76b0ff;
+  border-radius: 4px;
+  background-color: #76b0ff;
+  color: white;
+}
+.chart-stage .tbk-keen-metric {
+  text-align: right;
+}
+.chart-stage .tbk-keen-metric.center {
+   text-align: center;
+ }
+
+.huge .tbk-keen-metric.tbk-keen-metric-loading {
+  font-size: 0.8em;
+}
+.chart-stage .tbk-keen-metric.tbk-keen-metric-loading {
+  font-size: 1em;
+}
+
+.chart-stage .tbk-keen-metric.tbk-keen-metric-success {
+
+}
+
+.chart-stage .tbk-keen-metric.tbk-keen-metric-error {
+  color: #ff6166;
+}
+
+.chart-notes .tbk-keen-metric {
+  display: inline;
+}
+
+.chart-notes .tbk-keen-metric.tbk-keen-metric-success {
+
+}
+
+.chart-notes .tbk-keen-metric.tbk-keen-metric-loading {
+
+}
+
+.chart-notes .tbk-keen-metric.tbk-keen-metric-error {
+  color: #ff6166;
+}

@@ -1,0 +1,486 @@
+<style>
+  #element-728x90, #element-300x250, #element-160x600, #element-160x150 {
+    border: 2px solid #333;
+    border-radius: 25px;
+    position: relative;
+    background-color: #e5e5e5;
+    margin: 0 auto;
+    z-index: 9999;
+    padding: 10px;
+  }
+
+  #element-728x90 {
+    width: 728px;
+    height: 90px;
+  }
+
+  #element-300x250 {
+    width: 300px;
+    height: 250px;
+  }
+
+  #element-160x600 {
+    width: 160px;
+    height: 600px;
+  }
+
+  #element-160x150 {
+    width: 160px;
+    height: 150px;
+  }
+
+  #vishy-showcase .vissense-metrics-container {
+    font-size: 10px;
+    z-index: 99999;
+    background-color: rgba(242, 242, 242, 0.9);
+
+    margin-top: 30px;
+
+    min-width: 600px;
+
+    position: relative !important;
+    left: initial !important;
+    bottom: initial !important;
+    width: initial !important;
+    height: initial !important;
+  }
+
+  #vishy-showcase .vissense-metrics-container .vissense-flexbox .box {
+    font-size: 12px;
+    padding: 6px;
+    width: 120px;
+    text-align: center;
+  }
+
+  .visible-xs .vissense-metrics-container,
+  .visible-sm .vissense-metrics-container {
+    position: relative !important;
+    box-shadow: 1px 1px 1px 2px rgba(99, 99, 99, 0.4) !important;
+    margin-top: 30px;
+    z-index: 1;
+    min-width: 600px;
+  }
+</style>
+
+<div id="vishy-showcase" class="container">
+  <h3>
+    <strong>Vis</strong>hy Showcase
+    <small class="text-muted">Multiple Elementes</small>
+  </h3>
+
+  <p class="lead">
+    When the button is pressed all visibility events of an element will be monitored and recorded.
+    Element are considered visible if more than
+    {{model.hidden * 100 | number:1}}% of their surface area is in the
+    viewable portion of a users browser. Elements are considered
+    hidden when a user is idle for {{model.inactiveAfter / 1000 | number:0}} seconds.
+    Recording will stop after {{model.autoStop}} seconds.
+  </p>
+
+  <div style="text-align: center; margin: 20px 0 30px 0;">
+    <button class="btn btn-primary btn-lg"
+            data-ng-click="start(['element-728x90', 'element-160x600', 'element-160x150', 'element-300x250']);"
+            data-ng-hide="model.running">
+      Start recording
+    </button>
+
+    <button class="btn btn-danger btn-lg"
+            data-ng-click="stop();"
+            data-ng-show="model.running">
+      Stop recording (auto-stop in {{model.autoStopCountdown}}s)
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <p>
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+        dolore
+        magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+        gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+        sadipscing
+        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+        vero
+        eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+        ipsum
+        dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+        ut
+        labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+        rebum.
+        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+      </p>
+
+      <div id="element-728x90">
+        <span>
+          <strong>728x90</strong>
+          <small class="text-muted" data-vissense-percentage="element-728x90"></small>
+        </span>
+      </div>
+
+      <div data-ng-if="model.running">
+        <div data-vissense-metrics-infocard="element-728x90"
+             data-inactive-after="{{model.inactiveAfter}}"
+             data-hidden="{{model.hidden}}"
+          ></div>
+      </div>
+
+      <div style="margin-top: 30px;">
+        <table class="table table-bordered table-striped">
+          <colgroup>
+            <col span="1">
+            <col span="1">
+            <col span="1">
+            <col span="1">
+            <col span="1">
+          </colgroup>
+          <thead>
+          <tr>
+            <th>percentage</th>
+            <th>50/1 Test</th>
+            <th>60/1 Test</th>
+            <th>66/3 Test *</th>
+            <th>100/10 Test **</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr data-ng-if="!model.running">
+            <td><span data-vissense-percentage="element-728x90"></span></td>
+            <td colspan="100">
+              <div class="alert alert-info">
+                Visibility Percentage Time Tests will immediately start when recording.
+              </div>
+            </td>
+          </tr>
+          <tr data-ng-if="model.running">
+            <td><span data-vissense-percentage="element-728x90"></span></td>
+            <td><span data-vissense-fifty-one-test="element-728x90"></span></td>
+            <td><span data-vissense-sixty-one-test="element-728x90"></span></td>
+            <td><span data-vissense-percentage-time-test="element-728x90"
+                      data-percentage-limit="0.66"
+                      data-time-limit="3000"
+                      data-interval="100"></span></td>
+            <td><span data-vissense-percentage-time-test="element-728x90"
+                      data-percentage-limit="1"
+                      data-time-limit="10000"
+                      data-interval="100"></span></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-sm-5 col-md-3">
+      <div id="element-160x600">
+        <span>
+          <strong>160x600</strong>
+          <small class="text-muted" data-vissense-percentage="element-160x600"></small>
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-7 col-md-9">
+      <p class="hidden-xs hidden-sm">
+        Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+        feugiat
+        nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit
+        augue
+        duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+        nonummy
+        nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+      </p>
+
+
+      <p>
+        Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
+        commodo
+        consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum
+        dolore
+        eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum
+        zzril
+        delenit augue duis dolore te feugait nulla facilisi.
+      </p>
+
+
+      <div class="row">
+        <div class="col-sm-6 col-md-9">
+          <p class="hidden-xs hidden-sm">
+            Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+            feugiat
+            nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit
+            augue
+            duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+            nonummy
+            nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+          </p>
+
+          <p>
+            Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+            feugiat
+            nulla facilisis.
+          </p>
+
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+
+          <div id="element-160x150">
+            <span>
+              <strong>160x150</strong>
+              <small class="text-muted" data-vissense-percentage="element-160x150"></small>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+
+          <div data-ng-if="model.running">
+            <div data-vissense-metrics-infocard="element-160x150"
+                 data-inactive-after="{{model.inactiveAfter}}"
+                 data-hidden="{{model.hidden}}"
+              ></div>
+          </div>
+
+          <div style="margin-top: 30px;">
+            <table class="table table-bordered table-striped">
+              <colgroup>
+                <col span="1">
+                <col span="1">
+                <col span="1">
+                <col span="1">
+                <col span="1">
+              </colgroup>
+              <thead>
+              <tr>
+                <th>percentage</th>
+                <th>50/1 Test</th>
+                <th>60/1 Test</th>
+                <th>66/3 Test *</th>
+                <th>100/10 Test **</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr data-ng-if="!model.running">
+                <td><span data-vissense-percentage="element-160x150"></span></td>
+                <td colspan="100">
+                  <div class="alert alert-info">
+                    Visibility Percentage Time Tests will immediately start when recording.
+                  </div>
+                </td>
+              </tr>
+              <tr data-ng-if="model.running">
+                <td><span data-vissense-percentage="element-160x150"></span></td>
+                <td><span data-vissense-fifty-one-test="element-160x150"></span></td>
+                <td><span data-vissense-sixty-one-test="element-160x150"></span></td>
+                <td><span data-vissense-percentage-time-test="element-160x150"
+                          data-percentage-limit="0.66"
+                          data-time-limit="3000"
+                          data-interval="100"></span></td>
+                <td><span data-vissense-percentage-time-test="element-160x150"
+                          data-percentage-limit="1"
+                          data-time-limit="10000"
+                          data-interval="100"></span></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+        sed
+        diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+        takimata
+        sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+        nonumy
+        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
+        justo
+        duo dolores et ea rebum.
+      </p>
+
+      <p class="hidden-xs hidden-sm">
+        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+        Lorem
+        ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+        magna
+        aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+        gubergren, no sea takimata sanctus.
+      </p>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <div data-ng-if="model.running">
+        <div data-vissense-metrics-infocard="element-160x600"
+             data-inactive-after="{{model.inactiveAfter}}"
+             data-hidden="{{model.hidden}}"
+          ></div>
+      </div>
+
+      <div style="margin-top: 30px;">
+        <table class="table table-bordered table-striped">
+          <colgroup>
+            <col span="1">
+            <col span="1">
+            <col span="1">
+            <col span="1">
+            <col span="1">
+          </colgroup>
+          <thead>
+          <tr>
+            <th>percentage</th>
+            <th>50/1 Test</th>
+            <th>60/1 Test</th>
+            <th>66/3 Test *</th>
+            <th>100/10 Test **</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr data-ng-if="!model.running">
+            <td><span data-vissense-percentage="element-160x600"></span></td>
+            <td colspan="100">
+              <div class="alert alert-info">
+                Visibility Percentage Time Tests will immediately start when recording.
+              </div>
+            </td>
+          </tr>
+          <tr data-ng-if="model.running">
+            <td><span data-vissense-percentage="element-160x600"></span></td>
+            <td><span data-vissense-fifty-one-test="element-160x600"></span></td>
+            <td><span data-vissense-sixty-one-test="element-160x600"></span></td>
+            <td><span data-vissense-percentage-time-test="element-160x600"
+                      data-percentage-limit="0.66"
+                      data-time-limit="3000"
+                      data-interval="100"></span></td>
+            <td><span data-vissense-percentage-time-test="element-160x600"
+                      data-percentage-limit="1"
+                      data-time-limit="10000"
+                      data-interval="100"></span></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-sm-5 col-md-8">
+      <p class="hidden-xs hidden-sm">
+        At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
+        est
+        Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+        tempor
+        invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
+        dolores et
+        ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+        sit
+        amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy
+        sed
+        tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata
+        ut vero
+        voluptua.
+      </p>
+
+      <p>
+        Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer
+        possim
+        assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+        laoreet
+        dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
+        suscipit
+        lobortis nisl ut aliquip ex ea commodo consequat. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+        consetetur sadipscing elitr, sed diam
+        nonumy
+        eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
+      </p>
+    </div>
+
+
+    <div class="col-sm-7 col-md-4">
+      <div id="element-300x250">
+        <span>
+          <strong>300x250</strong>
+          <small class="text-muted" data-vissense-percentage="element-300x250"></small>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div data-ng-if="model.running">
+        <div data-vissense-metrics-infocard="element-300x250"
+             data-inactive-after="{{model.inactiveAfter}}"
+             data-hidden="{{model.hidden}}"
+          ></div>
+      </div>
+
+      <div style="margin-top: 30px;">
+        <table class="table table-bordered table-striped">
+          <colgroup>
+            <col span="1">
+            <col span="1">
+            <col span="1">
+            <col span="1">
+            <col span="1">
+          </colgroup>
+          <thead>
+          <tr>
+            <th>percentage</th>
+            <th>50/1 Test</th>
+            <th>60/1 Test</th>
+            <th>66/3 Test *</th>
+            <th>100/10 Test **</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr data-ng-if="!model.running">
+            <td><span data-vissense-percentage="element-300x250"></span></td>
+            <td colspan="100">
+              <div class="alert alert-info">
+                Visibility Percentage Time Tests will immediately start when recording.
+              </div>
+            </td>
+          </tr>
+          <tr data-ng-if="model.running">
+            <td><span data-vissense-percentage="element-300x250"></span></td>
+            <td><span data-vissense-fifty-one-test="element-300x250"></span></td>
+            <td><span data-vissense-sixty-one-test="element-300x250"></span></td>
+            <td><span data-vissense-percentage-time-test="element-300x250"
+                      data-percentage-limit="0.66"
+                      data-time-limit="3000"
+                      data-interval="100"></span></td>
+            <td><span data-vissense-percentage-time-test="element-300x250"
+                      data-percentage-limit="1"
+                      data-time-limit="10000"
+                      data-interval="100"></span></td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <p class="">
+        <small>* 66/3 Test: At least 66% visible for 3 seconds.</small>
+        <br/>
+        <small>** 100/10 Test: Fully visible for 10 seconds.</small>
+        <br/>
+      </p>
+    </div>
+  </div>
+</div>

@@ -14,7 +14,6 @@
         <module>vishy-server-swagger</module>
         <module>vishy-model</module>
         <module>vishy-security</module>
-        <module>vishy-web-demo-ui</module>
     </modules>
 
     <parent>

@@ -1,0 +1,259 @@
+<div class="row">
+
+  <div class="col-md-12">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Average Visible Time (in milliseconds)
+      </div>
+      <div class="chart-stage">
+        <div tbk-vishy-default-areachart
+             analysis-type="average"
+             event-collection="visibility-time-report"
+             target-property="report.timeVisible">
+          Here should be a chart.
+        </div>
+      </div>
+      <div class="chart-notes">
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-12">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-primary"
+      data-icon="fa-clock-o">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="average"
+             data-event-collection="visibility-time-report"
+             data-target-property="report.timeVisible"
+             data-filter="tbkReadableTime"
+             data-scale="1">
+          Here should be a metric.
+        </div>
+      </div>
+      <div>
+        Average Time Visible
+      </div>
+    </tbk-dashboard-lead-metric>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Average Time Fully Visible
+      </div>
+      <div class="chart-stage">
+        <div tbk-keen-default-metric
+             data-analysis-type="average"
+             data-event-collection="visibility-time-report"
+             data-target-property="report.timeFullyVisible"
+             data-filter="tbkReadableTime"
+             data-scale="1">
+          Here should be a metric.
+        </div>
+      </div>
+      <div class="chart-notes">
+        The average time the element was fully visible.
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Average Time Hidden
+      </div>
+      <div class="chart-stage">
+        <div tbk-keen-default-metric
+             data-analysis-type="average"
+             data-event-collection="visibility-time-report"
+             data-target-property="report.timeHidden"
+             data-filter="tbkReadableTime"
+             data-scale="1">
+          Here should be a metric.
+        </div>
+      </div>
+      <div class="chart-notes">
+        The average time the element was hidden.
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Average Time Duration
+      </div>
+      <div class="chart-stage">
+        <div tbk-keen-default-metric
+             data-analysis-type="average"
+             data-event-collection="visibility-time-report"
+             data-target-property="report.duration"
+             data-filter="tbkReadableTime"
+             data-scale="1">
+          Here should be a metric.
+        </div>
+      </div>
+      <div class="chart-notes">
+        The average time the element was monitored.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-green"
+      data-icon="fa-clock-o">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="median"
+             data-event-collection="visibility-time-report"
+             data-target-property="report.timeVisible"
+             data-filter="tbkReadableTime"
+             data-scale="1">
+          Here should be a metric.
+        </div>
+      </div>
+      <div>
+        Median Time Visible
+      </div>
+    </tbk-dashboard-lead-metric>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Median Time Fully Visible
+      </div>
+      <div class="chart-stage">
+        <div tbk-keen-default-metric
+             data-analysis-type="median"
+             data-event-collection="visibility-time-report"
+             data-target-property="report.timeFullyVisible"
+             data-filter="tbkReadableTime"
+             data-scale="1">
+          Here should be a metric.
+        </div>
+      </div>
+      <div class="chart-notes">
+        The median time the element was fully visible.
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Median Time Hidden
+      </div>
+      <div class="chart-stage">
+        <div tbk-keen-default-metric
+             data-analysis-type="median"
+             data-event-collection="visibility-time-report"
+             data-target-property="report.timeVisible"
+             data-filter="tbkReadableTime"
+             data-scale="1">
+          Here should be a metric.
+        </div>
+      </div>
+      <div class="chart-notes">
+        The median time the element was hidden.
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Median Time Duration
+      </div>
+      <div class="chart-stage">
+        <div tbk-keen-default-metric
+             data-analysis-type="median"
+             data-event-collection="visibility-time-report"
+             data-target-property="report.duration"
+             data-filter="tbkReadableTime"
+             data-scale="1">
+          Here should be a metric.
+        </div>
+      </div>
+      <div class="chart-notes">
+        The median time the element was monitored.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-yellow"
+      data-icon="fa-clock-o">
+      <div class="huge">
+        <div tbk-vishy-time-report-visible-recursive>Here should be a metric.</div>
+      </div>
+      <div>Total Time Visible</div>
+    </tbk-dashboard-lead-metric>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Total Time Visible
+      </div>
+      <div class="chart-stage">
+        <div tbk-vishy-time-report-visible-seconds-sum-metric
+          data-project-id="myElement"
+          data-id="42">
+          Here should be a metric.
+        </div>
+      </div>
+      <div class="chart-notes">
+        The total sum of seconds the element was visible.
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Total Time Fullyvisible
+      </div>
+      <div class="chart-stage">
+        <div tbk-vishy-time-report-fullyvisible-seconds-sum-metric>Here should be a metric.</div>
+      </div>
+      <div class="chart-notes">
+        The total sum of seconds the element was fully visible.
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Total Time Hidden
+      </div>
+      <div class="chart-stage">
+        <div tbk-vishy-time-report-hidden-seconds-sum-metric>Here should be a metric.</div>
+      </div>
+      <div class="chart-notes">
+        The total sum of seconds the element was hidden.
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,85 @@
+<div class="row">
+
+  <div class="col-md-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-primary"
+      data-icon="fa-users">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="count_unique"
+             data-target-property="sessionId"
+             data-event-collection="visibility-initial-request"
+          >Here should be a metric.
+        </div>
+      </div>
+      <div>Sessions</div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+  <div class="col-md-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-green"
+      data-icon="fa-sliders">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="count_unique"
+             data-target-property="monitorId"
+             data-event-collection="visibility-initial-request"
+          >Here should be a metric.
+        </div>
+      </div>
+      <div>Monitors</div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+  <div class="col-md-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-red"
+      data-icon="fa-check-square-o">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="count_unique"
+             data-target-property="keen.id"
+             data-event-collection="visibility-initial-request"
+          >Here should be a metric.
+        </div>
+      </div>
+      <div>Events</div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Requests by Visibility State (relative)
+      </div>
+      <div class="chart-stage">
+        <div tbk-vishy-request-by-state-piechart>
+          Here should be a chart.
+        </div>
+      </div>
+      <div class="chart-notes">
+        Notes go down here
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-8">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Sessions
+      </div>
+      <div class="chart-stage">
+        <div tbk-vishy-session-areachart>
+          Here should be an areachart.
+        </div>
+      </div>
+      <div class="chart-notes">
+        This is a sample text region to describe this chart.
+      </div>
+    </div>
+  </div>
+</div>

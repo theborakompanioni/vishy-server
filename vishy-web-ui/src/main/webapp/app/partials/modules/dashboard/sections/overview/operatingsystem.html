@@ -1,0 +1,191 @@
+<div class="row">
+  <div class="col-md-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-primary"
+      data-icon="fa-apple">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="count"
+             data-event-collection="visibility-initial-request"
+             data-query-options="{
+             filters: [{
+               'property_name': 'os.groupName',
+               'operator': 'eq',
+               'property_value': 'iOS'
+             }]
+           }">XXX
+        </div>
+      </div>
+      <div>
+        <i class="fa fa-mobile"></i>
+        <i class="fa fa-tablet"></i>
+        iOS
+      </div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+  <div class="col-md-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-green"
+      data-icon="fa-android">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="count"
+             data-event-collection="visibility-initial-request"
+             data-query-options="{
+             filters: [{
+               'property_name': 'os.groupName',
+               'operator': 'eq',
+               'property_value': 'Android'
+             }]
+           }">XXX
+        </div>
+      </div>
+      <div>
+        <i class="fa fa-mobile"></i>
+        <i class="fa fa-tablet"></i>
+        Android
+      </div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+  <div class="col-md-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-yellow"
+      data-icon="fa-windows">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="count"
+             data-event-collection="visibility-initial-request"
+             data-query-options="{
+             filters: [{
+               'property_name': 'os.groupName',
+               'operator': 'eq',
+               'property_value': 'Windows'
+             }]
+           }">XXX
+        </div>
+      </div>
+      <div>
+        <i class="fa fa-mobile"></i>
+        <i class="fa fa-tablet"></i>
+        <i class="fa fa-laptop"></i>
+        <i class="fa fa-desktop"></i>
+        Windows
+      </div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+  <div class="col-md-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-primary"
+      data-icon="fa-apple">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="count"
+             data-event-collection="visibility-initial-request"
+             data-query-options="{
+             filters: [{
+               'property_name': 'os.groupName',
+               'operator': 'eq',
+               'property_value': 'Mac OS X'
+             }]
+           }">XXX
+        </div>
+      </div>
+      <div>
+        <i class="fa fa-laptop"></i>
+        <i class="fa fa-desktop"></i>
+        Mac OS X
+      </div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+  <div class="col-md-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-red"
+      data-icon="fa-linux">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="count"
+             data-event-collection="visibility-initial-request"
+             data-query-options="{
+             filters: [{
+               'property_name': 'os.groupName',
+               'operator': 'eq',
+               'property_value': 'Linux'
+             }]
+           }">XXX
+        </div>
+      </div>
+      <div>
+        <i class="fa fa-laptop"></i>
+        <i class="fa fa-desktop"></i> Linux
+      </div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+  <div class="col-md-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel panel-warning"
+      data-icon="fa-question">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="count"
+             data-event-collection="visibility-initial-request"
+             data-query-options="{
+             filters: [{
+               'property_name': 'os.groupName',
+               'operator': 'in',
+               'property_value': ['Other', 'Unknown']
+             }]
+           }">XXX
+        </div>
+      </div>
+      <div>
+        <i class="fa fa-gamepad"></i>
+        <i class="fa fa-mobile"></i>
+        <i class="fa fa-tablet"></i>
+        <i class="fa fa-laptop"></i>
+        <i class="fa fa-desktop"></i>
+        Other
+      </div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-sm-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Operating System (absolute)
+      </div>
+      <div class="chart-stage">
+        <div>
+          <div tbk-vishy-operating-system-table style="min-height: 100px"></div>
+        </div>
+      </div>
+      <div class="chart-notes">
+        Absolute count of requests grouped by locale settings.
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-8">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Operating System (relative)
+      </div>
+      <div class="chart-stage">
+        <div tbk-vishy-operating-system-piechart>
+          Here should be a chart.
+        </div>
+      </div>
+      <div class="chart-notes">
+        Relative count of requests grouped by locale settings.
+      </div>
+    </div>
+  </div>
+
+</div>

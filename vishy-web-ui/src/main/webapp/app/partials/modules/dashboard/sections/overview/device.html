@@ -1,0 +1,121 @@
+<div class="row">
+
+  <div class="col-md-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-primary"
+      data-icon="fa-mobile">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="count"
+             data-event-collection="visibility-initial-request"
+             data-query-options="{
+             filters: [{
+               'property_name': 'device.mobile',
+               'operator': 'eq',
+               'property_value': true
+             }]
+           }">XXX
+        </div>
+      </div>
+      <div>Mobile</div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+  <div class="col-md-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-green"
+      data-icon="fa-tablet">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="count"
+             data-event-collection="visibility-initial-request"
+             data-query-options="{
+             filters: [{
+               'property_name': 'device.tablet',
+               'operator': 'eq',
+               'property_value': true
+             }]
+           }">XXX
+        </div>
+      </div>
+      <div>Tablet</div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+  <div class="col-md-4">
+    <tbk-dashboard-lead-metric
+      data-panel-class="panel-yellow"
+      data-icon="fa-desktop">
+      <div class="huge">
+        <div tbk-keen-default-metric
+             data-analysis-type="count"
+             data-event-collection="visibility-initial-request"
+             data-query-options="{
+             filters: [{
+               'property_name': 'device.normal',
+               'operator': 'eq',
+               'property_value': true
+             }]
+           }">XXX
+        </div>
+      </div>
+      <div>Desktop</div>
+    </tbk-dashboard-lead-metric>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Initial Requests by Device
+      </div>
+      <div class="chart-stage">
+        <div tbk-vishy-device-piechart>
+          Here should be a chart.
+        </div>
+      </div>
+      <div class="chart-notes">
+        Tells the visibility state in which your element had been when recording began.
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Initial Requests by Device (daily)
+      </div>
+      <div class="chart-stage">
+        <div tbk-vishy-initial-device-daily-columnchart>
+          Here should be a chart.
+        </div>
+      </div>
+      <div class="chart-notes">
+        Tells the visibility state in which your element had been when recording began.
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-12">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        Device Table
+      </div>
+      <div class="chart-stage">
+        <div tbk-vishy-default-table
+             data-title="Device Table"
+             data-analysis-type="count"
+             data-event-collection="visibility-initial-request"
+             data-group-by="device.name">
+          Here should be a chart.
+        </div>
+      </div>
+      <div class="chart-notes">
+      </div>
+    </div>
+  </div>
+
+</div>
